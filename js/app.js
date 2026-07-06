@@ -193,7 +193,7 @@ function renderApp() {
     const el = $(activeId);
     if (el) {
       el.focus();
-      if (selStart !== undefined && el.setSelectionRange) {
+      if (typeof selStart === 'number' && el.setSelectionRange) {
         el.setSelectionRange(selStart, selEnd);
       }
     }
@@ -1168,10 +1168,10 @@ function renderFarmacias() {
     return true;
   });
 
-  // Filtro búsqueda
+  // Filtro búsqueda (sin discriminar tildes)
   if (state.busquedaFarm.trim()) {
-    const b = state.busquedaFarm.toLowerCase();
-    filtrados = filtrados.filter(f => f.nombre.toLowerCase().includes(b));
+    const b = quitarTildes(state.busquedaFarm.toLowerCase());
+    filtrados = filtrados.filter(f => quitarTildes(f.nombre.toLowerCase()).includes(b));
   }
 
   // Filtro estado farmacias
@@ -2962,9 +2962,6 @@ function renderSIT() {
     totales[numMeses] += row.total || 0;
   }
 
-  const dataCols = numMeses + 1; // meses + total
-  const totalCols = 3 + dataCols; // fijas + meses + total
-
   // Agrupar: brick -> pdv -> {Inventario, Rotacion}
   const arbol = {};
   for (const row of data) {
@@ -2974,91 +2971,78 @@ function renderSIT() {
     arbol[bKey].pdvs[row.pdv][row.tipo] = row;
   }
 
-  const headerHtml = `
-    <thead>
-      <tr>
-        <th class="data-sit-fixed data-sit-col-brick">Brick - Ciudad</th>
-        <th class="data-sit-fixed data-sit-col-pdv">Descrip PDV</th>
-        <th class="data-sit-fixed data-sit-col-tipo">Tipo Informacion</th>
-        ${mesLabels.map(m => `<th class="data-sit-mes-col">${esc(m)}</th>`).join('')}
-        <th class="data-sit-col-total">Total</th>
-      </tr>
-    </thead>
-  `;
+  const mesHeaderHtml = mesLabels.map(m => `<div class="sit-h-mes">${esc(m)}</div>`).join('');
 
   const totalRowHtml = `
-    <tr class="data-total-row data-sit-total-top">
-      <td class="data-sit-fixed data-sit-col-brick" colspan="3"><strong>TOTAL</strong></td>
-      ${totales.slice(0, numMeses).map(v => `<td><strong>${fmtNum(v)}</strong></td>`).join('')}
-      <td class="data-sit-col-total"><strong>${fmtNum(totales[numMeses])}</strong></td>
-    </tr>
+    <div class="sit-total-bar">
+      <div class="sit-total-label"><strong>TOTAL</strong></div>
+      <div class="sit-total-meses">
+        ${totales.slice(0, numMeses).map(v => `<div class="sit-h-mes"><strong>${fmtNum(v)}</strong></div>`).join('')}
+        <div class="sit-h-total"><strong>${fmtNum(totales[numMeses])}</strong></div>
+      </div>
+    </div>
   `;
 
-  const bodyHtml = Object.entries(arbol).map(([bKey, brickNode]) => {
+  const renderTipo = (row) => {
+    if (!row) return '';
+    const meses = row.meses || [];
+    while (meses.length < numMeses) meses.push(0);
+    return `
+      <div class="sit-tipo-row">
+        <div class="sit-tipo-name">${esc(row.tipo)}</div>
+        <div class="sit-tipo-meses">
+          ${meses.slice(0, numMeses).map((v, i) => `
+            <div class="sit-mes-cell">
+              <span class="sit-mes-label">${esc(mesLabels[i])}</span>
+              <span class="sit-mes-val">${fmtNum(v)}</span>
+            </div>
+          `).join('')}
+          <div class="sit-mes-cell sit-mes-total">
+            <span class="sit-mes-label">Total</span>
+            <span class="sit-mes-val">${fmtNum(row.total)}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  };
+
+  const brickHtml = Object.entries(arbol).map(([bKey, brickNode]) => {
     const expanded = !!state.dataExpanded.sit[bKey]; // por defecto contraído
     const icon = expanded ? '⊟' : '⊞';
-    const pdvRows = expanded
-      ? Object.entries(brickNode.pdvs).map(([pdv, tipos]) => {
-          const invRow = tipos['Inventario'];
-          const rotRow = tipos['Rotacion'];
-          const tipoRows = [];
-          if (invRow) {
-            const meses = invRow.meses || [];
-            while (meses.length < numMeses) meses.push(0);
-            tipoRows.push(`
-              <tr>
-                <td class="data-sit-fixed data-sit-col-brick"></td>
-                <td class="data-sit-fixed data-sit-col-pdv"></td>
-                <td class="data-sit-fixed data-sit-col-tipo"><a href="#" class="data-link" onclick="return false">${esc(invRow.tipo)}</a></td>
-                ${meses.slice(0, numMeses).map(v => `<td class="data-sit-mes-col">${fmtNum(v)}</td>`).join('')}
-                <td class="data-sit-col-total">${fmtNum(invRow.total)}</td>
-              </tr>
-            `);
-          }
-          if (rotRow) {
-            const meses = rotRow.meses || [];
-            while (meses.length < numMeses) meses.push(0);
-            tipoRows.push(`
-              <tr>
-                <td class="data-sit-fixed data-sit-col-brick"></td>
-                <td class="data-sit-fixed data-sit-col-pdv"></td>
-                <td class="data-sit-fixed data-sit-col-tipo"><a href="#" class="data-link" onclick="return false">${esc(rotRow.tipo)}</a></td>
-                ${meses.slice(0, numMeses).map(v => `<td class="data-sit-mes-col">${fmtNum(v)}</td>`).join('')}
-                <td class="data-sit-col-total">${fmtNum(rotRow.total)}</td>
-              </tr>
-            `);
-          }
-          return `
-            <tr class="data-sit-pdv-row">
-              <td class="data-sit-fixed data-sit-col-brick" colspan="3" style="padding-left:28px"><a href="#" class="data-link" onclick="return false">${esc(pdv)}</a></td>
-              <td colspan="${dataCols}"></td>
-            </tr>
-            ${tipoRows.join('')}
-          `;
-        }).join('')
+    const pdvHtml = expanded
+      ? Object.entries(brickNode.pdvs).map(([pdv, tipos]) => `
+          <div class="sit-pdv">
+            <div class="sit-pdv-name">${esc(pdv)}</div>
+            ${renderTipo(tipos['Inventario'])}
+            ${renderTipo(tipos['Rotacion'])}
+          </div>
+        `).join('')
       : '';
 
     return `
-      <tr class="data-sit-brick-row" data-action="toggle-data-expand" data-tipo="sit" data-key="${esc(bKey)}">
-        <td class="data-sit-fixed data-sit-col-brick" colspan="3">
+      <div class="sit-brick">
+        <div class="sit-brick-header" data-action="toggle-data-expand" data-tipo="sit" data-key="${esc(bKey)}">
           <span class="data-expand-icon">${icon}</span>
-          <strong><a href="#" class="data-link" onclick="return false">${esc(bKey)}</a></strong>
-        </td>
-        <td colspan="${dataCols}"></td>
-      </tr>
-      ${pdvRows}
+          <strong>${esc(bKey)}</strong>
+        </div>
+        ${expanded ? `<div class="sit-brick-body">${pdvHtml}</div>` : ''}
+      </div>
     `;
   }).join('');
 
   return `
-    <div class="data-table-scroll data-sit-scroll">
-      <table class="data-table data-sit-table">
-        ${headerHtml}
-        <tbody>
-          ${totalRowHtml}
-          ${bodyHtml || `<tr><td colspan="${totalCols}" class="empty-state">Sin datos</td></tr>`}
-        </tbody>
-      </table>
+    <div class="sit-scroll-wrap">
+      <div class="sit-header-row">
+        <div class="sit-h-brick">Brick - Ciudad</div>
+        <div class="sit-h-meses-wrap">
+          ${mesHeaderHtml}
+          <div class="sit-h-total">Total</div>
+        </div>
+      </div>
+      ${totalRowHtml}
+      <div class="sit-tree">
+        ${brickHtml || '<div class="empty-state">Sin datos</div>'}
+      </div>
     </div>
   `;
 }
