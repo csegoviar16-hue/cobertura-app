@@ -27,7 +27,7 @@ const state = {
   dataSubTab: 'CUP',
   dataMercado: '', // '' | 'Fanter' | 'Terovan'
   dataMarcas: [],
-  dataCiudad: ['BOGOTÁ', 'IBAGUÉ'],
+  dataCiudad: [],
   dataExpanded: { cup: {}, ddd: {}, sit: {} },
   dataFiltersOpen: { mercado: false, marcas: false, ciudad: false },
   dataSitMesLabels: []
@@ -1006,8 +1006,8 @@ function renderMedicos() {
   }
 
   if (state.busquedaMed.trim()) {
-    const b = state.busquedaMed.toLowerCase();
-    filtrados = filtrados.filter(m => m.nombre.toLowerCase().includes(b));
+    const b = quitarTildes(state.busquedaMed);
+    filtrados = filtrados.filter(m => quitarTildes(m.nombre).includes(b));
   }
 
   // Filtro especialidad
@@ -1390,6 +1390,7 @@ function renderConfig() {
     <div style="background:var(--surface);border-radius:12px;padding:16px;border:1px solid var(--border);margin-bottom:12px">
       <h3 style="font-size:.9rem;margin-bottom:12px">💾 Backup JSON</h3>
       <button class="btn btn-outline mb-1" data-action="backup">📤 Exportar backup</button>
+      <button class="btn btn-outline mb-1" onclick="window.cargarBackupInicial()">📥 Cargar backup inicial de julio</button>
       <input type="file" id="cfg-backup-file" accept=".json" style="margin-bottom:8px" onchange="window.importarBackup(this)">
       <div class="text-xs text-secondary">Seleccioná un .json para restaurar</div>
     </div>
@@ -1542,6 +1543,33 @@ async function eliminarBrick(num) {
   renderApp();
 }
 
+async function aplicarBackupData(data) {
+  if (!data.medicos || !data.farmacias) { toast('Archivo inválido', 'err'); return; }
+  await db.reemplazarMedicos(data.medicos);
+  await db.reemplazarFarmacias(data.farmacias);
+  if (data.visitas) {
+    const vs = await db.getAll('visitas');
+    for (const v of vs) await db.delete('visitas', v.id);
+    for (const v of data.visitas) await db.add('visitas', v);
+  }
+  if (data.notas) {
+    const ns = await db.getAll('notas');
+    for (const n of ns) await db.delete('notas', n.id);
+    for (const n of data.notas) await db.add('notas', n);
+  }
+  if (data.customBricks) {
+    await db.setConfig('customBricks', data.customBricks);
+    customBricksMap = {...BRICK_ZONA, ...data.customBricks};
+  }
+  if (data.cup) await db.reemplazarCUP(data.cup);
+  if (data.ddd) await db.reemplazarDDD(data.ddd);
+  if (data.sit) await db.reemplazarSIT(data.sit);
+  if (data.dataSitMesLabels) await db.setConfig('dataSitMesLabels', data.dataSitMesLabels);
+  await recargarDatos();
+  renderApp();
+  toast('Backup restaurado', 'ok');
+}
+
 window.importarBackup = async function(input) {
   const file = input.files[0];
   if (!file) return;
@@ -1550,35 +1578,27 @@ window.importarBackup = async function(input) {
     const data = JSON.parse(text);
     if (!data.medicos || !data.farmacias) { toast('Archivo inválido', 'err'); return; }
     if (confirm(`Restaurar backup de ${data.fecha || 'fecha desconocida'}?\n${data.medicos.length} médicos, ${data.farmacias.length} farmacias`)) {
-      await db.reemplazarMedicos(data.medicos);
-      await db.reemplazarFarmacias(data.farmacias);
-      if (data.visitas) {
-        const vs = await db.getAll('visitas');
-        for (const v of vs) await db.delete('visitas', v.id);
-        for (const v of data.visitas) await db.add('visitas', v);
-      }
-      if (data.notas) {
-        const ns = await db.getAll('notas');
-        for (const n of ns) await db.delete('notas', n.id);
-        for (const n of data.notas) await db.add('notas', n);
-      }
-      if (data.customBricks) {
-        await db.setConfig('customBricks', data.customBricks);
-        customBricksMap = {...BRICK_ZONA, ...data.customBricks};
-      }
-      if (data.cup) await db.reemplazarCUP(data.cup);
-      if (data.ddd) await db.reemplazarDDD(data.ddd);
-      if (data.sit) await db.reemplazarSIT(data.sit);
-      if (data.dataSitMesLabels) await db.setConfig('dataSitMesLabels', data.dataSitMesLabels);
-      await recargarDatos();
-      renderApp();
-      toast('Backup restaurado', 'ok');
+      await aplicarBackupData(data);
     }
   } catch (e) {
     toast('Error: ' + e.message, 'err');
     console.error(e);
   }
   input.value = '';
+};
+
+window.cargarBackupInicial = async function() {
+  try {
+    const res = await fetch('backup-inicial.json');
+    if (!res.ok) throw new Error('No se encontró el archivo de backup inicial');
+    const data = await res.json();
+    if (confirm(`Cargar backup inicial de julio?\n${data.medicos.length} médicos, ${data.farmacias.length} farmacias, ${data.visitas.length} visitas`)) {
+      await aplicarBackupData(data);
+    }
+  } catch (e) {
+    toast('Error: ' + e.message, 'err');
+    console.error(e);
+  }
 };
 
 // ===== MODALES =====
@@ -1609,6 +1629,7 @@ function renderMedicoModal(id) {
   const segs = obtenerSegmentos(m);
   setTimeout(() => loadModalVisitas(id, 'medico'), 0);
   setTimeout(() => loadModalNotasEntidad(id, 'medico'), 0);
+  setTimeout(() => loadModalCUP(id), 0);
   return `
     <div class="modal" data-action="close-modal">
       <div class="modal-sheet" onclick="event.stopPropagation()">
@@ -1618,18 +1639,59 @@ function renderMedicoModal(id) {
         </div>
         <div class="modal-body">
           <div class="modal-info-grid">
-            <div><span class="text-sm text-secondary">Especialidad</span><div>${esc(m.especialidad)||'—'}</div></div>
-            <div><span class="text-sm text-secondary">Segmento</span><div>${segs.join(', ')||'—'}</div></div>
-            <div><span class="text-sm text-secondary">Frecuencia</span><div>${m.frecuencia||1} visita(s)/mes</div></div>
-            <div><span class="text-sm text-secondary">Ciudad</span><div>${esc(m.ciudad)||'—'}</div></div>
-            <div><span class="text-sm text-secondary">Brick</span><div>${esc(m.brick)||'—'}${m.brickZona?' · '+esc(m.brickZona):''}</div></div>
-            <div><span class="text-sm text-secondary">Celular</span><div>${esc(m.celular)||'—'}</div></div>
+            <div><span class="text-sm text-secondary">Cédula</span><div class="selectable-text">${esc(m.cedula)||'—'}</div></div>
+            <div><span class="text-sm text-secondary">Especialidad</span><div class="selectable-text">${esc(m.especialidad)||'—'}</div></div>
+            <div><span class="text-sm text-secondary">Segmento</span><div class="selectable-text">${segs.join(', ')||'—'}</div></div>
+            <div><span class="text-sm text-secondary">Frecuencia</span><div class="selectable-text">${m.frecuencia||1} visita(s)/mes</div></div>
+            <div><span class="text-sm text-secondary">Ciudad</span><div class="selectable-text">${esc(m.ciudad)||'—'}</div></div>
+            <div><span class="text-sm text-secondary">Brick</span><div class="selectable-text">${esc(m.brick)||'—'}${m.brickZona?' · '+esc(m.brickZona):''}</div></div>
+            <div><span class="text-sm text-secondary">Celular</span><div class="selectable-text">${esc(m.celular)||'—'}</div></div>
+            <div><span class="text-sm text-secondary">Teléfono</span><div class="selectable-text">${esc(m.telefono)||'—'}</div></div>
           </div>
-          <div class="form-group" style="margin-bottom:6px"><span class="text-sm text-secondary">Dirección</span><div>${esc(m.direccion)||'—'}</div></div>
-          <div class="form-group" style="margin-bottom:6px"><span class="text-sm text-secondary">Email</span><div>${esc(m.email)||'—'}</div></div>
+          <div class="form-group" style="margin-bottom:6px"><span class="text-sm text-secondary">Dirección</span><div class="selectable-text">${esc(m.direccion)||'—'}</div></div>
+          <div class="form-group" style="margin-bottom:6px"><span class="text-sm text-secondary">Email</span><div class="selectable-text">${esc(m.email)||'—'}</div></div>
+          <div class="form-group" style="margin-bottom:6px"><span class="text-sm text-secondary">IPS / Institución</span><div class="selectable-text">${esc(m.ips)||'—'}</div></div>
+          <div id="modal-cup-info"></div>
           <div id="modal-notas-entidad"></div>
           <div id="modal-visitas"></div>
         </div>
+      </div>
+    </div>
+  `;
+}
+
+function buscarCupPorMedico(m) {
+  if (!m || !m.nombre || !cupCache.length) return [];
+  return cupCache.filter(row => nombresCoinciden(row.medico, m.nombre));
+}
+
+function loadModalCUP(id) {
+  const m = medicosCache.find(x => x.id === id);
+  if (!m) return;
+  const rows = buscarCupPorMedico(m);
+  const el = $('modal-cup-info');
+  if (!el) return;
+  if (rows.length === 0) { el.innerHTML = ''; return; }
+  // Agrupar por marca y mercado
+  const porMarca = {};
+  let totalGlobal = 0;
+  for (const row of rows) {
+    const key = `${row.mercado} · ${row.marca}`;
+    if (!porMarca[key]) porMarca[key] = { mercado: row.mercado, marca: row.marca, total: 0 };
+    porMarca[key].total += row.total || 0;
+    totalGlobal += row.total || 0;
+  }
+  const items = Object.values(porMarca).sort((a, b) => b.total - a.total);
+  el.innerHTML = `
+    <div class="form-group" style="margin-top:12px">
+      <span class="text-sm text-secondary">Cerrado Up (CUP) — Total: ${totalGlobal}</span>
+      <div class="visitas-list">
+        ${items.map(it => `
+          <div class="visita-item" style="justify-content:space-between">
+            <span class="selectable-text">${esc(it.marca)} <span style="color:var(--text2);font-size:.75rem">(${esc(it.mercado)})</span></span>
+            <span class="selectable-text" style="font-weight:700">${it.total}</span>
+          </div>
+        `).join('')}
       </div>
     </div>
   `;
@@ -2515,13 +2577,8 @@ function filtrarDataPorMercadoMarcas(data, tipo) {
 function filtrarDataPorCiudad(data, tipo) {
   if (!state.dataCiudad || state.dataCiudad.length === 0) return data;
   return data.filter(row => {
-    const ciudad = (row.ciudad || row.region || '').toString().trim().toUpperCase();
-    // En SIT la ciudad viene como "Bogota"; normalizar tildes
-    const ciudadNorm = ciudad.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    return state.dataCiudad.some(c => {
-      const cNorm = c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase();
-      return ciudad === cNorm || ciudadNorm === cNorm;
-    });
+    const ciudad = quitarTildes(row.ciudad || row.region || '');
+    return state.dataCiudad.some(c => quitarTildes(c) === ciudad);
   });
 }
 
@@ -2567,18 +2624,17 @@ function renderDataFilters() {
   const tipoMarca = state.dataSubTab === 'ddd' ? 'ddd' : 'cup';
   const marcaOpts = marcasDisponiblesData(tipoMarca);
 
-  // Ciudades únicas reales de los datos
+  // Ciudades únicas reales de los datos (normalizadas sin tildes)
   const ciudadOptsRaw = ciudadesDisponiblesData();
-  const ciudadLabelMap = { 'BOGOTA': 'BOGOTÁ', 'IBAGUE': 'IBAGUÉ' };
-  const ciudadOpts = ciudadOptsRaw.map(c => ciudadLabelMap[c] || c);
+  const ciudadDisplayMap = { 'BOGOTA': 'BOGOTÁ', 'IBAGUE': 'IBAGUÉ' };
 
   const mercadoLabel = mercadoOpts.find(o => o.k === state.dataMercado)?.l || 'Todos los mercados';
   const marcaLabel = state.dataMarcas.length === 0
     ? 'Todas'
     : (state.dataMarcas.length === 1 ? state.dataMarcas[0] : `${state.dataMarcas.length} marcas`);
-  const ciudadLabel = state.dataCiudad.length === 0 || state.dataCiudad.length === ciudadOpts.length
+  const ciudadLabel = state.dataCiudad.length === 0 || state.dataCiudad.length === ciudadOptsRaw.length
     ? 'Todas'
-    : state.dataCiudad.join(', ');
+    : state.dataCiudad.map(c => ciudadDisplayMap[c] || c).join(', ');
 
   const mercadoOpen = state.dataFiltersOpen.mercado ? 'open' : '';
   const marcasOpen = state.dataFiltersOpen.marcas ? 'open' : '';
@@ -2624,13 +2680,13 @@ function renderDataFilters() {
           <span class="data-filter-value">${esc(ciudadLabel)}</span>
         </button>
         <div class="data-filter-list ${ciudadOpen}" id="data-filter-ciudad">
-          <div class="data-filter-option ${state.dataCiudad.length === 0 || state.dataCiudad.length === ciudadOpts.length ? 'selected' : ''}" data-action="clear-data-ciudad">
+          <div class="data-filter-option ${state.dataCiudad.length === 0 || state.dataCiudad.length === ciudadOptsRaw.length ? 'selected' : ''}" data-action="clear-data-ciudad">
             <span>Todas</span>
-            ${state.dataCiudad.length === 0 || state.dataCiudad.length === ciudadOpts.length ? '<span class="data-filter-check">✓</span>' : ''}
+            ${state.dataCiudad.length === 0 || state.dataCiudad.length === ciudadOptsRaw.length ? '<span class="data-filter-check">✓</span>' : ''}
           </div>
-          ${ciudadOpts.map(c => `
+          ${ciudadOptsRaw.map(c => `
             <div class="data-filter-option ${state.dataCiudad.includes(c) ? 'selected' : ''}" data-action="toggle-data-ciudad" data-ciudad="${esc(c)}">
-              <span>${esc(c)}</span>
+              <span>${esc(ciudadDisplayMap[c] || c)}</span>
               ${state.dataCiudad.includes(c) ? '<span class="data-filter-check">✓</span>' : ''}
             </div>
           `).join('')}

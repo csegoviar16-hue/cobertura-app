@@ -1,0 +1,15 @@
+# Dependencias y entornos virtuales
+node_modules/
+.tmp-venv/
+.venv/
+
+# Archivos temporales
+*.tmp
+.tmp.*
+
+# Logs
+*.log
+
+# Sistema operativo
+.DS_Store
+Thumbs.db

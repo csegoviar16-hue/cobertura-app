@@ -1,44 +1,4 @@
-const BRICK_ZONA = {
-  "5138": "IBAGUE",
-  "5217": "IBAGUE",
-  "5218": "IBAGUE",
-  "5219": "IBAGUE",
-  "5220": "IBAGUE",
-  "5221": "IBAGUE",
-  "8809": "CHICO COLSANITAS",
-  "8810": "CHICO",
-  "8811": "RINCON DEL CHICO",
-  "8814": "CHICO",
-  "8815": "CHICO",
-  "8818": "CHICO LOS NOGALES",
-  "8819": "CHICO TORRE ESPECIALISTAS",
-  "8824": "LA CASTELLANA",
-  "8825": "PARALELA 103",
-  "9004": "CONTADOR",
-  "9005": "CEDRITOS",
-  "9006": "CEDRITOS 2",
-  "9007": "CEDRITOS",
-  "9012": "SANTA BARBARA CENTRAL",
-  "9013": "SANTA BARBARA OCCIDENTAL",
-  "9014": "LA CAROLINA",
-  "9018": "REINA SOFIA",
-  "9019": "REINA SOFIA",
-  "9020": "BULEVAR NIZA",
-  "9022": "CEDRITOS-COLINA",
-  "9024": "CEDRITOS NORTE",
-  "9025": "CEDRITOS-COLINA",
-  "9026": "COLSANITAS CEDROBOLIVAR",
-  "9027": "LA CARDIO",
-  "9028": "TOBERIN",
-  "9103": "CIUDAD JARDIN NORTE",
-  "9104": "LA COLINA",
-  "9114": "SUBA",
-  "9117": "SUBA",
-  "7557": "IBAGUE",
-  "5224": "IBAGUE"
-};
-
-const PANEL_DATA = {
+{
   "medicos": [
     {
       "origenId": "93409640",
@@ -4002,73 +3962,1943 @@ const PANEL_DATA = {
       "adium": true,
       "id": 60
     }
-  ]
-};
-
-async function cargarPanelLocal() {
-  await db.reemplazarMedicos(PANEL_DATA.medicos);
-  await db.reemplazarFarmacias(PANEL_DATA.farmacias);
-  await db.setConfig('lastSync', new Date().toISOString());
-}
-
-async function procesarExcelFile(arrayBuffer) {
-  const xlsx = window.XLSX;
-  const wb = xlsx.read(new Uint8Array(arrayBuffer), {type: 'array'});
-  const medSheet = wb.Sheets['Medicos'];
-  const farmSheet = wb.Sheets['Farmacias'];
-  const medRows = xlsx.utils.sheet_to_json(medSheet, {header:1}).slice(1);
-  const farmRows = farmSheet ? xlsx.utils.sheet_to_json(farmSheet, {header:1}).slice(1) : [];
-  
-  const meds = medRows.map((r, i) => {
-    const nombre = (r[2] || '').toString().trim();
-    if (!nombre) return null;
-    const medicoH = (r[5] || '').toString().trim().toUpperCase();
-    const segLinea = (r[7] || '').toString().trim();
-    const segs = [];
-    if (medicoH === 'SI') segs.push('H');
-    const v = segLinea.toUpperCase().trim();
-    if (v === 'PS' || v === 'POR SEGMENTAR') segs.push('PS');
-    if (v === 'EVALUAR') segs.push('E');
-    if (v === 'CONQUISTAR') segs.push('C');
-    if (v === 'MANTENER') segs.push('M');
-    if (v === 'PROTEGER') segs.push('P');
-    const brickNum = (r[10] || '').toString().trim();
-    const comarketing = (r[14] || '').toString().trim().toLowerCase();
-    return {
-      origenId: (r[0] || String(i)).toString().trim(),
-      nombre,
-      especialidad: (r[3] || '').toString().trim(),
-      segmento: segs.join(','),
-      frecuencia: parseInt(r[6]) || 1,
-      ciudad: (r[8] || '').toString().trim().toUpperCase(),
-      brick: brickNum,
-      brickZona: getBrickZona(brickNum),
-      direccion: (r[9] || '').toString().trim(),
-      celular: (r[11] || '').toString().trim(),
-      email: (r[12] || '').toString().trim(),
-      deblax: comarketing === 'deblax'
-    };
-  }).filter(Boolean);
-  
-  const farms = farmRows.map((r, i) => {
-    const nombre = (r[1] || '').toString().trim();
-    if (!nombre) return null;
-    const brickNum = (r[5] || '').toString().trim();
-    return {
-      origenId: (r[0] || String(i)).toString().trim(),
-      nombre,
-      cadena: '',
-      ciudad: (r[3] || '').toString().trim().toUpperCase(),
-      brick: brickNum,
-      brickZona: getBrickZona(brickNum),
-      direccion: (r[4] || '').toString().trim(),
-      frecuencia: parseInt(r[2]) || 1,
-      adium: typeof esFarmaciaAdium === 'function' ? esFarmaciaAdium(nombre) : false
-    };
-  }).filter(Boolean);
-  
-  await db.reemplazarMedicos(meds);
-  await db.reemplazarFarmacias(farms);
-  await db.setConfig('lastSync', new Date().toISOString());
-  return {medicos: meds.length, farmacias: farms.length};
+  ],
+  "visitas": [
+    {
+      "entidadId": 102,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-01",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:31:16.428Z",
+      "id": 1
+    },
+    {
+      "entidadId": 120,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-01",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:31:28.234Z",
+      "id": 2
+    },
+    {
+      "entidadId": 110,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-01",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:31:36.762Z",
+      "id": 3
+    },
+    {
+      "entidadId": 101,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-01",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:31:49.620Z",
+      "id": 4
+    },
+    {
+      "entidadId": 121,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-01",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:32:03.273Z",
+      "id": 5
+    },
+    {
+      "entidadId": 116,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-01",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:32:13.034Z",
+      "id": 6
+    },
+    {
+      "entidadId": 111,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-01",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:32:22.919Z",
+      "id": 7
+    },
+    {
+      "entidadId": 106,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-01",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:32:36.464Z",
+      "id": 8
+    },
+    {
+      "entidadId": 108,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-01",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:32:55.483Z",
+      "id": 9
+    },
+    {
+      "entidadId": 17,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-01",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:33:14.546Z",
+      "id": 10
+    },
+    {
+      "entidadId": 118,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-02",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:33:31.776Z",
+      "id": 11
+    },
+    {
+      "entidadId": 119,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-02",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:33:54.007Z",
+      "id": 12
+    },
+    {
+      "entidadId": 105,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-02",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:34:03.132Z",
+      "id": 13
+    },
+    {
+      "entidadId": 103,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-02",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:34:11.347Z",
+      "id": 14
+    },
+    {
+      "entidadId": 123,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-02",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:34:37.393Z",
+      "id": 15
+    },
+    {
+      "entidadId": 124,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-02",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:34:55.803Z",
+      "id": 16
+    },
+    {
+      "entidadId": 117,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-02",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:35:05.484Z",
+      "id": 17
+    },
+    {
+      "entidadId": 126,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-02",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:35:18.545Z",
+      "id": 18
+    },
+    {
+      "entidadId": 104,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-02",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:35:26.056Z",
+      "id": 19
+    },
+    {
+      "entidadId": 13,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-03",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:35:59.859Z",
+      "id": 20
+    },
+    {
+      "entidadId": 12,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-03",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:36:09.967Z",
+      "id": 21
+    },
+    {
+      "entidadId": 22,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-03",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:36:20.533Z",
+      "id": 22
+    },
+    {
+      "entidadId": 44,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-03",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:36:47.724Z",
+      "id": 23
+    },
+    {
+      "entidadId": 51,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-03",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:37:43.704Z",
+      "id": 24
+    },
+    {
+      "entidadId": 52,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-03",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:37:45.907Z",
+      "id": 25
+    },
+    {
+      "entidadId": 59,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-03",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:37:58.524Z",
+      "id": 26
+    },
+    {
+      "entidadId": 88,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-03",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:39:49.052Z",
+      "id": 27
+    },
+    {
+      "entidadId": 89,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-03",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:40:29.200Z",
+      "id": 28
+    },
+    {
+      "entidadId": 90,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-03",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:40:34.308Z",
+      "id": 29
+    },
+    {
+      "entidadId": 93,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-03",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:41:08.432Z",
+      "id": 30
+    },
+    {
+      "entidadId": 92,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-03",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:41:13.027Z",
+      "id": 31
+    },
+    {
+      "entidadId": 95,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-03",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:41:32.657Z",
+      "id": 32
+    },
+    {
+      "entidadId": 46,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-04",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:42:04.841Z",
+      "id": 33
+    },
+    {
+      "entidadId": 20,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-04",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:42:17.443Z",
+      "id": 34
+    },
+    {
+      "entidadId": 50,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-04",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:42:26.089Z",
+      "id": 35
+    },
+    {
+      "entidadId": 48,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-04",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:42:40.409Z",
+      "id": 36
+    },
+    {
+      "entidadId": 29,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-04",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:42:56.861Z",
+      "id": 37
+    },
+    {
+      "entidadId": 49,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-04",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:43:03.407Z",
+      "id": 38
+    },
+    {
+      "entidadId": 21,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-04",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:43:12.267Z",
+      "id": 39
+    },
+    {
+      "entidadId": 26,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-04",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:43:35.090Z",
+      "id": 40
+    },
+    {
+      "entidadId": 32,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-04",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:43:44.791Z",
+      "id": 41
+    },
+    {
+      "entidadId": 29,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-04",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:43:55.905Z",
+      "id": 42
+    },
+    {
+      "entidadId": 27,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-04",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:44:13.313Z",
+      "id": 43
+    },
+    {
+      "entidadId": 52,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-04",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:44:30.491Z",
+      "id": 44
+    },
+    {
+      "entidadId": 34,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-04",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:44:42.882Z",
+      "id": 45
+    },
+    {
+      "entidadId": 31,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-04",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:44:52.122Z",
+      "id": 46
+    },
+    {
+      "entidadId": 28,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-04",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:45:21.971Z",
+      "id": 47
+    },
+    {
+      "entidadId": 36,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-04",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:45:31.927Z",
+      "id": 48
+    },
+    {
+      "entidadId": 37,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-04",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:45:40.874Z",
+      "id": 49
+    },
+    {
+      "entidadId": 26,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-04",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:45:56.545Z",
+      "id": 50
+    },
+    {
+      "entidadId": 129,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-05",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:46:12.296Z",
+      "id": 51
+    },
+    {
+      "entidadId": 51,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-05",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:46:26.307Z",
+      "id": 52
+    },
+    {
+      "entidadId": 54,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-05",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:46:37.698Z",
+      "id": 53
+    },
+    {
+      "entidadId": 59,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-05",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:46:46.075Z",
+      "id": 54
+    },
+    {
+      "entidadId": 55,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-05",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:47:15.102Z",
+      "id": 55
+    },
+    {
+      "entidadId": 176,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-05",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:47:34.476Z",
+      "id": 56
+    },
+    {
+      "entidadId": 30,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-05",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:47:49.499Z",
+      "id": 57
+    },
+    {
+      "entidadId": 57,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-05",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:55:01.296Z",
+      "id": 58
+    },
+    {
+      "entidadId": 53,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-05",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T13:55:14.684Z",
+      "id": 59
+    },
+    {
+      "entidadId": 73,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-09",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:08:56.448Z",
+      "id": 60
+    },
+    {
+      "entidadId": 81,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-09",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:09:08.709Z",
+      "id": 61
+    },
+    {
+      "entidadId": 66,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-09",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:09:23.444Z",
+      "id": 62
+    },
+    {
+      "entidadId": 83,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-09",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:09:32.046Z",
+      "id": 63
+    },
+    {
+      "entidadId": 77,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-09",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:09:45.400Z",
+      "id": 64
+    },
+    {
+      "entidadId": 33,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-09",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:09:57.651Z",
+      "id": 65
+    },
+    {
+      "entidadId": 85,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-09",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:10:09.643Z",
+      "id": 66
+    },
+    {
+      "entidadId": 79,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-09",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:10:19.197Z",
+      "id": 67
+    },
+    {
+      "entidadId": 82,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-10",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:10:30.627Z",
+      "id": 68
+    },
+    {
+      "entidadId": 80,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-10",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:10:38.418Z",
+      "id": 69
+    },
+    {
+      "entidadId": 76,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-10",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:10:53.032Z",
+      "id": 70
+    },
+    {
+      "entidadId": 69,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-10",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:11:04.629Z",
+      "id": 71
+    },
+    {
+      "entidadId": 71,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-10",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:11:20.045Z",
+      "id": 72
+    },
+    {
+      "entidadId": 68,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-10",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:11:37.270Z",
+      "id": 73
+    },
+    {
+      "entidadId": 72,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-11",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:12:01.466Z",
+      "id": 74
+    },
+    {
+      "entidadId": 87,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-11",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:12:15.156Z",
+      "id": 75
+    },
+    {
+      "entidadId": 67,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-11",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:12:24.854Z",
+      "id": 76
+    },
+    {
+      "entidadId": 63,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-11",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:12:36.357Z",
+      "id": 77
+    },
+    {
+      "entidadId": 65,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-11",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:12:45.667Z",
+      "id": 78
+    },
+    {
+      "entidadId": 23,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-11",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:12:56.265Z",
+      "id": 79
+    },
+    {
+      "entidadId": 45,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-11",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:13:31.304Z",
+      "id": 80
+    },
+    {
+      "entidadId": 43,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-11",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:13:44.897Z",
+      "id": 81
+    },
+    {
+      "entidadId": 44,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-11",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:13:59.336Z",
+      "id": 82
+    },
+    {
+      "entidadId": 40,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-11",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:14:04.898Z",
+      "id": 83
+    },
+    {
+      "entidadId": 10,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-11",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:14:17.304Z",
+      "id": 84
+    },
+    {
+      "entidadId": 100,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-12",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:14:40.360Z",
+      "id": 85
+    },
+    {
+      "entidadId": 61,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-12",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:16:44.853Z",
+      "id": 86
+    },
+    {
+      "entidadId": 62,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-12",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:16:54.328Z",
+      "id": 87
+    },
+    {
+      "entidadId": 60,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-12",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:17:02.214Z",
+      "id": 88
+    },
+    {
+      "entidadId": 128,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-12",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:17:11.014Z",
+      "id": 89
+    },
+    {
+      "entidadId": 130,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-12",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:17:26.383Z",
+      "id": 90
+    },
+    {
+      "entidadId": 14,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-12",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:17:56.617Z",
+      "id": 91
+    },
+    {
+      "entidadId": 11,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-12",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:18:05.022Z",
+      "id": 92
+    },
+    {
+      "entidadId": 7,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-12",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:18:19.131Z",
+      "id": 93
+    },
+    {
+      "entidadId": 8,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-12",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:18:21.057Z",
+      "id": 94
+    },
+    {
+      "entidadId": 18,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-12",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:18:50.209Z",
+      "id": 95
+    },
+    {
+      "entidadId": 37,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-12",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:19:11.475Z",
+      "id": 96
+    },
+    {
+      "entidadId": 43,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-12",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:19:19.397Z",
+      "id": 97
+    },
+    {
+      "entidadId": 28,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-12",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-16T14:19:30.701Z",
+      "id": 98
+    },
+    {
+      "entidadId": 138,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-16",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-18T16:47:38.546Z",
+      "id": 99
+    },
+    {
+      "entidadId": 171,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-16",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-18T16:47:49.245Z",
+      "id": 100
+    },
+    {
+      "entidadId": 167,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-16",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-18T16:49:18.599Z",
+      "id": 101
+    },
+    {
+      "entidadId": 1,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-16",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-18T16:49:27.366Z",
+      "id": 102
+    },
+    {
+      "entidadId": 148,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-16",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-18T16:56:32.379Z",
+      "id": 103
+    },
+    {
+      "entidadId": 173,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-16",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-18T16:57:52.410Z",
+      "id": 104
+    },
+    {
+      "entidadId": 172,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-16",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-18T16:59:37.746Z",
+      "id": 105
+    },
+    {
+      "entidadId": 141,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-16",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-18T17:02:02.245Z",
+      "id": 106
+    },
+    {
+      "entidadId": 175,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-16",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-18T17:02:14.711Z",
+      "id": 107
+    },
+    {
+      "entidadId": 135,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-17",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-19T21:02:07.799Z",
+      "id": 108
+    },
+    {
+      "entidadId": 155,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-17",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-19T21:02:38.497Z",
+      "id": 109
+    },
+    {
+      "entidadId": 166,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-17",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:45:20.720Z",
+      "id": 110
+    },
+    {
+      "entidadId": 174,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-17",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:45:38.525Z",
+      "id": 111
+    },
+    {
+      "entidadId": 156,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-17",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:45:48.805Z",
+      "id": 112
+    },
+    {
+      "entidadId": 159,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-17",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:46:04.208Z",
+      "id": 113
+    },
+    {
+      "entidadId": 136,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-17",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:46:19.376Z",
+      "id": 114
+    },
+    {
+      "entidadId": 149,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-18",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:46:47.785Z",
+      "id": 115
+    },
+    {
+      "entidadId": 150,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-18",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:47:02.138Z",
+      "id": 116
+    },
+    {
+      "entidadId": 168,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-18",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:47:11.046Z",
+      "id": 117
+    },
+    {
+      "entidadId": 157,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-18",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:47:32.617Z",
+      "id": 118
+    },
+    {
+      "entidadId": 131,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-18",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:48:39.919Z",
+      "id": 119
+    },
+    {
+      "entidadId": 142,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-18",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:55:02.708Z",
+      "id": 120
+    },
+    {
+      "entidadId": 133,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-18",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:55:16.758Z",
+      "id": 121
+    },
+    {
+      "entidadId": 170,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-18",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:55:40.029Z",
+      "id": 122
+    },
+    {
+      "entidadId": 147,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-18",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:55:57.319Z",
+      "id": 123
+    },
+    {
+      "entidadId": 146,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-18",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:56:04.470Z",
+      "id": 124
+    },
+    {
+      "entidadId": 132,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-18",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:56:10.621Z",
+      "id": 125
+    },
+    {
+      "entidadId": 134,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-19",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:56:27.735Z",
+      "id": 126
+    },
+    {
+      "entidadId": 163,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-19",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:56:40.852Z",
+      "id": 127
+    },
+    {
+      "entidadId": 158,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-19",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:56:53.041Z",
+      "id": 128
+    },
+    {
+      "entidadId": 137,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-19",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:57:05.652Z",
+      "id": 129
+    },
+    {
+      "entidadId": 160,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-19",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:57:15.708Z",
+      "id": 130
+    },
+    {
+      "entidadId": 161,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-19",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:57:23.950Z",
+      "id": 131
+    },
+    {
+      "entidadId": 162,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-19",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:57:31.457Z",
+      "id": 132
+    },
+    {
+      "entidadId": 164,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-19",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:57:42.337Z",
+      "id": 133
+    },
+    {
+      "entidadId": 152,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-19",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:57:49.083Z",
+      "id": 134
+    },
+    {
+      "entidadId": 154,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-19",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:58:01.963Z",
+      "id": 135
+    },
+    {
+      "entidadId": 165,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-19",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:58:10.876Z",
+      "id": 136
+    },
+    {
+      "entidadId": 56,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-16",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T00:59:56.411Z",
+      "id": 137
+    },
+    {
+      "entidadId": 54,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-16",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T01:00:06.593Z",
+      "id": 138
+    },
+    {
+      "entidadId": 55,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-16",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T01:00:29.692Z",
+      "id": 139
+    },
+    {
+      "entidadId": 35,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-16",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T01:00:39.325Z",
+      "id": 140
+    },
+    {
+      "entidadId": 36,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-17",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T01:00:51.457Z",
+      "id": 141
+    },
+    {
+      "entidadId": 9,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-17",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T01:01:05.322Z",
+      "id": 142
+    },
+    {
+      "entidadId": 1,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-17",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T01:01:11.647Z",
+      "id": 143
+    },
+    {
+      "entidadId": 2,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-17",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T01:01:13.873Z",
+      "id": 144
+    },
+    {
+      "entidadId": 3,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-17",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T01:01:18.031Z",
+      "id": 145
+    },
+    {
+      "entidadId": 4,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-18",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T01:01:29.882Z",
+      "id": 146
+    },
+    {
+      "entidadId": 5,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-18",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T01:01:33.479Z",
+      "id": 147
+    },
+    {
+      "entidadId": 6,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-18",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T01:01:37.065Z",
+      "id": 148
+    },
+    {
+      "entidadId": 60,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-18",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T01:01:59.532Z",
+      "id": 149
+    },
+    {
+      "entidadId": 33,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-19",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T01:02:20.984Z",
+      "id": 150
+    },
+    {
+      "entidadId": 31,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-18",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T01:02:42.196Z",
+      "id": 151
+    },
+    {
+      "entidadId": 151,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-18",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-22T01:08:21.748Z",
+      "id": 152
+    },
+    {
+      "entidadId": 125,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-22",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:27:33.499Z",
+      "id": 153
+    },
+    {
+      "entidadId": 113,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-22",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:28:19.309Z",
+      "id": 154
+    },
+    {
+      "entidadId": 17,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-22",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:28:29.079Z",
+      "id": 155
+    },
+    {
+      "entidadId": 18,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-22",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:28:43.937Z",
+      "id": 156
+    },
+    {
+      "entidadId": 15,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-22",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:28:51.681Z",
+      "id": 157
+    },
+    {
+      "entidadId": 16,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-22",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:28:59.854Z",
+      "id": 158
+    },
+    {
+      "entidadId": 114,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-23",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:29:22.212Z",
+      "id": 159
+    },
+    {
+      "entidadId": 115,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-23",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:29:31.225Z",
+      "id": 160
+    },
+    {
+      "entidadId": 91,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-23",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:29:41.189Z",
+      "id": 161
+    },
+    {
+      "entidadId": 98,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-23",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:29:50.602Z",
+      "id": 162
+    },
+    {
+      "entidadId": 97,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-23",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:29:59.180Z",
+      "id": 163
+    },
+    {
+      "entidadId": 96,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-23",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:30:09.874Z",
+      "id": 164
+    },
+    {
+      "entidadId": 11,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-24",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:30:40.964Z",
+      "id": 165
+    },
+    {
+      "entidadId": 10,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-24",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:32:04.280Z",
+      "id": 166
+    },
+    {
+      "entidadId": 9,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-24",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:32:30.574Z",
+      "id": 167
+    },
+    {
+      "entidadId": 8,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-24",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:32:45.085Z",
+      "id": 168
+    },
+    {
+      "entidadId": 7,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-24",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:33:24.701Z",
+      "id": 169
+    },
+    {
+      "entidadId": 6,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-24",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:33:35.591Z",
+      "id": 170
+    },
+    {
+      "entidadId": 5,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-24",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:33:44.116Z",
+      "id": 171
+    },
+    {
+      "entidadId": 4,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-24",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:33:54.982Z",
+      "id": 172
+    },
+    {
+      "entidadId": 49,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-25",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:34:23.176Z",
+      "id": 173
+    },
+    {
+      "entidadId": 3,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-25",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:34:31.376Z",
+      "id": 174
+    },
+    {
+      "entidadId": 38,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-25",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:34:41.795Z",
+      "id": 175
+    },
+    {
+      "entidadId": 46,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-25",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:34:53.753Z",
+      "id": 176
+    },
+    {
+      "entidadId": 2,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-25",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:35:03.445Z",
+      "id": 177
+    },
+    {
+      "entidadId": 42,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-25",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:35:19.799Z",
+      "id": 178
+    },
+    {
+      "entidadId": 41,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-25",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:35:27.762Z",
+      "id": 179
+    },
+    {
+      "entidadId": 47,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-25",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:37:10.174Z",
+      "id": 180
+    },
+    {
+      "entidadId": 99,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-26",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-26T18:56:35.492Z",
+      "id": 181
+    },
+    {
+      "entidadId": 22,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-26",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-29T00:07:51.552Z",
+      "id": 182
+    },
+    {
+      "entidadId": 20,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-26",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-29T00:08:05.095Z",
+      "id": 183
+    },
+    {
+      "entidadId": 21,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-26",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-29T00:08:17.814Z",
+      "id": 184
+    },
+    {
+      "entidadId": 23,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-26",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-29T00:08:34.245Z",
+      "id": 185
+    },
+    {
+      "entidadId": 77,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-26",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-29T00:08:49.964Z",
+      "id": 186
+    },
+    {
+      "entidadId": 45,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-22",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-29T00:12:03.428Z",
+      "id": 187
+    },
+    {
+      "entidadId": 30,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-22",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-29T00:12:54.605Z",
+      "id": 188
+    },
+    {
+      "entidadId": 47,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-22",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-29T00:13:05.005Z",
+      "id": 189
+    },
+    {
+      "entidadId": 24,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-22",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-29T00:13:17.464Z",
+      "id": 190
+    },
+    {
+      "entidadId": 25,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-23",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-29T00:13:34.027Z",
+      "id": 191
+    },
+    {
+      "entidadId": 38,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-23",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-29T00:13:40.268Z",
+      "id": 192
+    },
+    {
+      "entidadId": 16,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-25",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-29T00:14:33.668Z",
+      "id": 193
+    },
+    {
+      "entidadId": 19,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-25",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-29T00:14:41.388Z",
+      "id": 194
+    },
+    {
+      "entidadId": 34,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-25",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-29T00:14:48.644Z",
+      "id": 195
+    },
+    {
+      "entidadId": 42,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-25",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-29T00:14:53.386Z",
+      "id": 196
+    },
+    {
+      "entidadId": 39,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-26",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-29T00:36:54.820Z",
+      "id": 197
+    },
+    {
+      "entidadId": 40,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-25",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-29T00:37:49.791Z",
+      "id": 198
+    },
+    {
+      "entidadId": 15,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-26",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-29T00:38:01.879Z",
+      "id": 199
+    },
+    {
+      "entidadId": 57,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-26",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-29T00:38:13.069Z",
+      "id": 200
+    },
+    {
+      "entidadId": 32,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-26",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-29T00:38:31.092Z",
+      "id": 201
+    },
+    {
+      "entidadId": 41,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-25",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-29T00:38:47.201Z",
+      "id": 202
+    },
+    {
+      "entidadId": 33,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-26",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-29T00:39:25.080Z",
+      "id": 203
+    },
+    {
+      "entidadId": 122,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-30",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-30T23:37:08.587Z",
+      "id": 204
+    },
+    {
+      "entidadId": 12,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-30",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-30T23:38:16.466Z",
+      "id": 205
+    },
+    {
+      "entidadId": 48,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-30",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-30T23:40:22.411Z",
+      "id": 206
+    },
+    {
+      "entidadId": 70,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-30",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-30T23:42:29.192Z",
+      "id": 207
+    },
+    {
+      "entidadId": 109,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-30",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-30T23:42:34.184Z",
+      "id": 208
+    },
+    {
+      "entidadId": 58,
+      "entidadTipo": "medico",
+      "fecha": "2026-06-30",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-30T23:43:17.075Z",
+      "id": 209
+    },
+    {
+      "entidadId": 27,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-30",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-30T23:47:17.982Z",
+      "id": 210
+    },
+    {
+      "entidadId": 53,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-30",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-30T23:47:19.822Z",
+      "id": 211
+    },
+    {
+      "entidadId": 58,
+      "entidadTipo": "farmacia",
+      "fecha": "2026-06-30",
+      "mes": "2026-06",
+      "notas": "",
+      "creado": "2026-06-30T23:47:21.379Z",
+      "id": 212
+    }
+  ],
+  "notas": [
+    {
+      "texto": "Pe diente visita\nDiana Rozo \nGuerrero ecopetrol",
+      "tipo": "general",
+      "medicoId": null,
+      "farmaciaId": null,
+      "fecha": null,
+      "completada": false,
+      "creado": "2026-06-16T14:16:18.254Z",
+      "id": 1
+    },
+    {
+      "texto": "Katherine Alfonso 3174372630 tienda\nJenny pinzón admin",
+      "tipo": "general",
+      "medicoId": null,
+      "farmaciaId": 24,
+      "fecha": null,
+      "completada": false,
+      "creado": "2026-06-24T15:02:40.517Z",
+      "id": 2
+    }
+  ],
+  "cup": [],
+  "ddd": [],
+  "sit": [],
+  "dataSitMesLabels": [],
+  "customBricks": {},
+  "fecha": "2026-07-06T00:00:00.000Z"
 }

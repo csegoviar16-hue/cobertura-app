@@ -81,6 +81,7 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Ro
 .nota-detalle-texto{font-size:1rem;line-height:1.5;white-space:pre-wrap;word-break:break-word;margin-bottom:16px;color:var(--text);user-select:text}
 .nota-detalle-prop{font-size:.85rem;color:var(--text2);margin-bottom:10px;user-select:text}
 .nota-detalle-meta{font-size:.82rem;color:var(--text2);margin-bottom:6px;user-select:text}
+.selectable-text{-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;-webkit-touch-callout:default;cursor:text}
 .nota-tipo-general{background:#e2e8f0;color:#475569}
 .nota-tipo-alta{background:#dcfce7;color:#166534}
 .nota-tipo-baja{background:#fee2e2;color:#991b1b}

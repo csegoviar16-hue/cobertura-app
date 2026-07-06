@@ -31,6 +31,9 @@ function fmtFecha(f){ if(!f) return ''; const [y,m,d]=f.split('-'); return d+'/'
 function normalizarFila(row){ const out={}; for(const k in row){ const key=k.toLowerCase().trim().replace(/\s+/g,'_'); out[key]=(row[k]||'').toString().trim(); } return out; }
 function descargarCSV(nom,filas){ if(!filas||!filas.length) return; const h=Object.keys(filas[0]); const esc=v=>{ const s=String(v??''); if(s.includes(',')||s.includes('"')||s.includes('\n')) return '"'+s.replace(/"/g,'""')+'"'; return s; }; const lineas=[h.join(','),...filas.map(r=>h.map(x=>esc(r[x])).join(','))]; const blob=new Blob([lineas.join('\n')],{type:'text/csv;charset=utf-8;'}); const u=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=u; a.download=nom; a.click(); URL.revokeObjectURL(u); }
 function obtenerSegmentos(m){ const segs=[]; if(m.segmento){ const p=m.segmento.split(/[,;\s]+/).filter(Boolean); for(const x of p){ const k=x.toUpperCase().trim(); if(['H','C','P','M','E','PS'].includes(k)) segs.push(k); } } if(m.medico_h==='H'||m.medico_h==='Sí'||m.medico_h==='1') segs.push('H'); return [...new Set(segs)]; }
+function quitarTildes(s){ if(!s) return ''; return s.toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim(); }
+function tokenizarNombre(s){ return quitarTildes(s).split(/\s+/).filter(Boolean); }
+function nombresCoinciden(a,b){ const ta=tokenizarNombre(a); const tb=tokenizarNombre(b); if(!ta.length||!tb.length) return false; const sa=new Set(ta), sb=new Set(tb); const inter=new Set([...sa].filter(x=>sb.has(x))); return inter.size>=3 || (inter.size>=2 && inter.size>=Math.min(sa.size,sb.size)-1); }
 let customBricksMap = {};
 function getBrickZona(brick){ if(!brick) return ''; return customBricksMap[brick] || (typeof BRICK_ZONA !== 'undefined' ? BRICK_ZONA[brick] : '') || ''; }
 const FARMACIAS_ADIUM_NOMBRES = [
