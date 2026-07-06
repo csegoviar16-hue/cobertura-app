@@ -120,11 +120,17 @@ window.seleccionarUsuario = async function(usuario, guardar = true) {
 
   await recargarDatos();
 
-  // Si no hay médicos, cargar desde el panel local (solo Carlos tiene datos incrustados)
-  if (medicosCache.length === 0 && usuario === 'carlos' && typeof PANEL_DATA !== 'undefined') {
+  // Cargar o actualizar panel local para Carlos
+  if (usuario === 'carlos' && typeof PANEL_DATA !== 'undefined') {
     try {
-      await cargarPanelLocal();
-      await recargarDatos();
+      const panelVersionCfg = await db.getConfig('panelVersion');
+      const panelVersionActual = panelVersionCfg?.value || '';
+      const panelVersionNueva = PANEL_DATA.panelVersion || '';
+      // Si no hay médicos o cambió la versión del panel, recargar datos
+      if (medicosCache.length === 0 || (panelVersionNueva && panelVersionActual !== panelVersionNueva)) {
+        await cargarPanelLocal();
+        await recargarDatos();
+      }
     } catch (e) { console.error('Error cargando panel local:', e); }
   }
 
@@ -1048,6 +1054,13 @@ function renderMedicos() {
     `<button class="estado-btn ${state.estadoMed===e?'active':''}" data-action="set-estado-med" data-estado="${e}">${e}</button>`
   ).join('');
 
+  const searchHtml = `
+    <div class="search-wrap">
+      <input class="search-box" id="busqueda-med" placeholder="Buscar médico..." value="${esc(state.busquedaMed)}" oninput="window.buscarMed(this.value)">
+      ${state.busquedaMed ? `<button class="search-clear" data-action="limpiar-busqueda-med" aria-label="Limpiar búsqueda">✕</button>` : ''}
+    </div>
+  `;
+
   if (state.medicoSubTab === 'Brick') {
     const porBrick = {};
     for (const m of filtrados) { const b = m.brick || 'Sin brick'; if(!porBrick[b]) porBrick[b]=[]; porBrick[b].push(m); }
@@ -1062,6 +1075,7 @@ function renderMedicos() {
         ${espHtml}
         <div class="estado-filters">${estadoHtml}</div>
       </div>
+      ${searchHtml}
       ${bricks.map(b => {
         const zona = porBrick[b][0]?.brickZona || '';
         const brickTitle = zona ? `BRICK ${esc(b)} - ${esc(zona)}` : `BRICK ${esc(b)}`;
@@ -1086,10 +1100,7 @@ function renderMedicos() {
       ${espHtml}
       <div class="estado-filters">${estadoHtml}</div>
     </div>
-    <div class="search-wrap">
-      <input class="search-box" id="busqueda-med" placeholder="Buscar médico..." value="${esc(state.busquedaMed)}" oninput="window.buscarMed(this.value)">
-      ${state.busquedaMed ? `<button class="search-clear" data-action="limpiar-busqueda-med" aria-label="Limpiar búsqueda">✕</button>` : ''}
-    </div>
+    ${searchHtml}
     <div class="lista">
       ${filtrados.map(m => renderMedicoItem(m)).join('')}
     </div>

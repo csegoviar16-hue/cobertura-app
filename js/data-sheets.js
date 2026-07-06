@@ -136,7 +136,7 @@ class DataSheetsSync {
 
   // ===== SIT =====
   parseSIT(rows) {
-    if (rows.length < 2) return [];
+    if (rows.length < 2) return { rows: [], mesLabels: [] };
     const headers = rows[0].map(h => (h || '').toString().trim().toUpperCase());
     const idxBrick = headers.indexOf('BRICK');
     const idxCiudad = headers.indexOf('CIUDAD');
@@ -146,9 +146,14 @@ class DataSheetsSync {
     const mesIdx = headers
       .map((h, i) => ({ h, i }))
       .filter(x => x.h.startsWith('MES_'));
-    if (idxBrick === -1 || idxPdv === -1 || idxTipo === -1) return [];
+    if (idxBrick === -1 || idxPdv === -1 || idxTipo === -1) return { rows: [], mesLabels: [] };
 
-    return rows.slice(1).map((r, i) => {
+    const mesLabels = mesIdx.map(m => {
+      const raw = rows[0][m.i];
+      return raw !== undefined && raw !== null ? raw.toString().trim() : `M${m.i}`;
+    });
+
+    const parsedRows = rows.slice(1).map((r, i) => {
       const pdv = (r[idxPdv] || '').toString().trim();
       if (!pdv) return null;
       const meses = mesIdx.map(m => this.parseNumero(r[m.i]));
@@ -164,6 +169,8 @@ class DataSheetsSync {
         mercado: null
       };
     }).filter(Boolean);
+
+    return { rows: parsedRows, mesLabels };
   }
 
   async syncAll() {
@@ -174,10 +181,13 @@ class DataSheetsSync {
     ]);
     const cup = this.parseCUP(cupRows);
     const ddd = this.parseDDD(dddRows);
-    const sit = this.parseSIT(sitRows);
+    const sitParsed = this.parseSIT(sitRows);
+    const sit = sitParsed.rows;
+    const sitMesLabels = sitParsed.mesLabels;
     await db.reemplazarCUP(cup);
     await db.reemplazarDDD(ddd);
     await db.reemplazarSIT(sit);
+    await db.setConfig('dataSitMesLabels', sitMesLabels);
     await db.setConfig('lastSyncData', new Date().toISOString());
     return { cup: cup.length, ddd: ddd.length, sit: sit.length };
   }

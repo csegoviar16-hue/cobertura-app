@@ -4002,12 +4002,14 @@ const PANEL_DATA = {
       "adium": true,
       "id": 60
     }
-  ]
+  ],
+  "panelVersion": "2026-07"
 };
 
 async function cargarPanelLocal() {
   await db.reemplazarMedicos(PANEL_DATA.medicos);
   await db.reemplazarFarmacias(PANEL_DATA.farmacias);
+  await db.setConfig('panelVersion', PANEL_DATA.panelVersion || '');
   await db.setConfig('lastSync', new Date().toISOString());
 }
 
