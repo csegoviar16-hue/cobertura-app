@@ -108,7 +108,7 @@ function parseDddSheet(rows, mercado) {
 }
 
 function parseInvRotSheet(rows, mercado) {
-  if (!rows || rows.length < 3) return [];
+  if (!rows || rows.length < 3) return { rows: [], mesLabels: [] };
   // Fila 0: encabezado con códigos de mes en cols 3 en adelante, Total al final
   // Fila 1: sub-encabezado
   const headerAll = rows[0];
@@ -121,10 +121,17 @@ function parseInvRotSheet(rows, mercado) {
   const last3 = monthHeaders.slice(-3);
   const dataRows = rows.slice(2);
   const result = [];
+  let lastBrickCiudad = '';
+  let lastPdv = '';
   for (const r of dataRows) {
-    const brickCiudad = (r[0] || '').toString().trim();
-    const pdv = (r[1] || '').toString().trim();
+    let brickCiudad = (r[0] || '').toString().trim();
+    let pdv = (r[1] || '').toString().trim();
     const tipo = (r[2] || '').toString().trim();
+    // Heredar brick y pdv de la fila anterior si están vacíos
+    if (brickCiudad) lastBrickCiudad = brickCiudad;
+    else brickCiudad = lastBrickCiudad;
+    if (pdv) lastPdv = pdv;
+    else pdv = lastPdv;
     if (!brickCiudad || !pdv || !tipo) continue;
     if (brickCiudad.toUpperCase() === 'TOTAL' || pdv.toUpperCase() === 'TOTAL') continue;
     // Extraer brick y ciudad del texto "9012 - Bogota"
