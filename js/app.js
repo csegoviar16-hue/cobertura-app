@@ -2933,14 +2933,26 @@ function renderDDD() {
 function renderSIT() {
   let data = filtrarDataPorCiudad(sitCache, 'sit');
 
-  const mesLabels = state.dataSitMesLabels.length === 3 ? state.dataSitMesLabels : ultimos3MesesSIT();
+  // Determinar cantidad real de meses en los datos
+  const numMeses = Math.max(3, ...data.map(r => (r.meses || []).length));
+
+  // Etiquetas de meses
+  let mesLabels = state.dataSitMesLabels.length === numMeses
+    ? state.dataSitMesLabels
+    : (state.dataSitMesLabels.length === 3 ? state.dataSitMesLabels : ultimos3MesesSIT());
+  // Asegurar que haya tantas etiquetas como meses
+  while (mesLabels.length < numMeses) mesLabels.push(`M${mesLabels.length + 1}`);
+  mesLabels = mesLabels.slice(0, numMeses);
 
   // Totales por mes
-  const totales = [0, 0, 0, 0];
+  const totales = new Array(numMeses + 1).fill(0);
   for (const row of data) {
-    for (let i = 0; i < 3; i++) totales[i] += (row.meses[i] || 0);
-    totales[3] += row.total;
+    for (let i = 0; i < numMeses; i++) totales[i] += (row.meses[i] || 0);
+    totales[numMeses] += row.total || 0;
   }
+
+  const dataCols = numMeses + 1; // meses + total
+  const totalCols = 3 + dataCols; // fijas + meses + total
 
   // Agrupar: brick -> pdv -> {Inventario, Rotacion}
   const arbol = {};
@@ -2957,7 +2969,7 @@ function renderSIT() {
         <th class="data-sit-fixed data-sit-col-brick">Brick - Ciudad</th>
         <th class="data-sit-fixed data-sit-col-pdv">Descrip PDV</th>
         <th class="data-sit-fixed data-sit-col-tipo">Tipo Informacion</th>
-        ${mesLabels.map(m => `<th>${esc(m)}</th>`).join('')}
+        ${mesLabels.map(m => `<th class="data-sit-mes-col">${esc(m)}</th>`).join('')}
         <th class="data-sit-col-total">Total</th>
       </tr>
     </thead>
@@ -2966,8 +2978,8 @@ function renderSIT() {
   const totalRowHtml = `
     <tr class="data-total-row data-sit-total-top">
       <td class="data-sit-fixed data-sit-col-brick" colspan="3"><strong>TOTAL</strong></td>
-      ${totales.slice(0, 3).map(v => `<td><strong>${fmtNum(v)}</strong></td>`).join('')}
-      <td class="data-sit-col-total"><strong>${fmtNum(totales[3])}</strong></td>
+      ${totales.slice(0, numMeses).map(v => `<td><strong>${fmtNum(v)}</strong></td>`).join('')}
+      <td class="data-sit-col-total"><strong>${fmtNum(totales[numMeses])}</strong></td>
     </tr>
   `;
 
@@ -2980,23 +2992,27 @@ function renderSIT() {
           const rotRow = tipos['Rotacion'];
           const tipoRows = [];
           if (invRow) {
+            const meses = invRow.meses || [];
+            while (meses.length < numMeses) meses.push(0);
             tipoRows.push(`
               <tr>
                 <td class="data-sit-fixed data-sit-col-brick"></td>
                 <td class="data-sit-fixed data-sit-col-pdv"></td>
                 <td class="data-sit-fixed data-sit-col-tipo"><a href="#" class="data-link" onclick="return false">${esc(invRow.tipo)}</a></td>
-                ${invRow.meses.map(v => `<td>${fmtNum(v)}</td>`).join('')}
+                ${meses.slice(0, numMeses).map(v => `<td class="data-sit-mes-col">${fmtNum(v)}</td>`).join('')}
                 <td class="data-sit-col-total">${fmtNum(invRow.total)}</td>
               </tr>
             `);
           }
           if (rotRow) {
+            const meses = rotRow.meses || [];
+            while (meses.length < numMeses) meses.push(0);
             tipoRows.push(`
               <tr>
                 <td class="data-sit-fixed data-sit-col-brick"></td>
                 <td class="data-sit-fixed data-sit-col-pdv"></td>
                 <td class="data-sit-fixed data-sit-col-tipo"><a href="#" class="data-link" onclick="return false">${esc(rotRow.tipo)}</a></td>
-                ${rotRow.meses.map(v => `<td>${fmtNum(v)}</td>`).join('')}
+                ${meses.slice(0, numMeses).map(v => `<td class="data-sit-mes-col">${fmtNum(v)}</td>`).join('')}
                 <td class="data-sit-col-total">${fmtNum(rotRow.total)}</td>
               </tr>
             `);
@@ -3004,7 +3020,7 @@ function renderSIT() {
           return `
             <tr class="data-sit-pdv-row">
               <td class="data-sit-fixed data-sit-col-brick" colspan="3" style="padding-left:28px"><a href="#" class="data-link" onclick="return false">${esc(pdv)}</a></td>
-              <td colspan="4"></td>
+              <td colspan="${dataCols}"></td>
             </tr>
             ${tipoRows.join('')}
           `;
@@ -3017,7 +3033,7 @@ function renderSIT() {
           <span class="data-expand-icon">${icon}</span>
           <strong><a href="#" class="data-link" onclick="return false">${esc(bKey)}</a></strong>
         </td>
-        <td colspan="4"></td>
+        <td colspan="${dataCols}"></td>
       </tr>
       ${pdvRows}
     `;
@@ -3029,7 +3045,7 @@ function renderSIT() {
         ${headerHtml}
         <tbody>
           ${totalRowHtml}
-          ${bodyHtml || '<tr><td colspan="7" class="empty-state">Sin datos</td></tr>'}
+          ${bodyHtml || `<tr><td colspan="${totalCols}" class="empty-state">Sin datos</td></tr>`}
         </tbody>
       </table>
     </div>
