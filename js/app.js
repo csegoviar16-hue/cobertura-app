@@ -60,6 +60,8 @@ function fechaReferenciaMesActivo() {
 let cupCache = [];
 let dddCache = [];
 let sitCache = [];
+let visitasMesCache = [];    // visitas del mes activo (registros completos)
+let visitasMesAntCache = []; // visitas del mes anterior al activo
 
 // ===== SCROLL NAV =====
 let lastScrollY = 0;
@@ -193,6 +195,12 @@ async function recargarDatos() {
   for (const f of farmaciasCache) {
     visitasMap['farmacia-' + f.id] = await db.countVisitasEntidad(f.id, 'farmacia', mesActivo);
   }
+  // Registros completos del mes activo y del mes anterior (para métricas del dashboard)
+  visitasMesCache = await db.visitasDelMes(mesActivo);
+  const [ya, ma] = mesActivo.split('-').map(Number);
+  const dAnt = new Date(ya, ma - 2, 1);
+  const mesAnt = `${dAnt.getFullYear()}-${String(dAnt.getMonth() + 1).padStart(2, '0')}`;
+  visitasMesAntCache = await db.visitasDelMes(mesAnt);
 }
 
 function renderApp() {
@@ -561,6 +569,40 @@ function renderDashboard() {
     return v < (parseInt(f.frecuencia) || 1);
   }).length;
 
+  // ===== Métricas de ritmo del mes =====
+  const esMesActual = mesActivo === mesActualISO();
+  const visitasHoy = visitasMesCache.filter(v => v.fecha === hoy);
+  const vhMed = visitasHoy.filter(v => v.entidadTipo === 'medico').length;
+  const vhFarm = visitasHoy.filter(v => v.entidadTipo === 'farmacia').length;
+
+  // Promedio de visitas por día hábil vs meta diaria
+  const promDia = dht > 0 ? (visitasMesCache.length / dht) : 0;
+  const metaDiaTotal = metaDiariaMed + metaDiariaFarm;
+
+  // Proyección de cierre: contactos distintos si se mantiene el ritmo actual
+  const proyMed = dht > 0 && totalContactosMed > 0 ? Math.min(100, Math.round((vMed / dht) * dhMes / totalContactosMed * 100)) : 0;
+  const proyFarm = dht > 0 && totalContactosFarm > 0 ? Math.min(100, Math.round((vFarm / dht) * dhMes / totalContactosFarm * 100)) : 0;
+
+  // Comparativo vs mes anterior al mismo día hábil del ciclo
+  const hayMesAnt = visitasMesAntCache.length > 0;
+  const distAntMed = new Set();
+  const distAntFarm = new Set();
+  for (const v of visitasMesAntCache) {
+    if (diasHabilesCicloHasta(v.fecha) > dht) continue;
+    if (v.entidadTipo === 'medico') distAntMed.add(v.entidadId);
+    else distAntFarm.add(v.entidadId);
+  }
+  const diffMed = vMed - distAntMed.size;
+  const diffFarm = vFarm - distAntFarm.size;
+
+  // ===== Top médicos sin visitar (por CUP) =====
+  const topSinVisitar = cupCache.length ? medicosCache
+    .filter(m => (visitasMap['medico-'+m.id] || 0) === 0)
+    .map(m => ({ m, cup: buscarCupPorMedico(m).reduce((s, r) => s + (r.total || 0), 0) }))
+    .filter(x => x.cup > 0)
+    .sort((a, b) => b.cup - a.cup)
+    .slice(0, 10) : [];
+
   return `
     <div style="background:var(--surface);border-radius:14px;padding:12px 14px;border:1.5px solid var(--border);margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:10px">
       <div style="flex:1">
@@ -604,6 +646,31 @@ function renderDashboard() {
       <div style="font-size:.78rem;color:var(--text2);margin-top:4px">% Total panel: <strong>${pctTotalMesFarm}%</strong> · Total: ${totalContactosFarm}</div>
     </div>
 
+    <!-- RITMO DEL MES -->
+    <div class="dash-section-title">Ritmo del mes</div>
+    <div class="dashboard-grid" style="margin-top:4px;margin-bottom:12px">
+      <div class="dash-card azul">
+        <div class="dash-label">${esMesActual ? '📅 Visitas hoy' : '📅 Visitas ' + fmtFecha(hoy)}</div>
+        <div class="dash-value">${visitasHoy.length}</div>
+        <div style="font-size:.72rem;color:var(--text2)">${vhMed} méd · ${vhFarm} farm</div>
+      </div>
+      <div class="dash-card resumen">
+        <div class="dash-label">⏱️ Promedio/día</div>
+        <div class="dash-value">${promDia.toFixed(1)}</div>
+        <div style="font-size:.72rem;color:var(--text2)">Meta ${metaDiaTotal}/día (${metaDiariaMed} M + ${metaDiariaFarm} F)</div>
+      </div>
+      <div class="dash-card naranja">
+        <div class="dash-label">📈 Proyección cierre</div>
+        <div class="dash-value">${proyMed}%</div>
+        <div style="font-size:.72rem;color:var(--text2)">Médicos · Farmacias ${proyFarm}%</div>
+      </div>
+      <div class="dash-card ${hayMesAnt ? (diffMed >= 0 ? 'verde' : 'rojo') : ''}">
+        <div class="dash-label">🆚 Vs. mes anterior</div>
+        <div class="dash-value">${hayMesAnt ? (diffMed >= 0 ? '▲' : '▼') + ' ' + Math.abs(diffMed) : '—'}</div>
+        <div style="font-size:.72rem;color:var(--text2)">${hayMesAnt ? `Méd al día ${dht} · Farm ${diffFarm >= 0 ? '▲' : '▼'} ${Math.abs(diffFarm)}` : 'Sin datos del mes anterior'}</div>
+      </div>
+    </div>
+
     <!-- SEGMENTOS H, C, P -->
     <div class="dash-section-title">Segmentos</div>
     <div class="dashboard-grid" style="margin-top:4px;margin-bottom:12px">
@@ -616,6 +683,26 @@ function renderDashboard() {
         </div>
       `).join('')}
     </div>
+
+    <!-- TOP MÉDICOS SIN VISITAR (POR CUP) -->
+    ${topSinVisitar.length ? `
+    <div class="dash-section-title">🎯 Top médicos sin visitar (mayor CUP)</div>
+    <div class="lista" style="margin-bottom:12px">
+      ${topSinVisitar.map((x, i) => `
+        <div class="list-item" data-action="open-medico" data-id="${x.m.id}">
+          <div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#4299e1,#3182ce);color:#fff;font-size:.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">${i + 1}</div>
+          <div class="list-info">
+            <div class="list-name">${esc(x.m.nombre)}</div>
+            <div class="list-meta">${esc(x.m.especialidad || '')}${x.m.ciudad ? ' · ' + esc(x.m.ciudad) : ''}</div>
+          </div>
+          <div style="text-align:right;flex-shrink:0">
+            <div style="font-weight:800;color:#2b6cb0">${x.cup}</div>
+            <div style="font-size:.68rem;color:var(--text2)">CUP</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+    ` : ''}
 
     <!-- ACCIONES RÁPIDAS -->
     <div class="dash-section-title">Acciones rápidas</div>
