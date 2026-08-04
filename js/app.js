@@ -34,11 +34,28 @@ const state = {
 };
 
 let usuarioActivo = null; // 'carlos' o 'esposa'
+let scrollPosGuardada = 0; // preserva scroll al abrir/cerrar modales
 
 let medicosCache = [];
 let farmaciasCache = [];
 let visitasMap = {}; // entidadTipo-id -> count
-const mesActual = mesActualISO();
+
+// Mes activo de trabajo: puede ser el mes actual o uno anterior seleccionado
+let mesActivo = localStorage.getItem('cobertura_mes_activo') || mesActualISO();
+window.cambiarMesActivo = function(mes) {
+  if (!mes || !/^\d{4}-\d{2}$/.test(mes)) return;
+  mesActivo = mes;
+  localStorage.setItem('cobertura_mes_activo', mes);
+  recargarDatos().then(() => renderApp());
+};
+
+// Devuelve la fecha de referencia para cálculos del mes activo
+function fechaReferenciaMesActivo() {
+  const actual = mesActualISO();
+  if (mesActivo === actual) return hoyISO();
+  const [y, m] = mesActivo.split('-').map(Number);
+  return new Date(y, m, 0).toISOString().slice(0, 10);
+}
 
 let cupCache = [];
 let dddCache = [];
@@ -171,10 +188,10 @@ async function recargarDatos() {
   state.dataSitMesLabels = sitLabelsCfg?.value || [];
   visitasMap = {};
   for (const m of medicosCache) {
-    visitasMap['medico-' + m.id] = await db.countVisitasEntidad(m.id, 'medico', mesActual);
+    visitasMap['medico-' + m.id] = await db.countVisitasEntidad(m.id, 'medico', mesActivo);
   }
   for (const f of farmaciasCache) {
-    visitasMap['farmacia-' + f.id] = await db.countVisitasEntidad(f.id, 'farmacia', mesActual);
+    visitasMap['farmacia-' + f.id] = await db.countVisitasEntidad(f.id, 'farmacia', mesActivo);
   }
 }
 
@@ -197,6 +214,10 @@ function renderApp() {
         el.setSelectionRange(selStart, selEnd);
       }
     }
+  }
+  // Restaurar scroll solo si no hay modal abierto
+  if (!state.modal && scrollPosGuardada > 0) {
+    setTimeout(() => window.scrollTo(0, scrollPosGuardada), 0);
   }
 }
 
@@ -276,14 +297,14 @@ async function handleAction(action, data, e) {
       else state.ciudadFarm = data.ciudad;
       renderApp(); break;
     }
-    case 'open-medico': state.modal = {type:'medico', id: parseInt(data.id)}; renderApp(); break;
-    case 'open-farmacia': state.modal = {type:'farmacia', id: parseInt(data.id)}; renderApp(); break;
-    case 'add-visita-med': state.modal = {type:'calendario', entidadId: parseInt(data.id), entidadTipo:'medico'}; renderApp(); break;
-    case 'add-visita-farm': state.modal = {type:'calendario', entidadId: parseInt(data.id), entidadTipo:'farmacia'}; renderApp(); break;
-    case 'nota-rapida': state.modal = {type:'nota', medicoId: parseInt(data.id), nombre: data.nombre}; renderApp(); break;
-    case 'editar-medico': state.modal = {type:'editar-medico', id: parseInt(data.id)}; renderApp(); break;
-    case 'editar-farmacia': state.modal = {type:'editar-farmacia', id: parseInt(data.id)}; renderApp(); break;
-    case 'nota-rapida-farm': state.modal = {type:'nota', farmaciaId: parseInt(data.id), nombre: data.nombre}; renderApp(); break;
+    case 'open-medico': scrollPosGuardada = window.scrollY; state.modal = {type:'medico', id: parseInt(data.id)}; renderApp(); break;
+    case 'open-farmacia': scrollPosGuardada = window.scrollY; state.modal = {type:'farmacia', id: parseInt(data.id)}; renderApp(); break;
+    case 'add-visita-med': calState = getCalStateFromMesActivo(); state.modal = {type:'calendario', entidadId: parseInt(data.id), entidadTipo:'medico'}; renderApp(); break;
+    case 'add-visita-farm': calState = getCalStateFromMesActivo(); state.modal = {type:'calendario', entidadId: parseInt(data.id), entidadTipo:'farmacia'}; renderApp(); break;
+    case 'nota-rapida': scrollPosGuardada = window.scrollY; state.modal = {type:'nota', medicoId: parseInt(data.id), nombre: data.nombre}; renderApp(); break;
+    case 'editar-medico': scrollPosGuardada = window.scrollY; state.modal = {type:'editar-medico', id: parseInt(data.id)}; renderApp(); break;
+    case 'editar-farmacia': scrollPosGuardada = window.scrollY; state.modal = {type:'editar-farmacia', id: parseInt(data.id)}; renderApp(); break;
+    case 'nota-rapida-farm': scrollPosGuardada = window.scrollY; state.modal = {type:'nota', farmaciaId: parseInt(data.id), nombre: data.nombre}; renderApp(); break;
     case 'close-modal': state.modal = null; renderApp(); break;
     case 'guardar-visita': await guardarVisita(data); break;
     case 'guardar-nota': await guardarNota(); break;
@@ -304,7 +325,7 @@ async function handleAction(action, data, e) {
     case 'nueva-nota': state.modal = {type:'nota'}; renderApp(); break;
     case 'nueva-tarea': state.modal = {type:'tarea'}; renderApp(); break;
     case 'guardar-tarea': await guardarTarea(); break;
-    case 'open-nota-detalle': state.modal = {type:'nota-detalle', id: parseInt(data.id)}; renderApp(); break;
+    case 'open-nota-detalle': scrollPosGuardada = window.scrollY; state.modal = {type:'nota-detalle', id: parseInt(data.id)}; renderApp(); break;
     case 'editar-nota': state.modal = {type:'editar-nota', id: parseInt(data.id)}; renderApp(); break;
     case 'eliminar-nota': await eliminarNota(parseInt(data.id)); break;
     case 'guardar-nota-editada': await guardarNotaEditada(data); break;
@@ -315,7 +336,7 @@ async function handleAction(action, data, e) {
     case 'cal-select': calSelect(data); break;
     case 'cal-month': calMonth(parseInt(data.delta)); break;
     case 'cal-today': calToday(); break;
-    case 'open-dia': state.modal = {type:'dia', fecha: data.fecha}; renderApp(); break;
+    case 'open-dia': scrollPosGuardada = window.scrollY; state.modal = {type:'dia', fecha: data.fecha}; renderApp(); break;
     case 'editar-visita-fecha': {
       state.modal = {type:'editar-visita', id: parseInt(data.id), fecha: data.fecha};
       renderApp();
@@ -470,11 +491,24 @@ function setupEvents() {
 
 // ===== DASHBOARD =====
 function renderDashboard() {
-  const hoy = hoyISO();
+  const hoy = fechaReferenciaMesActivo();
+  const [yAct, mAct] = mesActivo.split('-').map(Number);
   const dht = diasHabilesCicloHasta(hoy);
-  const dhMes = diasHabilesMes(new Date().getFullYear(), new Date().getMonth());
+  const dhMes = diasHabilesMes(yAct, mAct - 1);
   const nombresMes = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-  const mesActual = nombresMes[new Date().getMonth()];
+  const mesNombre = nombresMes[mAct - 1];
+
+  // Selector de mes activo (últimos 12 meses)
+  const opcionesMeses = ultimosMeses(mesActualISO(), 12).reverse();
+  const selectorMes = `
+    <select class="form-input" style="padding:4px 8px;font-size:.8rem;width:auto" onchange="window.cambiarMesActivo(this.value)">
+      ${opcionesMeses.map(m => {
+        const [yy, mm] = m.split('-').map(Number);
+        const label = `${nombresMes[mm-1]} ${yy}`;
+        return `<option value="${m}" ${m === mesActivo ? 'selected' : ''}>${esc(label)}</option>`;
+      }).join('')}
+    </select>
+  `;
 
   // Totales del panel cargado (contactos únicos)
   const totalContactosMed = medicosCache.length || 180;
@@ -524,14 +558,15 @@ function renderDashboard() {
   }).length;
 
   return `
-    <div style="background:var(--surface);border-radius:14px;padding:12px 14px;border:1.5px solid var(--border);margin-bottom:12px;display:flex;justify-content:space-between;align-items:center">
-      <div>
-        <div style="font-size:.78rem;color:var(--text2)">Ciclo ${mesActual} ${new Date().getFullYear()}</div>
-        <div style="font-size:.95rem;font-weight:700">📅 Día ${dht} de ${dhMes} hábiles</div>
+    <div style="background:var(--surface);border-radius:14px;padding:12px 14px;border:1.5px solid var(--border);margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:10px">
+      <div style="flex:1">
+        <div style="font-size:.78rem;color:var(--text2);margin-bottom:4px">Ciclo activo</div>
+        ${selectorMes}
+        <div style="font-size:.95rem;font-weight:700;margin-top:6px">📅 Día ${dht} de ${dhMes} hábiles</div>
       </div>
       <div style="text-align:right">
         <div style="font-size:.78rem;color:var(--text2)">Hoy</div>
-        <div style="font-size:.95rem;font-weight:700">${fmtFecha(hoy)}</div>
+        <div style="font-size:.95rem;font-weight:700">${fmtFecha(hoyISO())}</div>
       </div>
     </div>
 
@@ -984,12 +1019,7 @@ function renderResumenPanel() {
 }
 
 // ===== MEDICOS =====
-function renderMedicos() {
-  const subTabs = usuarioActivo === 'carlos'
-    ? ['Panel','H','C','P','M','E','PS','Brick','Deblax']
-    : ['Panel','H','C','P','M','E','PS','Brick'];
-  const tabsHtml = subTabs.map(t => `<button class="sub-tab ${state.medicoSubTab===t?'active':''}" data-action="set-subtab" data-tab="${t}" data-target="med">${t}</button>`).join('');
-
+function getMedicosFiltrados() {
   let filtrados = medicosCache.filter(m => {
     if (m.ciudad && !m.ciudad.toUpperCase().includes(state.ciudadMed)) return false;
     if (state.medicoSubTab === 'Panel') return true;
@@ -1043,6 +1073,45 @@ function renderMedicos() {
     return a.nombre.localeCompare(b.nombre);
   });
 
+  return filtrados;
+}
+
+function renderMedicosLista(filtrados) {
+  if (state.medicoSubTab === 'Brick') {
+    const porBrick = {};
+    for (const m of filtrados) { const b = m.brick || 'Sin brick'; if(!porBrick[b]) porBrick[b]=[]; porBrick[b].push(m); }
+    const bricks = Object.keys(porBrick).sort();
+    return `
+      ${bricks.map(b => {
+        const zona = porBrick[b][0]?.brickZona || '';
+        const brickTitle = zona ? `BRICK ${esc(b)} - ${esc(zona)}` : `BRICK ${esc(b)}`;
+        return `
+        <div class="brick-group">
+          <div class="brick-title">${brickTitle}</div>
+          <div class="lista">${porBrick[b].map(m => renderMedicoItem(m)).join('')}</div>
+        </div>
+        `;
+      }).join('')}
+      ${filtrados.length===0?'<div class="empty-state">No hay médicos</div>':''}
+    `;
+  }
+
+  return `
+    <div class="lista">
+      ${filtrados.map(m => renderMedicoItem(m)).join('')}
+    </div>
+    ${filtrados.length===0?'<div class="empty-state">No hay médicos</div>':''}
+  `;
+}
+
+function renderMedicos() {
+  const subTabs = usuarioActivo === 'carlos'
+    ? ['Panel','H','C','P','M','E','PS','Brick','Deblax']
+    : ['Panel','H','C','P','M','E','PS','Brick'];
+  const tabsHtml = subTabs.map(t => `<button class="sub-tab ${state.medicoSubTab===t?'active':''}" data-action="set-subtab" data-tab="${t}" data-target="med">${t}</button>`).join('');
+
+  const filtrados = getMedicosFiltrados();
+
   // Especialidades únicas para dropdown
   const especialidades = ['Todas', ...[...new Set(medicosCache.map(m => m.especialidad).filter(Boolean))].sort()];
   const espHtml = `<select class="filter-select" onchange="window.cambiarEsp(this.value)">
@@ -1061,35 +1130,6 @@ function renderMedicos() {
     </div>
   `;
 
-  if (state.medicoSubTab === 'Brick') {
-    const porBrick = {};
-    for (const m of filtrados) { const b = m.brick || 'Sin brick'; if(!porBrick[b]) porBrick[b]=[]; porBrick[b].push(m); }
-    const bricks = Object.keys(porBrick).sort();
-    return `
-      <div class="city-filters">
-        <button class="city-btn ${state.ciudadMed==='BOGOTÁ'?'active':''}" data-action="set-ciudad" data-ciudad="BOGOTÁ" data-target="med">BOGOTÁ</button>
-        <button class="city-btn ${state.ciudadMed==='IBAGUÉ'?'active':''}" data-action="set-ciudad" data-ciudad="IBAGUÉ" data-target="med">IBAGUÉ</button>
-      </div>
-      <div class="sub-tabs">${tabsHtml}</div>
-      <div class="extra-filters">
-        ${espHtml}
-        <div class="estado-filters">${estadoHtml}</div>
-      </div>
-      ${searchHtml}
-      ${bricks.map(b => {
-        const zona = porBrick[b][0]?.brickZona || '';
-        const brickTitle = zona ? `BRICK ${esc(b)} - ${esc(zona)}` : `BRICK ${esc(b)}`;
-        return `
-        <div class="brick-group">
-          <div class="brick-title">${brickTitle}</div>
-          <div class="lista">${porBrick[b].map(m => renderMedicoItem(m)).join('')}</div>
-        </div>
-        `;
-      }).join('')}
-      ${filtrados.length===0?'<div class="empty-state">No hay médicos</div>':''}
-    `;
-  }
-
   return `
     <div class="city-filters">
       <button class="city-btn ${state.ciudadMed==='BOGOTÁ'?'active':''}" data-action="set-ciudad" data-ciudad="BOGOTÁ" data-target="med">BOGOTÁ</button>
@@ -1101,10 +1141,7 @@ function renderMedicos() {
       <div class="estado-filters">${estadoHtml}</div>
     </div>
     ${searchHtml}
-    <div class="lista">
-      ${filtrados.map(m => renderMedicoItem(m)).join('')}
-    </div>
-    ${filtrados.length===0?'<div class="empty-state">No hay médicos</div>':''}
+    <div id="lista-med">${renderMedicosLista(filtrados)}</div>
   `;
 }
 
@@ -1139,29 +1176,36 @@ window.buscarMed = function(v) {
   state.busquedaMed = v;
   if (busquedaMedTimer) clearTimeout(busquedaMedTimer);
   busquedaMedTimer = setTimeout(() => {
-    renderApp();
-    const el = $('busqueda-med');
-    if (el) { el.focus(); el.setSelectionRange(el.value.length, el.value.length); }
-  }, 200);
+    const listaEl = $('lista-med');
+    if (listaEl) {
+      listaEl.innerHTML = renderMedicosLista(getMedicosFiltrados());
+      attachHandlers();
+    } else {
+      renderApp();
+      const el = $('busqueda-med');
+      if (el) { el.focus(); el.setSelectionRange(el.value.length, el.value.length); }
+    }
+  }, 150);
 };
 window.buscarFarm = function(v) {
   state.busquedaFarm = v;
   if (busquedaFarmTimer) clearTimeout(busquedaFarmTimer);
   busquedaFarmTimer = setTimeout(() => {
-    renderApp();
-    const el = $('busqueda-farm');
-    if (el) { el.focus(); el.setSelectionRange(el.value.length, el.value.length); }
-  }, 200);
+    const listaEl = $('lista-farm');
+    if (listaEl) {
+      listaEl.innerHTML = renderFarmaciasLista(getFarmaciasFiltradas());
+      attachHandlers();
+    } else {
+      renderApp();
+      const el = $('busqueda-farm');
+      if (el) { el.focus(); el.setSelectionRange(el.value.length, el.value.length); }
+    }
+  }, 150);
 };
 window.cambiarEsp = function(v) { state.especialidadMed = v; renderApp(); };
 
 // ===== FARMACIAS =====
-function renderFarmacias() {
-  const subTabs = usuarioActivo === 'carlos'
-    ? ['Panel','Brick','Adium tu Aliado']
-    : ['Panel','Brick'];
-  const tabsHtml = subTabs.map(t => `<button class="sub-tab ${state.farmaciaSubTab===t?'active':''}" data-action="set-subtab" data-tab="${t}" data-target="farm">${t}</button>`).join('');
-
+function getFarmaciasFiltradas() {
   let filtrados = farmaciasCache.filter(f => {
     if (f.ciudad && !f.ciudad.toUpperCase().includes(state.ciudadFarm)) return false;
     if (state.farmaciaSubTab === 'Adium tu Aliado') return f.adium === true;
@@ -1188,29 +1232,15 @@ function renderFarmacias() {
   }
 
   filtrados.sort((a,b) => a.nombre.localeCompare(b.nombre));
+  return filtrados;
+}
 
-  const estadosFarm = ['Todos','Visitadas','Pendientes'];
-  const estadoFarmHtml = estadosFarm.map(e =>
-    `<button class="estado-btn ${state.estadoFarm===e?'active':''}" data-action="set-estado-farm" data-estado="${e}">${e}</button>`
-  ).join('');
-
+function renderFarmaciasLista(filtrados) {
   if (state.farmaciaSubTab === 'Brick') {
     const porBrick = {};
     for (const f of filtrados) { const b = f.brick || 'Sin brick'; if(!porBrick[b]) porBrick[b]=[]; porBrick[b].push(f); }
     const bricks = Object.keys(porBrick).sort();
     return `
-      <div class="city-filters">
-        <button class="city-btn ${state.ciudadFarm==='BOGOTÁ'?'active':''}" data-action="set-ciudad" data-ciudad="BOGOTÁ" data-target="farm">BOGOTÁ</button>
-        <button class="city-btn ${state.ciudadFarm==='IBAGUÉ'?'active':''}" data-action="set-ciudad" data-ciudad="IBAGUÉ" data-target="farm">IBAGUÉ</button>
-      </div>
-      <div class="sub-tabs">${tabsHtml}</div>
-      <div class="extra-filters">
-        <div class="estado-filters">${estadoFarmHtml}</div>
-      </div>
-      <div class="search-wrap">
-        <input class="search-box" id="busqueda-farm" placeholder="Buscar farmacia..." value="${esc(state.busquedaFarm)}" oninput="window.buscarFarm(this.value)">
-        ${state.busquedaFarm ? `<button class="search-clear" data-action="limpiar-busqueda-farm" aria-label="Limpiar búsqueda">✕</button>` : ''}
-      </div>
       ${bricks.map(b => {
         const zona = porBrick[b][0]?.brickZona || '';
         const brickTitle = zona ? `BRICK ${esc(b)} - ${esc(zona)}` : `BRICK ${esc(b)}`;
@@ -1226,6 +1256,27 @@ function renderFarmacias() {
   }
 
   return `
+    <div class="lista">
+      ${filtrados.map(f => renderFarmaciaItem(f)).join('')}
+    </div>
+    ${filtrados.length===0?'<div class="empty-state">No hay farmacias</div>':''}
+  `;
+}
+
+function renderFarmacias() {
+  const subTabs = usuarioActivo === 'carlos'
+    ? ['Panel','Brick','Adium tu Aliado']
+    : ['Panel','Brick'];
+  const tabsHtml = subTabs.map(t => `<button class="sub-tab ${state.farmaciaSubTab===t?'active':''}" data-action="set-subtab" data-tab="${t}" data-target="farm">${t}</button>`).join('');
+
+  const filtrados = getFarmaciasFiltradas();
+
+  const estadosFarm = ['Todos','Visitadas','Pendientes'];
+  const estadoFarmHtml = estadosFarm.map(e =>
+    `<button class="estado-btn ${state.estadoFarm===e?'active':''}" data-action="set-estado-farm" data-estado="${e}">${e}</button>`
+  ).join('');
+
+  return `
     <div class="city-filters">
       <button class="city-btn ${state.ciudadFarm==='BOGOTÁ'?'active':''}" data-action="set-ciudad" data-ciudad="BOGOTÁ" data-target="farm">BOGOTÁ</button>
       <button class="city-btn ${state.ciudadFarm==='IBAGUÉ'?'active':''}" data-action="set-ciudad" data-ciudad="IBAGUÉ" data-target="farm">IBAGUÉ</button>
@@ -1238,10 +1289,7 @@ function renderFarmacias() {
       <input class="search-box" id="busqueda-farm" placeholder="Buscar farmacia..." value="${esc(state.busquedaFarm)}" oninput="window.buscarFarm(this.value)">
       ${state.busquedaFarm ? `<button class="search-clear" data-action="limpiar-busqueda-farm" aria-label="Limpiar búsqueda">✕</button>` : ''}
     </div>
-    <div class="lista">
-      ${filtrados.map(f => renderFarmaciaItem(f)).join('')}
-    </div>
-    ${filtrados.length===0?'<div class="empty-state">No hay farmacias</div>':''}
+    <div id="lista-farm">${renderFarmaciasLista(filtrados)}</div>
   `;
 }
 
@@ -1460,7 +1508,7 @@ window.handleExcelDataFile = async function(input) {
 
 async function doExport() {
   try {
-    await sheets.exportarVisitasMes(mesActualISO());
+    await sheets.exportarVisitasMes(mesActivo);
     toast('CSV descargado', 'ok');
   } catch (e) {
     toast('Error: ' + e.message, 'err');
@@ -1712,7 +1760,7 @@ function loadModalVisitas(id, tipo) {
   db.visitasPorEntidad(id, tipo).then(vs => {
     const el = $('modal-visitas');
     if (!el) return;
-    const mesVs = vs.filter(v => v.mes === mesActual);
+    const mesVs = vs.filter(v => v.mes === mesActivo);
     if (mesVs.length === 0) { el.innerHTML = ''; return; }
     el.innerHTML = `
       <div class="form-group" style="margin-top:12px">
@@ -1795,7 +1843,11 @@ function renderFarmaciaModal(id) {
 }
 
 // Calendario modal state
-let calState = {y: new Date().getFullYear(), m: new Date().getMonth()};
+function getCalStateFromMesActivo() {
+  const [y, m] = mesActivo.split('-').map(Number);
+  return { y, m: m - 1 };
+}
+let calState = getCalStateFromMesActivo();
 function renderCalendarioModal() {
   const first = new Date(calState.y, calState.m, 1).getDay();
   const dim = new Date(calState.y, calState.m + 1, 0).getDate();
@@ -1900,10 +1952,43 @@ function renderNotaDetalleContenido(n) {
   }
   const fechaCreado = n.creado ? n.creado.slice(0, 10) : null;
   const mostrarTitulo = n.titulo && (n.tipo === 'tarea' || (!n.medicoId && !n.farmaciaId));
+
+  // Detalle completo para Altas
+  let detalleAlta = '';
+  if (n.tipo === 'alta') {
+    const campos = [
+      ['Nombre', n.nombreAlta],
+      ['CC', n.ccAlta],
+      ['Celular', n.celularAlta],
+      ['Email', n.emailAlta],
+      ['Especialidad', n.especialidadAlta],
+      ['Ciudad', n.ciudadAlta],
+      ['Dirección', n.direccionAlta],
+      ['Observaciones', n.observacionesAlta]
+    ];
+    detalleAlta = campos.filter(([, v]) => v).map(([k, v]) =>
+      `<div style="margin-bottom:8px"><span class="text-sm text-secondary">${k}</span><div class="selectable-text">${esc(v)}</div></div>`
+    ).join('');
+  }
+
+  // Detalle completo para Bajas
+  let detalleBaja = '';
+  if (n.tipo === 'baja') {
+    const campos = [
+      ['Nombre', n.nombreBaja],
+      ['Motivo', n.motivoBaja]
+    ];
+    detalleBaja = campos.filter(([, v]) => v).map(([k, v]) =>
+      `<div style="margin-bottom:8px"><span class="text-sm text-secondary">${k}</span><div class="selectable-text">${esc(v)}</div></div>`
+    ).join('');
+  }
+
   return `
     <div class="nota-detalle-badge">${tipoBadge}</div>
     ${mostrarTitulo ? `<div class="nota-detalle-titulo">${esc(n.titulo)}</div>` : ''}
     <div class="nota-detalle-texto">${esc(n.texto)}</div>
+    ${detalleAlta}
+    ${detalleBaja}
     ${propietario}
     <div class="nota-detalle-meta">📅 Creado: ${fechaCreado ? fmtFecha(fechaCreado) : '—'}</div>
     ${n.fecha ? `<div class="nota-detalle-meta">⏰ Recordatorio: ${fmtFecha(n.fecha)}</div>` : ''}
@@ -2236,7 +2321,7 @@ window.handleExcelFile = async function(input) {
 // ===== MODAL DETALLE POR DÍA =====
 function renderDiaModal(fecha) {
   setTimeout(async () => {
-    const vs = await db.visitasDelMes(mesActual);
+    const vs = await db.visitasDelMes(mesActivo);
     const diaVs = vs.filter(v => v.fecha === fecha).sort((a,b) => b.creado.localeCompare(a.creado));
     const el = $('dia-detalle');
     if (!el) return;
@@ -2280,7 +2365,7 @@ function renderDiaModal(fecha) {
 
 // ===== VISTA RESUMEN POR DÍA =====
 function renderResumenDias() {
-  db.visitasDelMes(mesActual).then(vs => {
+  db.visitasDelMes(mesActivo).then(vs => {
     const el = $('resumen-dias-lista');
     if (!el) return;
     if (vs.length === 0) { el.innerHTML = '<div class="empty-state">Sin visitas este mes</div>'; return; }
