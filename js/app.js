@@ -2005,9 +2005,15 @@ function calToday() {
 }
 
 async function guardarVisita(data) {
+  const eid = parseInt(data.entidadId);
+  const entidad = data.entidadTipo === 'medico'
+    ? medicosCache.find(m => m.id === eid)
+    : farmaciasCache.find(f => f.id === eid);
   await db.add('visitas', {
-    entidadId: parseInt(data.entidadId),
+    entidadId: eid,
     entidadTipo: data.entidadTipo,
+    entidadCedula: entidad?.cedula ? String(entidad.cedula) : '',
+    entidadNombre: entidad?.nombre || '',
     fecha: data.fecha,
     mes: data.fecha.slice(0,7),
     notas: '',

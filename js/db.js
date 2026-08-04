@@ -66,6 +66,43 @@ class CoberturaDB {
   async visitasPorEntidad(eid, etipo) { const all = await this.getByIndex('visitas', 'entidadId', eid); return all.filter(v => v.entidadTipo === etipo).sort((a, b) => b.fecha.localeCompare(a.fecha)); }
   async reemplazarMedicos(arr) { await this.clear('medicos'); for (const x of arr) await this.add('medicos', x); }
   async reemplazarFarmacias(arr) { await this.clear('farmacias'); for (const x of arr) await this.add('farmacias', x); }
+  // Actualiza el panel sin romper las visitas: conserva el id de los médicos que ya
+  // existen (misma cédula) y solo agrega los nuevos. Los que salen del panel se eliminan
+  // de la lista, pero sus visitas quedan guardadas en la base.
+  async fusionarMedicos(arr) {
+    const actuales = await this.getAll('medicos');
+    const porCedula = {};
+    for (const m of actuales) { if (m.cedula) porCedula[String(m.cedula)] = m.id; }
+    const cedulasNuevas = new Set();
+    for (const x of arr) {
+      const ced = x.cedula != null && x.cedula !== '' ? String(x.cedula) : '';
+      if (ced) cedulasNuevas.add(ced);
+      const idExistente = ced ? porCedula[ced] : undefined;
+      if (idExistente != null) await this.put('medicos', { ...x, id: idExistente });
+      else await this.add('medicos', x);
+    }
+    for (const m of actuales) {
+      if (m.cedula && !cedulasNuevas.has(String(m.cedula))) await this.delete('medicos', m.id);
+    }
+  }
+  // Igual que fusionarMedicos pero por nombre (las farmacias no tienen cédula)
+  async fusionarFarmacias(arr) {
+    const norm = s => (s || '').toString().normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+    const actuales = await this.getAll('farmacias');
+    const porNombre = {};
+    for (const f of actuales) porNombre[norm(f.nombre)] = f.id;
+    const nombresNuevos = new Set();
+    for (const x of arr) {
+      const n = norm(x.nombre);
+      nombresNuevos.add(n);
+      const idExistente = porNombre[n];
+      if (idExistente != null) await this.put('farmacias', { ...x, id: idExistente });
+      else await this.add('farmacias', x);
+    }
+    for (const f of actuales) {
+      if (!nombresNuevos.has(norm(f.nombre))) await this.delete('farmacias', f.id);
+    }
+  }
   async reemplazarCUP(arr) { await this.clear('cup'); for (const x of arr) await this.add('cup', x); }
   async reemplazarDDD(arr) { await this.clear('ddd'); for (const x of arr) await this.add('ddd', x); }
   async reemplazarSIT(arr) { await this.clear('sit'); for (const x of arr) await this.add('sit', x); }

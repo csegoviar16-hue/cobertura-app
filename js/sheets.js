@@ -114,8 +114,8 @@ class SheetsSync {
     }
     const farmacias = this.parseFarmacias(farmRows);
 
-    await db.reemplazarMedicos(medicos);
-    await db.reemplazarFarmacias(farmacias);
+    await db.fusionarMedicos(medicos);
+    await db.fusionarFarmacias(farmacias);
     await db.setConfig('lastSync', new Date().toISOString());
 
     return { medicos: medicos.length, farmacias: farmacias.length };

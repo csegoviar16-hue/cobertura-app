@@ -4007,8 +4007,8 @@ const PANEL_DATA = {
 };
 
 async function cargarPanelLocal() {
-  await db.reemplazarMedicos(PANEL_DATA.medicos);
-  await db.reemplazarFarmacias(PANEL_DATA.farmacias);
+  await db.fusionarMedicos(PANEL_DATA.medicos);
+  await db.fusionarFarmacias(PANEL_DATA.farmacias);
   await db.setConfig('panelVersion', PANEL_DATA.panelVersion || '');
   await db.setConfig('lastSync', new Date().toISOString());
 }
@@ -4069,8 +4069,8 @@ async function procesarExcelFile(arrayBuffer) {
     };
   }).filter(Boolean);
   
-  await db.reemplazarMedicos(meds);
-  await db.reemplazarFarmacias(farms);
+  await db.fusionarMedicos(meds);
+  await db.fusionarFarmacias(farms);
   await db.setConfig('lastSync', new Date().toISOString());
   return {medicos: meds.length, farmacias: farms.length};
 }
