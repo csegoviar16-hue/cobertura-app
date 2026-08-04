@@ -215,9 +215,11 @@ function renderApp() {
       }
     }
   }
-  // Restaurar scroll solo si no hay modal abierto
+  // Restaurar scroll solo si no hay modal abierto (una sola vez, luego se limpia)
   if (!state.modal && scrollPosGuardada > 0) {
-    setTimeout(() => window.scrollTo(0, scrollPosGuardada), 0);
+    const pos = scrollPosGuardada;
+    scrollPosGuardada = 0;
+    setTimeout(() => window.scrollTo(0, pos), 0);
   }
 }
 
@@ -417,12 +419,14 @@ async function handleAction(action, data, e) {
     case 'toggle-data-expand': {
       const { tipo, key } = data;
       state.dataExpanded[tipo][key] = !state.dataExpanded[tipo][key];
+      scrollPosGuardada = window.scrollY; // preservar posición al expandir/colapsar
       renderApp();
       break;
     }
     case 'toggle-data-filter': {
       const f = data.filter;
       state.dataFiltersOpen[f] = !state.dataFiltersOpen[f];
+      scrollPosGuardada = window.scrollY;
       renderApp();
       break;
     }
