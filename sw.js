@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cobertura-v21';
+const CACHE_NAME = 'cobertura-v22';
 const STATIC_ASSETS = [
   './','./index.html','./css/style.css',
   './lib/xlsx.full.min.js',

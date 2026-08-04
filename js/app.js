@@ -1449,6 +1449,7 @@ function renderConfig() {
     <div style="background:var(--surface);border-radius:12px;padding:16px;border:1px solid var(--border);margin-bottom:12px">
       <h3 style="font-size:.9rem;margin-bottom:12px">💾 Backup JSON</h3>
       <button class="btn btn-outline mb-1" data-action="backup">📤 Exportar backup</button>
+      <button class="btn btn-outline mb-1" onclick="window.cargarBackupAgosto()">📥 Restaurar backup del 3 de agosto (384 visitas)</button>
       <button class="btn btn-outline mb-1" onclick="window.cargarBackupInicial()">📥 Cargar backup inicial de julio</button>
       <input type="file" id="cfg-backup-file" accept=".json" style="margin-bottom:8px" onchange="window.importarBackup(this)">
       <div class="text-xs text-secondary">Seleccioná un .json para restaurar</div>
@@ -1644,6 +1645,20 @@ window.importarBackup = async function(input) {
     console.error(e);
   }
   input.value = '';
+};
+
+window.cargarBackupAgosto = async function() {
+  try {
+    const res = await fetch('backup-2026-08-03.json');
+    if (!res.ok) throw new Error('No se encontró el archivo de backup del 3 de agosto');
+    const data = await res.json();
+    if (confirm(`Restaurar backup del 3 de agosto?\n${data.medicos.length} médicos, ${data.farmacias.length} farmacias, ${data.visitas.length} visitas`)) {
+      await aplicarBackupData(data);
+    }
+  } catch (e) {
+    toast('Error: ' + e.message, 'err');
+    console.error(e);
+  }
 };
 
 window.cargarBackupInicial = async function() {
