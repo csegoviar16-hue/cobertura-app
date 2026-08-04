@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cobertura-v20';
+const CACHE_NAME = 'cobertura-v21';
 const STATIC_ASSETS = [
   './','./index.html','./css/style.css',
   './lib/xlsx.full.min.js',
@@ -15,13 +15,35 @@ self.addEventListener('fetch', e => {
   const { request } = e;
   const url = new URL(request.url);
 
-  // Navegación: siempre servir index.html (SPA)
+  // Navegación: network-first para siempre traer la versión nueva
   if (request.mode === 'navigate') {
-    e.respondWith(caches.match('./index.html').then(cached => cached || fetch('./index.html')));
+    e.respondWith(
+      fetch(request)
+        .then(res => {
+          const clone = res.clone();
+          caches.open(CACHE_NAME).then(c => c.put('./index.html', clone));
+          return res;
+        })
+        .catch(() => caches.match('./index.html'))
+    );
     return;
   }
 
   if (url.origin === self.location.origin) {
+    // JS y CSS: network-first para actualizaciones rápidas
+    if (url.pathname.endsWith('.js') || url.pathname.endsWith('.css')) {
+      e.respondWith(
+        fetch(request)
+          .then(res => {
+            const clone = res.clone();
+            caches.open(CACHE_NAME).then(c => c.put(request, clone));
+            return res;
+          })
+          .catch(() => caches.match(request))
+      );
+      return;
+    }
+    // Resto: cache-first
     e.respondWith(caches.match(request).then(cached => cached || fetch(request).then(res => {
       return caches.open(CACHE_NAME).then(c => { c.put(request, res.clone()); return res; });
     })));
