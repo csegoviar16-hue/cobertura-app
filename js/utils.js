@@ -34,6 +34,14 @@ function obtenerSegmentos(m){ const segs=[]; if(m.segmento){ const p=m.segmento.
 function quitarTildes(s){ if(!s) return ''; return s.toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim(); }
 function tokenizarNombre(s){ return quitarTildes(s).split(/\s+/).filter(Boolean); }
 function nombresCoinciden(a,b){ const ta=tokenizarNombre(a); const tb=tokenizarNombre(b); if(!ta.length||!tb.length) return false; const sa=new Set(ta), sb=new Set(tb); const inter=new Set([...sa].filter(x=>sb.has(x))); return inter.size>=3 || (inter.size>=2 && inter.size>=Math.min(sa.size,sb.size)-1); }
+// Versión estricta para cruzar data (CUP) contra el panel: exige que TODOS los tokens del nombre
+// más corto tengan correspondencia en el otro (exacta o casi igual). Evita falsos positivos tipo
+// "Hernan Rodriguez Acosta" vs "Acosta Rodriguez Nohora Arlene" (comparten 2 apellidos pero son
+// personas distintas), pero tolera errores de digitación/codificación de la data fuente
+// ("PATI#O" vs "Patiño", "Zavala" vs "Savala", "Ascencio" vs "Ascensio").
+function distanciaEdicion(a,b){ const m=a.length,n=b.length; if(!m) return n; if(!n) return m; let prev=Array.from({length:n+1},(_,j)=>j); for(let i=1;i<=m;i++){ const cur=[i]; for(let j=1;j<=n;j++) cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1)); prev=cur; } return prev[n]; }
+function tokensSimilares(x,y){ if(x===y) return true; const d=distanciaEdicion(x,y); return d<=(Math.max(x.length,y.length)>=5?2:1); }
+function nombresCoincidenEstricto(a,b){ const ta=tokenizarNombre(a), tb=tokenizarNombre(b); if(ta.length<2||tb.length<2) return false; const corto=ta.length<=tb.length?ta:tb, largo=ta.length<=tb.length?tb:ta; return corto.every(t=>largo.some(u=>tokensSimilares(t,u))); }
 let customBricksMap = {};
 function getBrickZona(brick){ if(!brick) return ''; return customBricksMap[brick] || (typeof BRICK_ZONA !== 'undefined' ? BRICK_ZONA[brick] : '') || ''; }
 const FARMACIAS_ADIUM_NOMBRES = [

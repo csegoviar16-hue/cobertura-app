@@ -1939,7 +1939,7 @@ function renderMedicoModal(id) {
 
 function buscarCupPorMedico(m) {
   if (!m || !m.nombre || !cupCache.length) return [];
-  return cupCache.filter(row => nombresCoinciden(row.medico, m.nombre));
+  return cupCache.filter(row => nombresCoincidenEstricto(row.medico, m.nombre));
 }
 
 function loadModalCUP(id) {
