@@ -531,6 +531,7 @@ function setupEvents() {
 // ===== DASHBOARD =====
 function renderDashboard() {
   const hoy = fechaReferenciaMesActivo();
+  const medsPanel = medicosCache.filter(m => !m.fueraDePanel); // solo panel activo
   const [yAct, mAct] = mesActivo.split('-').map(Number);
   const dht = diasHabilesCicloHasta(hoy);
   const dhMes = diasHabilesMes(yAct, mAct - 1);
@@ -550,7 +551,7 @@ function renderDashboard() {
   `;
 
   // Totales del panel cargado (contactos únicos)
-  const totalContactosMed = medicosCache.length || 180;
+  const totalContactosMed = medsPanel.length || 180;
   const totalContactosFarm = farmaciasCache.length || 60;
 
   // Meta diaria según días hábiles del mes (recalcular si < 20 días)
@@ -558,7 +559,7 @@ function renderDashboard() {
   const metaDiariaFarm = dhMes >= 20 ? 3 : Math.max(1, Math.round(totalContactosFarm / dhMes));
 
   // Visitas totales (entidades distintas visitadas en el mes actual)
-  const vMed = medicosCache.filter(m => (visitasMap['medico-'+m.id]||0) > 0).length;
+  const vMed = medsPanel.filter(m => (visitasMap['medico-'+m.id]||0) > 0).length;
   const vFarm = farmaciasCache.filter(f => (visitasMap['farmacia-'+f.id]||0) > 0).length;
 
   // Meta acumulada al día (nunca supera el total de contactos del panel)
@@ -579,7 +580,7 @@ function renderDashboard() {
 
   // Segmentos H, C, P (cobertura sobre total del segmento, mínimo 95%)
   const segData = ['H','C','P'].map(seg => {
-    const lista = medicosCache.filter(m => obtenerSegmentos(m).includes(seg));
+    const lista = medsPanel.filter(m => obtenerSegmentos(m).includes(seg));
     const vr = lista.filter(m => (visitasMap['medico-'+m.id]||0) > 0).length;
     const pct = lista.length > 0 ? Math.round((vr / lista.length) * 100) : 0;
     const ok = pct >= 95;
@@ -587,7 +588,7 @@ function renderDashboard() {
   });
 
   // Pendientes conteos
-  const pendMedCount = medicosCache.filter(m => {
+  const pendMedCount = medsPanel.filter(m => {
     const v = visitasMap['medico-'+m.id] || 0;
     return v < (parseInt(m.frecuencia) || 1);
   }).length;
@@ -623,7 +624,7 @@ function renderDashboard() {
   const diffFarm = vFarm - distAntFarm.size;
 
   // ===== Top médicos sin visitar (por CUP) =====
-  const topSinVisitar = cupCache.length ? medicosCache
+  const topSinVisitar = cupCache.length ? medsPanel
     .filter(m => (visitasMap['medico-'+m.id] || 0) === 0)
     .map(m => ({ m, cup: buscarCupPorMedico(m).reduce((s, r) => s + (r.total || 0), 0) }))
     .filter(x => x.cup > 0)
@@ -1138,7 +1139,11 @@ function renderResumenPanel() {
 
 // ===== MEDICOS =====
 function getMedicosFiltrados() {
+  const viendoHoyPasado = mesActivo !== mesActualISO();
   let filtrados = medicosCache.filter(m => {
+    // Los retirados del panel solo se muestran al consultar meses anteriores
+    // (para poder registrarles visitas de esos meses)
+    if (m.fueraDePanel && !viendoHoyPasado) return false;
     if (m.ciudad && !m.ciudad.toUpperCase().includes(state.ciudadMed)) return false;
     if (state.medicoSubTab === 'Panel') return true;
     if (state.medicoSubTab === 'Brick') return true;
@@ -1182,8 +1187,9 @@ function getMedicosFiltrados() {
     });
   }
 
-  // Ordenamiento: H primero, luego alfabético
+  // Ordenamiento: retirados al final, H primero, luego alfabético
   filtrados.sort((a, b) => {
+    if (!!a.fueraDePanel !== !!b.fueraDePanel) return a.fueraDePanel ? 1 : -1;
     const aH = obtenerSegmentos(a).includes('H');
     const bH = obtenerSegmentos(b).includes('H');
     if (aH && !bH) return -1;
@@ -1274,7 +1280,7 @@ function renderMedicoItem(m) {
     <div class="list-item">
       <div class="semaforo ${st.cls}" title="${st.lbl}"></div>
       <div class="list-info" data-action="open-medico" data-id="${m.id}">
-        <div class="list-name">${esc(m.nombre)}</div>
+        <div class="list-name">${esc(m.nombre)}${m.fueraDePanel ? ' <span class="seg-badge" style="background:#e2e8f0;color:#64748b;border:1px solid #cbd5e0">Retirado</span>' : ''}</div>
         <div class="list-meta">${esc(m.especialidad)}${brickMeta ? ' · ' + brickMeta : ''}</div>
       </div>
       <div class="list-segs">${segs.map(s=>`<span class="seg-badge seg-${s.toString().trim().toLowerCase()}">${s}</span>`).join('')}</div>
@@ -2546,6 +2552,7 @@ function renderPendientesMedicos() {
   const fHtml = filtros.map(f => `<button class="pendiente-btn ${state.dashboardPendFilter===f?'active':''}" data-action="set-pend-filter" data-filtro="${f}">${f==='Todos'?'Todos':f}</button>`).join('');
 
   let meds = medicosCache.filter(m => {
+    if (m.fueraDePanel && mesActivo === mesActualISO()) return false; // retirados solo en meses pasados
     if (m.ciudad && !m.ciudad.toUpperCase().includes(state.pendMedCiudad)) return false;
     const v = visitasMap['medico-'+m.id] || 0;
     const freq = parseInt(m.frecuencia) || 1;
@@ -2781,6 +2788,22 @@ function fmtMesCortoSIT(code) {
   const m = parseInt(s.slice(4, 6), 10);
   if (m < 1 || m > 12) return s;
   return `${nombres[m - 1]} ${s.slice(2, 4)}`;
+}
+
+// "SANTA BARBARA CENTRAL" -> "Santa Barbara Central"
+function tituloCase(s) {
+  return (s || '').toString().toLowerCase().replace(/(^|[\s(-])([a-záéíóúñü])/g, (m, p, c) => p + c.toUpperCase());
+}
+// DDD trae bricks como "BOGOTA 9012" y SIT como "9012": extrae el número
+function numeroBrick(txt) {
+  const m = (txt || '').toString().match(/(\d{4})/);
+  return m ? m[1] : '';
+}
+// "9012 · Santa Barbara Central" (o el texto original si no hay nombre conocido)
+function brickDisplay(txt) {
+  const num = numeroBrick(txt);
+  const zona = num ? getBrickZona(num) : '';
+  return zona ? `${num} · ${tituloCase(zona)}` : (txt || '');
 }
 
 function normalizarNombreMarcaData(marca) {
@@ -3153,7 +3176,7 @@ function renderDDD() {
       <tr class="data-ddd-brick-row" data-action="toggle-data-expand" data-tipo="ddd" data-key="${esc(key)}">
         <td class="data-ddd-col-brick">
           <span class="data-expand-icon">${icon}</span>
-          <strong>${esc(grp.brick)}</strong>
+          <strong>${esc(brickDisplay(grp.brick))}</strong>
         </td>
         <td><strong>${fmtNum(grp.totalCantidad, 2)}</strong></td>
         <td><strong>100,00%</strong></td>
@@ -3176,14 +3199,15 @@ function renderDDD() {
 
 // ----- SIT -----
 function renderSIT() {
-  let data = filtrarDataPorCiudad(sitCache, 'sit');
+  const dataAll = filtrarDataPorCiudad(sitCache, 'sit'); // sin filtro de tipo (para totales por brick)
+  let data = dataAll;
   // Filtro por tipo de información (botones Inventario / Rotación)
   if (state.dataSitTipo) {
     data = data.filter(r => (r.tipo || '').toLowerCase() === state.dataSitTipo.toLowerCase());
   }
 
   // Determinar cantidad real de meses en los datos
-  const numMeses = Math.max(3, ...data.map(r => (r.meses || []).length));
+  const numMeses = Math.max(3, ...dataAll.map(r => (r.meses || []).length));
 
   // Etiquetas de meses
   let mesLabels = state.dataSitMesLabels.length === numMeses
@@ -3193,21 +3217,35 @@ function renderSIT() {
   while (mesLabels.length < numMeses) mesLabels.push(`M${mesLabels.length + 1}`);
   mesLabels = mesLabels.slice(0, numMeses).map(fmtMesCortoSIT);
 
-  // Totales por mes
+  // Totales por mes (respetan el filtro activo)
   const totales = new Array(numMeses + 1).fill(0);
   for (const row of data) {
     for (let i = 0; i < numMeses; i++) totales[i] += (row.meses[i] || 0);
     totales[numMeses] += row.total || 0;
   }
 
-  // Agrupar: brick -> pdv -> {Inventario, Rotacion}
+  // Agrupar: brick -> pdv -> {Inventario, Rotacion} (con TODOS los tipos para los totales)
   const arbol = {};
-  for (const row of data) {
+  for (const row of dataAll) {
     const bKey = `${row.brick} - ${(row.ciudad || '').toUpperCase()}`;
-    if (!arbol[bKey]) arbol[bKey] = { brick: row.brick, ciudad: row.ciudad, pdvs: {} };
+    if (!arbol[bKey]) arbol[bKey] = { brick: row.brick, ciudad: row.ciudad, pdvs: {}, totInv: 0, totRot: 0 };
     if (!arbol[bKey].pdvs[row.pdv]) arbol[bKey].pdvs[row.pdv] = {};
     arbol[bKey].pdvs[row.pdv][row.tipo] = row;
+    if ((row.tipo || '').toLowerCase() === 'inventario') arbol[bKey].totInv += row.total || 0;
+    else if ((row.tipo || '').toLowerCase() === 'rotacion') arbol[bKey].totRot += row.total || 0;
   }
+
+  // Criterio de orden: según el filtro activo; por defecto Inventario + Rotación
+  const criterio = state.dataSitTipo === 'Inventario' ? 'inv' : state.dataSitTipo === 'Rotacion' ? 'rot' : 'ambos';
+  const puntaje = n => criterio === 'inv' ? n.totInv : criterio === 'rot' ? n.totRot : n.totInv + n.totRot;
+
+  // Bricks con datos del tipo filtrado, ordenados de mayor a menor importancia
+  const bricksOrdenados = Object.entries(arbol)
+    .filter(([, n]) => {
+      if (!state.dataSitTipo) return true;
+      return Object.values(n.pdvs).some(t => t[state.dataSitTipo]);
+    })
+    .sort((a, b) => puntaje(b[1]) - puntaje(a[1]));
 
   const mesHeaderHtml = mesLabels.map(m => `<div class="sit-h-mes">${esc(m)}</div>`).join('');
 
@@ -3244,11 +3282,20 @@ function renderSIT() {
     `;
   };
 
-  const brickHtml = Object.entries(arbol).map(([bKey, brickNode]) => {
+  const brickHtml = bricksOrdenados.map(([bKey, brickNode]) => {
     const expanded = !!state.dataExpanded.sit[bKey]; // por defecto contraído
     const icon = expanded ? '⊟' : '⊞';
+    // PDVs ordenados por el mismo criterio de importancia
+    const pdvsOrdenados = Object.entries(brickNode.pdvs)
+      .filter(([, tipos]) => !state.dataSitTipo || tipos[state.dataSitTipo])
+      .sort((a, b) => {
+        const score = tipos => (tipos['Inventario']?.total || 0) + (tipos['Rotacion']?.total || 0);
+        if (criterio === 'inv') return (b[1]['Inventario']?.total || 0) - (a[1]['Inventario']?.total || 0);
+        if (criterio === 'rot') return (b[1]['Rotacion']?.total || 0) - (a[1]['Rotacion']?.total || 0);
+        return score(b[1]) - score(a[1]);
+      });
     const pdvHtml = expanded
-      ? Object.entries(brickNode.pdvs).map(([pdv, tipos]) => `
+      ? pdvsOrdenados.map(([pdv, tipos]) => `
           <div class="sit-pdv">
             <div class="sit-pdv-name">${esc(pdv)}</div>
             ${renderTipo(tipos['Inventario'])}
@@ -3261,7 +3308,8 @@ function renderSIT() {
       <div class="sit-brick">
         <div class="sit-brick-header" data-action="toggle-data-expand" data-tipo="sit" data-key="${esc(bKey)}">
           <span class="data-expand-icon">${icon}</span>
-          <strong>${esc(bKey)}</strong>
+          <strong>${esc(brickDisplay(brickNode.brick))}</strong>
+          <span class="sit-brick-totals">📦 ${fmtNum(brickNode.totInv)} · 🔄 ${fmtNum(brickNode.totRot)}</span>
         </div>
         ${expanded ? `<div class="sit-brick-body">${pdvHtml}</div>` : ''}
       </div>

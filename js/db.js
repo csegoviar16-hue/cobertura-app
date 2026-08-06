@@ -67,8 +67,9 @@ class CoberturaDB {
   async reemplazarMedicos(arr) { await this.clear('medicos'); for (const x of arr) await this.add('medicos', x); }
   async reemplazarFarmacias(arr) { await this.clear('farmacias'); for (const x of arr) await this.add('farmacias', x); }
   // Actualiza el panel sin romper las visitas: conserva el id de los médicos que ya
-  // existen (misma cédula) y solo agrega los nuevos. Los que salen del panel se eliminan
-  // de la lista, pero sus visitas quedan guardadas en la base.
+  // existen (misma cédula) y solo agrega los nuevos. Los que salen del panel NO se
+  // borran: quedan marcados fueraDePanel para poder registrarles visitas de meses
+  // anteriores; sus visitas quedan guardadas en la base.
   async fusionarMedicos(arr) {
     const actuales = await this.getAll('medicos');
     const porCedula = {};
@@ -78,11 +79,13 @@ class CoberturaDB {
       const ced = x.cedula != null && x.cedula !== '' ? String(x.cedula) : '';
       if (ced) cedulasNuevas.add(ced);
       const idExistente = ced ? porCedula[ced] : undefined;
-      if (idExistente != null) await this.put('medicos', { ...x, id: idExistente });
-      else await this.add('medicos', x);
+      if (idExistente != null) await this.put('medicos', { ...x, id: idExistente, fueraDePanel: false });
+      else await this.add('medicos', { ...x, fueraDePanel: false });
     }
     for (const m of actuales) {
-      if (m.cedula && !cedulasNuevas.has(String(m.cedula))) await this.delete('medicos', m.id);
+      if (m.cedula && !cedulasNuevas.has(String(m.cedula)) && !m.fueraDePanel) {
+        await this.put('medicos', { ...m, fueraDePanel: true });
+      }
     }
   }
   // Igual que fusionarMedicos pero por nombre (las farmacias no tienen cédula)
