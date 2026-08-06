@@ -584,6 +584,7 @@ button:focus-visible,.btn:focus-visible,input:focus-visible,select:focus-visible
 .sit-brick{border-bottom:1px solid var(--border)}
 .sit-brick-header{display:flex;align-items:center;gap:8px;padding:12px;background:#e9ecef;cursor:pointer;font-weight:700;font-size:.85rem}
 .sit-brick-totals{margin-left:auto;font-size:.75rem;font-weight:600;color:var(--text2);white-space:nowrap}
+.brick-info-btn{width:28px;height:28px;min-width:28px;font-size:.85rem;padding:0}
 .sit-brick-body{padding:8px 12px 12px}
 .sit-pdv{margin-bottom:14px}
 .sit-pdv-name{font-weight:600;padding:6px 0 8px;color:#1a3a6e;font-size:.82rem;border-bottom:1px solid #e2e8f0;margin-bottom:6px}

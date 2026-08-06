@@ -362,6 +362,8 @@ async function handleAction(action, data, e) {
     case 'nueva-alta': state.modal = {type:'alta'}; renderApp(); break;
     case 'nueva-baja': state.modal = {type:'baja'}; renderApp(); break;
     case 'nuevo-brick': state.modal = {type:'brick'}; renderApp(); break;
+    case 'open-brick-detalle': scrollPosGuardada = window.scrollY; state.modal = {type:'brick-detalle', brick: data.brick, tab: 'medicos'}; renderApp(); break;
+    case 'brick-detalle-tab': if (state.modal?.type === 'brick-detalle') { state.modal.tab = data.tab; renderApp(); } break;
     case 'set-nota-tab': state.notaSubTab = data.tab; renderApp(); break;
     case 'cal-select': calSelect(data); break;
     case 'cal-month': calMonth(parseInt(data.delta)); break;
@@ -1698,6 +1700,82 @@ function renderBrickModal() {
   `;
 }
 
+// Ficha del brick: médicos y farmacias asociados, con estado de visita del mes activo
+function renderBrickDetalleModal(brick) {
+  const b = String(brick || '');
+  const zona = getBrickZona(b);
+  const titulo = zona ? `${b} · ${tituloCase(zona)}` : `Brick ${b}`;
+  const meds = medicosCache
+    .filter(m => String(m.brick || '') === b)
+    .sort((a, b2) => (!!a.fueraDePanel !== !!b2.fueraDePanel) ? (a.fueraDePanel ? 1 : -1) : a.nombre.localeCompare(b2.nombre));
+  const farms = farmaciasCache
+    .filter(f => String(f.brick || '') === b)
+    .sort((a, b2) => a.nombre.localeCompare(b2.nombre));
+  const tab = state.modal.tab || 'medicos';
+
+  const filaMed = m => {
+    const v = visitasMap['medico-'+m.id] || 0;
+    const frec = parseInt(m.frecuencia) || 1;
+    const st = estadoVisita(v, frec);
+    const segs = obtenerSegmentos(m);
+    const completo = v >= frec;
+    return `
+      <div class="list-item">
+        <div class="semaforo ${st.cls}"></div>
+        <div class="list-info" data-action="open-medico" data-id="${m.id}">
+          <div class="list-name">${esc(m.nombre)}${m.fueraDePanel ? ' <span class="seg-badge" style="background:#e2e8f0;color:#64748b;border:1px solid #cbd5e0">Retirado</span>' : ''}</div>
+          <div class="list-meta">${esc(m.especialidad || '')}</div>
+        </div>
+        <div class="list-segs">${segs.map(s=>`<span class="seg-badge seg-${s.toString().trim().toLowerCase()}">${s}</span>`).join('')}</div>
+        <div class="list-actions">
+          ${completo ? '<span class="btn-icon" style="background:#c6f6d5;color:#276749;font-size:1rem">✓</span>' : `<button class="btn-icon" data-action="add-visita-med" data-id="${m.id}" title="Visita">+</button>`}
+        </div>
+      </div>
+    `;
+  };
+
+  const filaFarm = f => {
+    const v = visitasMap['farmacia-'+f.id] || 0;
+    const frec = parseInt(f.frecuencia) || 1;
+    const st = estadoVisita(v, frec);
+    const completo = v >= frec;
+    return `
+      <div class="list-item">
+        <div class="semaforo ${st.cls}"></div>
+        <div class="list-info" data-action="open-farmacia" data-id="${f.id}">
+          <div class="list-name">${esc(f.nombre)}</div>
+          <div class="list-meta">${esc(f.direccion || '')}</div>
+        </div>
+        <div class="list-actions">
+          ${completo ? '<span class="btn-icon" style="background:#c6f6d5;color:#276749;font-size:1rem">✓</span>' : `<button class="btn-icon" data-action="add-visita-farm" data-id="${f.id}" title="Visita">+</button>`}
+        </div>
+      </div>
+    `;
+  };
+
+  const contenido = tab === 'medicos'
+    ? (meds.map(filaMed).join('') || '<div class="empty-state">Sin médicos en este brick</div>')
+    : (farms.map(filaFarm).join('') || '<div class="empty-state">Sin farmacias en este brick</div>');
+
+  return `
+    <div class="modal" data-action="close-modal">
+      <div class="modal-sheet" onclick="event.stopPropagation()">
+        <div class="modal-header">
+          <h3>📍 ${esc(titulo)}</h3>
+          <button class="btn-icon" data-action="close-modal">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="estado-filters" style="margin-bottom:12px">
+            <button class="estado-btn ${tab === 'medicos' ? 'active' : ''}" data-action="brick-detalle-tab" data-tab="medicos">👨‍⚕️ Médicos ${meds.length}</button>
+            <button class="estado-btn ${tab === 'farmacias' ? 'active' : ''}" data-action="brick-detalle-tab" data-tab="farmacias">🏥 Farmacias ${farms.length}</button>
+          </div>
+          <div class="lista">${contenido}</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 async function guardarBrick() {
   const num = ($('edit-brick-num')?.value || '').trim();
   const zona = ($('edit-brick-zona')?.value || '').trim();
@@ -1813,6 +1891,7 @@ function renderModal() {
     case 'alta': return renderAltaModal();
     case 'baja': return renderBajaModal();
     case 'brick': return renderBrickModal();
+    case 'brick-detalle': return renderBrickDetalleModal(state.modal.brick);
     case 'dia': return renderDiaModal(state.modal.fecha);
     case 'editar-visita': return renderEditarVisitaModal(state.modal.id, state.modal.fecha);
     case 'editar-medico': return renderEditarMedicoModal(state.modal.id);
@@ -3177,6 +3256,7 @@ function renderDDD() {
         <td class="data-ddd-col-brick">
           <span class="data-expand-icon">${icon}</span>
           <strong>${esc(brickDisplay(grp.brick))}</strong>
+          <button class="btn-icon brick-info-btn" data-action="open-brick-detalle" data-brick="${numeroBrick(grp.brick)}" title="Médicos y farmacias del brick">ⓘ</button>
         </td>
         <td><strong>${fmtNum(grp.totalCantidad, 2)}</strong></td>
         <td><strong>100,00%</strong></td>
@@ -3309,6 +3389,7 @@ function renderSIT() {
         <div class="sit-brick-header" data-action="toggle-data-expand" data-tipo="sit" data-key="${esc(bKey)}">
           <span class="data-expand-icon">${icon}</span>
           <strong>${esc(brickDisplay(brickNode.brick))}</strong>
+          <button class="btn-icon brick-info-btn" data-action="open-brick-detalle" data-brick="${numeroBrick(brickNode.brick)}" title="Médicos y farmacias del brick">ⓘ</button>
           <span class="sit-brick-totals">📦 ${fmtNum(brickNode.totInv)} · 🔄 ${fmtNum(brickNode.totRot)}</span>
         </div>
         ${expanded ? `<div class="sit-brick-body">${pdvHtml}</div>` : ''}
