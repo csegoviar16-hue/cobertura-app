@@ -2,8 +2,8 @@
 // Lee las hojas específicas del Excel que el usuario sube desde el celular/PC.
 
 const DATA_EXCEL_SHEETS = {
-  cupFanter: ['Cup Mayo Fanter', 'CUP Mayo Fanter', 'Cup Fanter'],
-  cupTerovan: ['Cup Mayo Terovan', 'CUP Mayo Terovan', 'Cup Terovan'],
+  cupFanter: ['Cup Mayo Fanter', 'CUP Mayo Fanter', 'Cup Fanter', 'Close UP Fanter', 'Close Up Fanter', 'Close-Up Fanter'],
+  cupTerovan: ['Cup Mayo Terovan', 'CUP Mayo Terovan', 'Cup Terovan', 'Close UP Terovan', 'Close Up Terovan', 'Close-Up Terovan'],
   dddFanter: ['DDD mayo Fanter', 'DDD Mayo Fanter', 'DDD Fanter'],
   dddTerovan: ['DDD mayo Terovan', 'DDD Mayo Terovan', 'DDD Terovan'],
   sitFanter: ['Inv-Rot Fanter', 'Inv Rot Fanter', 'SIT Fanter', 'Inv-Rot Fanter'],
@@ -39,9 +39,12 @@ function parseNumExcel(v) {
 
 function parseCupSheet(rows, mercado) {
   if (!rows || rows.length < 3) return [];
-  // Fila 0: encabezado con seriales de fecha en cols 2-6, Total en col 7
+  // Fila 0: encabezado con seriales de fecha desde col 2 hasta la col 'Total' (cantidad variable de meses)
   // Fila 1: sub-encabezado
-  const serials = rows[0].slice(2, 7);
+  const header = rows[0];
+  let totalCol = header.findIndex(h => (h || '').toString().trim().toUpperCase() === 'TOTAL');
+  if (totalCol < 3) totalCol = 7; // fallback al formato original (5 meses)
+  const serials = header.slice(2, totalCol);
   const mesCols = serials.map(s => excelSerialToMonth(s));
   const dataRows = rows.slice(2);
   const result = [];
@@ -64,7 +67,7 @@ function parseCupSheet(rows, mercado) {
       meses[mesCols[i]] = val;
       totalCalculado += val;
     }
-    const total = parseNumExcel(r[7]) || totalCalculado;
+    const total = parseNumExcel(r[totalCol]) || totalCalculado;
     result.push({
       origenId: `${mercado}-${result.length}`,
       medico,

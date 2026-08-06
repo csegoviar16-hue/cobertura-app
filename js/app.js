@@ -30,7 +30,8 @@ const state = {
   dataCiudad: [],
   dataExpanded: { cup: {}, ddd: {}, sit: {} },
   dataFiltersOpen: { mercado: false, marcas: false, ciudad: false },
-  dataSitMesLabels: []
+  dataSitMesLabels: [],
+  dataSitTipo: '' // '' (ambos) | 'Inventario' | 'Rotacion'
 };
 
 let usuarioActivo = null; // 'carlos' o 'esposa'
@@ -156,6 +157,25 @@ window.seleccionarUsuario = async function(usuario, guardar = true) {
   renderApp();
   setupScroll();
   setupEvents();
+
+  // Precargar/actualizar data CUP/DDD/SIT del mes (una vez por versión)
+  try {
+    const res = await fetch('data-precargada.json');
+    if (res.ok) {
+      const d = await res.json();
+      const cfg = await db.getConfig('dataVersion');
+      if (d.version && cfg?.value !== d.version) {
+        await db.reemplazarCUP(d.cup || []);
+        await db.reemplazarDDD(d.ddd || []);
+        await db.reemplazarSIT(d.sit || []);
+        await db.setConfig('dataSitMesLabels', d.dataSitMesLabels || []);
+        await db.setConfig('dataVersion', d.version);
+        await recargarDatos();
+        renderApp();
+        toast(`Data actualizada: ${(d.cup||[]).length} CUP, ${(d.ddd||[]).length} DDD, ${(d.sit||[]).length} SIT`, 'ok');
+      }
+    }
+  } catch (e) { console.error('Error precargando data:', e); }
 };
 
 function renderSelectorUsuario() {
@@ -424,6 +444,13 @@ async function handleAction(action, data, e) {
       break;
     }
     case 'set-data-tab': state.dataSubTab = data.tab; renderApp(); break;
+    case 'set-sit-tipo': {
+      // Si se toca el botón ya activo, vuelve a mostrar ambos
+      state.dataSitTipo = state.dataSitTipo === data.tipo ? '' : data.tipo;
+      scrollPosGuardada = window.scrollY;
+      renderApp();
+      break;
+    }
     case 'toggle-data-expand': {
       const { tipo, key } = data;
       state.dataExpanded[tipo][key] = !state.dataExpanded[tipo][key];
@@ -2746,6 +2773,16 @@ function ultimos3MesesSIT() {
   return meses;
 }
 
+// Convierte "202604" -> "Abr 26" para las etiquetas de SIT
+function fmtMesCortoSIT(code) {
+  const s = (code || '').toString();
+  if (!/^\d{6}$/.test(s)) return s;
+  const nombres = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const m = parseInt(s.slice(4, 6), 10);
+  if (m < 1 || m > 12) return s;
+  return `${nombres[m - 1]} ${s.slice(2, 4)}`;
+}
+
 function normalizarNombreMarcaData(marca) {
   return (marca || '')
     .toString()
@@ -3140,6 +3177,10 @@ function renderDDD() {
 // ----- SIT -----
 function renderSIT() {
   let data = filtrarDataPorCiudad(sitCache, 'sit');
+  // Filtro por tipo de información (botones Inventario / Rotación)
+  if (state.dataSitTipo) {
+    data = data.filter(r => (r.tipo || '').toLowerCase() === state.dataSitTipo.toLowerCase());
+  }
 
   // Determinar cantidad real de meses en los datos
   const numMeses = Math.max(3, ...data.map(r => (r.meses || []).length));
@@ -3150,7 +3191,7 @@ function renderSIT() {
     : (state.dataSitMesLabels.length === 3 ? state.dataSitMesLabels : ultimos3MesesSIT());
   // Asegurar que haya tantas etiquetas como meses
   while (mesLabels.length < numMeses) mesLabels.push(`M${mesLabels.length + 1}`);
-  mesLabels = mesLabels.slice(0, numMeses);
+  mesLabels = mesLabels.slice(0, numMeses).map(fmtMesCortoSIT);
 
   // Totales por mes
   const totales = new Array(numMeses + 1).fill(0);
@@ -3228,6 +3269,10 @@ function renderSIT() {
   }).join('');
 
   return `
+    <div class="estado-filters" style="margin-bottom:10px">
+      <button class="estado-btn ${state.dataSitTipo === 'Inventario' ? 'active' : ''}" data-action="set-sit-tipo" data-tipo="Inventario">📦 Solo Inventario</button>
+      <button class="estado-btn ${state.dataSitTipo === 'Rotacion' ? 'active' : ''}" data-action="set-sit-tipo" data-tipo="Rotacion">🔄 Solo Rotación</button>
+    </div>
     <div class="sit-scroll-wrap">
       <div class="sit-header-row">
         <div class="sit-h-brick">Brick - Ciudad</div>
