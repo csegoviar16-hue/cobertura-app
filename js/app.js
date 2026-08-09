@@ -1168,7 +1168,11 @@ function getMedicosFiltrados() {
 
   if (state.busquedaMed.trim()) {
     const b = quitarTildes(state.busquedaMed);
-    filtrados = filtrados.filter(m => quitarTildes(m.nombre).includes(b));
+    filtrados = filtrados.filter(m =>
+      quitarTildes(m.nombre).includes(b) ||
+      quitarTildes(m.brick).includes(b) ||
+      quitarTildes(m.brickZona).includes(b)
+    );
   }
 
   // Filtro especialidad
@@ -1251,7 +1255,7 @@ function renderMedicos() {
 
   const searchHtml = `
     <div class="search-wrap">
-      <input class="search-box" id="busqueda-med" placeholder="Buscar médico..." value="${esc(state.busquedaMed)}" oninput="window.buscarMed(this.value)">
+      <input class="search-box" id="busqueda-med" placeholder="Buscar médico o brick..." value="${esc(state.busquedaMed)}" oninput="window.buscarMed(this.value)">
       ${state.busquedaMed ? `<button class="search-clear" data-action="limpiar-busqueda-med" aria-label="Limpiar búsqueda">✕</button>` : ''}
     </div>
   `;
@@ -1338,10 +1342,14 @@ function getFarmaciasFiltradas() {
     return true;
   });
 
-  // Filtro búsqueda (sin discriminar tildes)
+  // Filtro búsqueda (sin discriminar tildes): nombre, número de brick o zona
   if (state.busquedaFarm.trim()) {
     const b = quitarTildes(state.busquedaFarm.toLowerCase());
-    filtrados = filtrados.filter(f => quitarTildes(f.nombre.toLowerCase()).includes(b));
+    filtrados = filtrados.filter(f =>
+      quitarTildes(f.nombre.toLowerCase()).includes(b) ||
+      quitarTildes(f.brick).includes(b) ||
+      quitarTildes(f.brickZona).includes(b)
+    );
   }
 
   // Filtro estado farmacias
@@ -1412,7 +1420,7 @@ function renderFarmacias() {
       <div class="estado-filters">${estadoFarmHtml}</div>
     </div>
     <div class="search-wrap">
-      <input class="search-box" id="busqueda-farm" placeholder="Buscar farmacia..." value="${esc(state.busquedaFarm)}" oninput="window.buscarFarm(this.value)">
+      <input class="search-box" id="busqueda-farm" placeholder="Buscar farmacia o brick..." value="${esc(state.busquedaFarm)}" oninput="window.buscarFarm(this.value)">
       ${state.busquedaFarm ? `<button class="search-clear" data-action="limpiar-busqueda-farm" aria-label="Limpiar búsqueda">✕</button>` : ''}
     </div>
     <div id="lista-farm">${renderFarmaciasLista(filtrados)}</div>
