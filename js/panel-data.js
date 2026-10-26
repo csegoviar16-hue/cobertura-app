@@ -4389,7 +4389,7 @@ const PANEL_DATA = {
       "id": 60
     }
   ],
-  "panelVersion": "2026-10-v3"
+  "panelVersion": "2026-10-v4"
 };
 
 async function cargarPanelLocal() {

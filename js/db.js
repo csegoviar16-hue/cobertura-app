@@ -79,7 +79,10 @@ class CoberturaDB {
       const ced = x.cedula != null && x.cedula !== '' ? String(x.cedula) : '';
       if (ced) cedulasNuevas.add(ced);
       const idExistente = ced ? porCedula[ced] : undefined;
-      if (idExistente != null) await this.put('medicos', { ...x, id: idExistente, fueraDePanel: false, lugar1: x.lugar1 || m.lugar1 || '', lugar2: x.lugar2 || m.lugar2 || '' });
+      if (idExistente != null) {
+        const ex = actuales.find(a => a.id === idExistente);
+        await this.put('medicos', { ...x, id: idExistente, fueraDePanel: false, lugar1: x.lugar1 || (ex && ex.lugar1) || '', lugar2: x.lugar2 || (ex && ex.lugar2) || '' });
+      }
       else await this.add('medicos', { ...x, fueraDePanel: false });
     }
     for (const m of actuales) {
