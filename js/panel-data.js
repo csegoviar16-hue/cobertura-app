@@ -63,7 +63,9 @@ const PANEL_DATA = {
       "direccion": "Calle 127 #20-16 Cons 305",
       "ips": "Centro Médico Colsanitas Premium La Calleja",
       "deblax": false,
-      "diasUltVisita": 42
+      "diasUltVisita": 42,
+      "lugar1": "Plus 127",
+      "lugar2": ""
     },
     {
       "origenId": "51747320",
@@ -82,7 +84,9 @@ const PANEL_DATA = {
       "direccion": "Autopista Norte #100-74",
       "ips": "EPS Sanitas Centro Médico Chico Navarra",
       "deblax": false,
-      "diasUltVisita": 33
+      "diasUltVisita": 33,
+      "lugar1": "Torre de especialistas",
+      "lugar2": ""
     },
     {
       "origenId": "1234641581",
@@ -101,7 +105,9 @@ const PANEL_DATA = {
       "direccion": "Avenida 19 y Carrera 13 Vía Calambeo",
       "ips": "Clínica Avidanti Ibagué",
       "deblax": true,
-      "diasUltVisita": 126
+      "diasUltVisita": 126,
+      "lugar1": "Medicadiz",
+      "lugar2": ""
     },
     {
       "origenId": "12116223",
@@ -120,7 +126,9 @@ const PANEL_DATA = {
       "direccion": "Calle 163A #13B-60",
       "ips": "Fundación Cardio Infantil Instituto de Cardiologia",
       "deblax": false,
-      "diasUltVisita": 2
+      "diasUltVisita": 2,
+      "lugar1": "La Cardio",
+      "lugar2": ""
     },
     {
       "origenId": "665429",
@@ -139,7 +147,9 @@ const PANEL_DATA = {
       "direccion": "Avenida 19 y Carrera 13 Vía Calambeo",
       "ips": "Clínica Medical Duarte",
       "deblax": true,
-      "diasUltVisita": 14
+      "diasUltVisita": 14,
+      "lugar1": "Ikigai",
+      "lugar2": ""
     },
     {
       "origenId": "1018452469",
@@ -158,7 +168,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Carrera 58 #127-59 Loc 258 Cc Bulevar Niza",
       "ips": "",
       "deblax": false,
-      "diasUltVisita": 0
+      "diasUltVisita": 0,
+      "lugar1": "Colmedica Bulevar Niza",
+      "lugar2": ""
     },
     {
       "origenId": "1067866872",
@@ -177,7 +189,9 @@ const PANEL_DATA = {
       "direccion": "Calle 96 #13A-44",
       "ips": "Clinisanitas Calle 96",
       "deblax": false,
-      "diasUltVisita": 7
+      "diasUltVisita": 7,
+      "lugar1": "Colsanitas 96",
+      "lugar2": ""
     },
     {
       "origenId": "8698826",
@@ -196,7 +210,9 @@ const PANEL_DATA = {
       "direccion": "Calle 134 #7B-83 Cons 209",
       "ips": "Edificio Altos Del Bosque",
       "deblax": false,
-      "diasUltVisita": 1
+      "diasUltVisita": 1,
+      "lugar1": "Bosque",
+      "lugar2": ""
     },
     {
       "origenId": "1140817723",
@@ -215,7 +231,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 5 #30-05",
       "ips": "Hospital Militar Central",
       "deblax": false,
-      "diasUltVisita": 14
+      "diasUltVisita": 14,
+      "lugar1": "Policia",
+      "lugar2": ""
     },
     {
       "origenId": "80098980",
@@ -234,7 +252,9 @@ const PANEL_DATA = {
       "direccion": "Calle 140 #11-45 Of 901 A 921 Piso 9",
       "ips": "",
       "deblax": false,
-      "diasUltVisita": 1
+      "diasUltVisita": 1,
+      "lugar1": "Colmedica Cedritos",
+      "lugar2": ""
     },
     {
       "origenId": "32696756",
@@ -253,7 +273,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 14 #127-11 Cons 408",
       "ips": "Clínica La Carolina S.A.",
       "deblax": false,
-      "diasUltVisita": 33
+      "diasUltVisita": 33,
+      "lugar1": "La Carolina",
+      "lugar2": ""
     },
     {
       "origenId": "52968501",
@@ -272,7 +294,9 @@ const PANEL_DATA = {
       "direccion": "Calle 100 #19A-35",
       "ips": "Salud Sura Calle 100 Bogotá",
       "deblax": false,
-      "diasUltVisita": 0
+      "diasUltVisita": 0,
+      "lugar1": "Allianz 102",
+      "lugar2": ""
     },
     {
       "origenId": "1095949815",
@@ -291,7 +315,9 @@ const PANEL_DATA = {
       "direccion": "Autopista Norte #103B-03",
       "ips": "Unidad De Diagnóstico Autopista Norte Esimed",
       "deblax": false,
-      "diasUltVisita": 7
+      "diasUltVisita": 7,
+      "lugar1": "Colsanitas 96",
+      "lugar2": ""
     },
     {
       "origenId": "1136881270",
@@ -310,7 +336,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 14 #96-22",
       "ips": "Clinisanitas Calle 96",
       "deblax": false,
-      "diasUltVisita": 77
+      "diasUltVisita": 77,
+      "lugar1": "Colsanitas 96",
+      "lugar2": ""
     },
     {
       "origenId": "52798624",
@@ -329,7 +357,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Carrera 58 #127-59 Local 282 Piso 2 CC Bulevar Niza",
       "ips": "Ecopetrol Carrera 9/48",
       "deblax": false,
-      "diasUltVisita": 34
+      "diasUltVisita": 34,
+      "lugar1": "Ecopetrol Bulevar Niza",
+      "lugar2": ""
     },
     {
       "origenId": "65783946",
@@ -348,7 +378,9 @@ const PANEL_DATA = {
       "direccion": "Calle 19 #7-87",
       "ips": "Viva 1A IPS Ibague",
       "deblax": false,
-      "diasUltVisita": 55
+      "diasUltVisita": 55,
+      "lugar1": "Sanitas",
+      "lugar2": ""
     },
     {
       "origenId": "75074406",
@@ -367,7 +399,9 @@ const PANEL_DATA = {
       "direccion": "Calle 93B #17-12",
       "ips": "Centro Nacional De Endocrinología Y Metabolismo S.A. Cendem",
       "deblax": false,
-      "diasUltVisita": 7
+      "diasUltVisita": 7,
+      "lugar1": "Colsanitas 96",
+      "lugar2": ""
     },
     {
       "origenId": "80008418",
@@ -386,7 +420,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Ferrocarril #4A-00",
       "ips": "SENA Servicio Nacional De Aprendizaje Sede Ibagué",
       "deblax": false,
-      "diasUltVisita": 16
+      "diasUltVisita": 16,
+      "lugar1": "Sena",
+      "lugar2": ""
     },
     {
       "origenId": "50926505",
@@ -405,7 +441,9 @@ const PANEL_DATA = {
       "direccion": "Calle 151 #54-15",
       "ips": "Centro Médico Colmedica Sede Colina Campestre",
       "deblax": false,
-      "diasUltVisita": 63
+      "diasUltVisita": 63,
+      "lugar1": "Colmedica Mazuren",
+      "lugar2": ""
     },
     {
       "origenId": "1020815203",
@@ -424,7 +462,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 20 #124-64",
       "ips": "Clinica Reina Sofia Medicina Avanzada 125",
       "deblax": false,
-      "diasUltVisita": 8
+      "diasUltVisita": 8,
+      "lugar1": "Colsanitas Medicina Avanzada",
+      "lugar2": ""
     },
     {
       "origenId": "93359219",
@@ -443,7 +483,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 6A #60-19",
       "ips": "Hospital Federico Lleras Acosta E.S.E.",
       "deblax": false,
-      "diasUltVisita": 14
+      "diasUltVisita": 14,
+      "lugar1": "Consultorio Particular",
+      "lugar2": ""
     },
     {
       "origenId": "51925594",
@@ -462,7 +504,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 46 #95-56",
       "ips": "Cardio Colombia Sede Principal",
       "deblax": true,
-      "diasUltVisita": 37
+      "diasUltVisita": 37,
+      "lugar1": "Cardiocolombia",
+      "lugar2": ""
     },
     {
       "origenId": "39688646",
@@ -481,7 +525,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Calle 127 #20-78",
       "ips": "Clínica Reina Sofía",
       "deblax": false,
-      "diasUltVisita": 42
+      "diasUltVisita": 42,
+      "lugar1": "Horizonte",
+      "lugar2": ""
     },
     {
       "origenId": "79146487",
@@ -500,7 +546,9 @@ const PANEL_DATA = {
       "direccion": "Calle 163A #13B-60",
       "ips": "Consultorio - Camilo Franco Reyes",
       "deblax": false,
-      "diasUltVisita": 36
+      "diasUltVisita": 36,
+      "lugar1": "La Cardio",
+      "lugar2": ""
     },
     {
       "origenId": "77103507",
@@ -519,7 +567,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 19 #102-31",
       "ips": "Centro Médico Compensar Calle 26",
       "deblax": false,
-      "diasUltVisita": 0
+      "diasUltVisita": 0,
+      "lugar1": "Allianz 102",
+      "lugar2": ""
     },
     {
       "origenId": "79957138",
@@ -538,7 +588,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Calle 127 #20-78",
       "ips": "Clínica Reina Sofía",
       "deblax": false,
-      "diasUltVisita": 8
+      "diasUltVisita": 8,
+      "lugar1": "Colsanitas Medicina Avanzada",
+      "lugar2": ""
     },
     {
       "origenId": "83237797",
@@ -557,7 +609,9 @@ const PANEL_DATA = {
       "direccion": "Calle 163A #13B-60",
       "ips": "Fundación Cardio Infantil Instituto de Cardiologia",
       "deblax": true,
-      "diasUltVisita": 30
+      "diasUltVisita": 30,
+      "lugar1": "La Cardio",
+      "lugar2": ""
     },
     {
       "origenId": "93401278",
@@ -576,7 +630,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 12 Sur #93-21 Vía Aeropuerto Perales Torre De Especialistas Cons 806",
       "ips": "Surgimedica Ibagué",
       "deblax": false,
-      "diasUltVisita": 15
+      "diasUltVisita": 15,
+      "lugar1": "Medicadiz",
+      "lugar2": ""
     },
     {
       "origenId": "93367369",
@@ -595,7 +651,9 @@ const PANEL_DATA = {
       "direccion": "Calle 11 Sur #10-56",
       "ips": "Consultorio - Carlos Augusto Hernandez Gaviria",
       "deblax": false,
-      "diasUltVisita": 16
+      "diasUltVisita": 16,
+      "lugar1": "Consultorio Particular",
+      "lugar2": ""
     },
     {
       "origenId": "79057264",
@@ -614,7 +672,9 @@ const PANEL_DATA = {
       "direccion": "Calle 100 #19A-35",
       "ips": "Salud Sura Calle 100 Bogotá",
       "deblax": false,
-      "diasUltVisita": 0
+      "diasUltVisita": 0,
+      "lugar1": "Sura 100",
+      "lugar2": ""
     },
     {
       "origenId": "19138785",
@@ -633,7 +693,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 12S #93 - 134",
       "ips": "Consultorio - Carlos Eduardo Cepeda Garzon",
       "deblax": true,
-      "diasUltVisita": 15
+      "diasUltVisita": 15,
+      "lugar1": "Medicadiz",
+      "lugar2": ""
     },
     {
       "origenId": "1110475645",
@@ -652,7 +714,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 6 #60-19",
       "ips": "E.S.E. Hospital Universitario Hernando Moncaleano Perdomo De Neiva",
       "deblax": false,
-      "diasUltVisita": 0
+      "diasUltVisita": 0,
+      "lugar1": "Consultorio Particular",
+      "lugar2": ""
     },
     {
       "origenId": "9141783",
@@ -671,7 +735,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 49D #91-33",
       "ips": "Centro Médico Integral Chico Medplus",
       "deblax": false,
-      "diasUltVisita": 41
+      "diasUltVisita": 41,
+      "lugar1": "Medplus Castellana",
+      "lugar2": ""
     },
     {
       "origenId": "14396210",
@@ -690,7 +756,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 2 Este #67B-90",
       "ips": "Clínica Medilaser Tunja S.A.S",
       "deblax": false,
-      "diasUltVisita": 15
+      "diasUltVisita": 15,
+      "lugar1": "Consultorio Particular",
+      "lugar2": ""
     },
     {
       "origenId": "10098279",
@@ -709,7 +777,9 @@ const PANEL_DATA = {
       "direccion": "Calle 33 #4A-50",
       "ips": "Hospital Federico Lleras Acosta E.S.E.",
       "deblax": false,
-      "diasUltVisita": 14
+      "diasUltVisita": 14,
+      "lugar1": "Consultorio Particular",
+      "lugar2": ""
     },
     {
       "origenId": "52423647",
@@ -728,7 +798,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Carrera 58 #127-59 Local 282 Piso 2 CC Bulevar Niza",
       "ips": "Clinicos Programas De Atención Integral S.A.S. IPS",
       "deblax": false,
-      "diasUltVisita": 0
+      "diasUltVisita": 0,
+      "lugar1": "Ecopetrol Bulevar Niza",
+      "lugar2": ""
     },
     {
       "origenId": "1026270098",
@@ -747,7 +819,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 58 # 127-59 Centro Comercial Bulevar",
       "ips": "Centro De Excelencia Para El Manejo De La Diabetes CEMDI",
       "deblax": false,
-      "diasUltVisita": 0
+      "diasUltVisita": 0,
+      "lugar1": "Ecopetrol Bulevar Niza",
+      "lugar2": ""
     },
     {
       "origenId": "51926666",
@@ -766,7 +840,9 @@ const PANEL_DATA = {
       "direccion": "Calle 151 #54-45",
       "ips": "Centro Médico Colsubsidio Calle 63",
       "deblax": false,
-      "diasUltVisita": 27
+      "diasUltVisita": 27,
+      "lugar1": "Colmedica Mazuren",
+      "lugar2": ""
     },
     {
       "origenId": "46672059",
@@ -785,7 +861,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 59 #152-19",
       "ips": "Centro Médico Colsanitas Premium Colina Campestre",
       "deblax": false,
-      "diasUltVisita": 68
+      "diasUltVisita": 68,
+      "lugar1": "Colsanitas Colina",
+      "lugar2": ""
     },
     {
       "origenId": "51919752",
@@ -804,7 +882,9 @@ const PANEL_DATA = {
       "direccion": "Calle 127 #20-78 Locales 206 y 207",
       "ips": "Mediagnostica Duitama Sede 3",
       "deblax": false,
-      "diasUltVisita": 44
+      "diasUltVisita": 44,
+      "lugar1": "Reina Sofia",
+      "lugar2": ""
     },
     {
       "origenId": "19240009",
@@ -823,7 +903,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 14 #98-95",
       "ips": "E.S.E. Hospital Universitario de La Samaritana",
       "deblax": false,
-      "diasUltVisita": 34
+      "diasUltVisita": 34,
+      "lugar1": "Consultorio Particular",
+      "lugar2": ""
     },
     {
       "origenId": "1032385370",
@@ -842,7 +924,9 @@ const PANEL_DATA = {
       "direccion": "Calle 100 #19A-35",
       "ips": "Salud Sura Calle 100 Bogotá",
       "deblax": false,
-      "diasUltVisita": 35
+      "diasUltVisita": 35,
+      "lugar1": "Sura 100",
+      "lugar2": ""
     },
     {
       "origenId": "79148936",
@@ -861,7 +945,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 13B #161-85",
       "ips": "Consultorio - Daniel Isaza Restrepo",
       "deblax": true,
-      "diasUltVisita": 2
+      "diasUltVisita": 2,
+      "lugar1": "La Cardio",
+      "lugar2": ""
     },
     {
       "origenId": "1010174247",
@@ -880,7 +966,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Carrera 58 #127-59 Local 282 Piso 2 CC Bulevar Niza",
       "ips": "",
       "deblax": false,
-      "diasUltVisita": 0
+      "diasUltVisita": 0,
+      "lugar1": "Ecopetrol Bulevar Niza",
+      "lugar2": ""
     },
     {
       "origenId": "52693092",
@@ -899,7 +987,9 @@ const PANEL_DATA = {
       "direccion": "Calle 151 #54-45",
       "ips": "Consultorio - Diana Fernanda Rozo Maragua",
       "deblax": false,
-      "diasUltVisita": 41
+      "diasUltVisita": 41,
+      "lugar1": "Colmedica Mazuren",
+      "lugar2": ""
     },
     {
       "origenId": "33368325",
@@ -918,7 +1008,9 @@ const PANEL_DATA = {
       "direccion": "Calle 100 #19A-35",
       "ips": "Salud Sura Calle 100 Bogotá",
       "deblax": false,
-      "diasUltVisita": 35
+      "diasUltVisita": 35,
+      "lugar1": "Sura 100",
+      "lugar2": ""
     },
     {
       "origenId": "52974005",
@@ -937,7 +1029,9 @@ const PANEL_DATA = {
       "direccion": "Calle 95 #23-61",
       "ips": "Clínica Los Nogales S.A.S.",
       "deblax": false,
-      "diasUltVisita": 40
+      "diasUltVisita": 40,
+      "lugar1": "Clinica Los Nogales",
+      "lugar2": ""
     },
     {
       "origenId": "66995987",
@@ -956,7 +1050,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 14 #94-49",
       "ips": "Centro Médico Integral Chico Medplus",
       "deblax": false,
-      "diasUltVisita": 41
+      "diasUltVisita": 41,
+      "lugar1": "Medplus Castellana",
+      "lugar2": ""
     },
     {
       "origenId": "39684255",
@@ -975,7 +1071,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 14 #96-22",
       "ips": "Centro Médico Colsanitas Calle 96",
       "deblax": false,
-      "diasUltVisita": 7
+      "diasUltVisita": 7,
+      "lugar1": "Colsanitas 96",
+      "lugar2": ""
     },
     {
       "origenId": "1020780139",
@@ -994,7 +1092,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Carrera 9 #131A-40",
       "ips": "Fundación Cardio Infantil Instituto de Cardiologia",
       "deblax": false,
-      "diasUltVisita": 33
+      "diasUltVisita": 33,
+      "lugar1": "La Cardio",
+      "lugar2": ""
     },
     {
       "origenId": "14297580",
@@ -1013,7 +1113,9 @@ const PANEL_DATA = {
       "direccion": "Calle 27 Sur #21A-19",
       "ips": "Salud Total EPS / Virrey Solís IPS Olaya",
       "deblax": false,
-      "diasUltVisita": 127
+      "diasUltVisita": 127,
+      "lugar1": "Salud Total",
+      "lugar2": ""
     },
     {
       "origenId": "3806457",
@@ -1032,7 +1134,9 @@ const PANEL_DATA = {
       "direccion": "Calle 153 #6-65",
       "ips": "Centro Médico Colmédica Sede Belaire",
       "deblax": false,
-      "diasUltVisita": 0
+      "diasUltVisita": 0,
+      "lugar1": "Colmedica Belaire",
+      "lugar2": ""
     },
     {
       "origenId": "93411804",
@@ -1051,7 +1155,9 @@ const PANEL_DATA = {
       "direccion": "Calle 33 #4A-50",
       "ips": "Hospital Federico Lleras Acosta E.S.E.",
       "deblax": false,
-      "diasUltVisita": 14
+      "diasUltVisita": 14,
+      "lugar1": "Clinica Tolima",
+      "lugar2": ""
     },
     {
       "origenId": "51960386",
@@ -1070,7 +1176,9 @@ const PANEL_DATA = {
       "direccion": "Calle 167 #72-07",
       "ips": "Hospital Central De La Policía",
       "deblax": false,
-      "diasUltVisita": 0
+      "diasUltVisita": 0,
+      "lugar1": "La Colina",
+      "lugar2": ""
     },
     {
       "origenId": "19300865",
@@ -1089,7 +1197,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Calle 127 #21-60 Cons 421",
       "ips": "Consultorio - Ernesto Augusto Moscoso Martinez",
       "deblax": false,
-      "diasUltVisita": 8
+      "diasUltVisita": 8,
+      "lugar1": "Reina Sofia",
+      "lugar2": ""
     },
     {
       "origenId": "1129578142",
@@ -1108,7 +1218,9 @@ const PANEL_DATA = {
       "direccion": "Calle 163A #13B-60",
       "ips": "Fundación Cardio Infantil Instituto de Cardiologia",
       "deblax": false,
-      "diasUltVisita": 33
+      "diasUltVisita": 33,
+      "lugar1": "La Cardio",
+      "lugar2": ""
     },
     {
       "origenId": "14249321",
@@ -1127,7 +1239,9 @@ const PANEL_DATA = {
       "direccion": "Calle 33 #4A-50",
       "ips": "Hospital Federico Lleras Acosta E.S.E.",
       "deblax": false,
-      "diasUltVisita": 170
+      "diasUltVisita": 170,
+      "lugar1": "Consultorio Particular",
+      "lugar2": ""
     },
     {
       "origenId": "80727802",
@@ -1146,7 +1260,9 @@ const PANEL_DATA = {
       "direccion": "Avenida 19 #102 - 11",
       "ips": "Consultorio - Fernando Andrés González Chacón",
       "deblax": false,
-      "diasUltVisita": 0
+      "diasUltVisita": 0,
+      "lugar1": "Allianz 102",
+      "lugar2": ""
     },
     {
       "origenId": "83233124",
@@ -1165,7 +1281,9 @@ const PANEL_DATA = {
       "direccion": "Calle 163A #13B-60",
       "ips": "Fundación Cardio Infantil Instituto de Cardiologia",
       "deblax": false,
-      "diasUltVisita": 2
+      "diasUltVisita": 2,
+      "lugar1": "La Cardio",
+      "lugar2": ""
     },
     {
       "origenId": "79296249",
@@ -1184,7 +1302,9 @@ const PANEL_DATA = {
       "direccion": "Calle 163A #13B-60",
       "ips": "Fundación Cardio Infantil Instituto de Cardiologia",
       "deblax": true,
-      "diasUltVisita": 2
+      "diasUltVisita": 2,
+      "lugar1": "La Cardio",
+      "lugar2": ""
     },
     {
       "origenId": "10297559",
@@ -1203,7 +1323,9 @@ const PANEL_DATA = {
       "direccion": "Calle 163A #13B-60",
       "ips": "Fundación Cardio Infantil Instituto de Cardiologia",
       "deblax": false,
-      "diasUltVisita": 2
+      "diasUltVisita": 2,
+      "lugar1": "La Cardio",
+      "lugar2": ""
     },
     {
       "origenId": "93379131",
@@ -1222,7 +1344,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 12S #93-21",
       "ips": "Consultorio - German Alonso Jimenez Medina",
       "deblax": false,
-      "diasUltVisita": 15
+      "diasUltVisita": 15,
+      "lugar1": "Medicadiz",
+      "lugar2": ""
     },
     {
       "origenId": "53070416",
@@ -1241,7 +1365,9 @@ const PANEL_DATA = {
       "direccion": "Avenida 19 #102-53 Piso 1 Y 7",
       "ips": "Clínica La Sabana S.A.",
       "deblax": false,
-      "diasUltVisita": 0
+      "diasUltVisita": 0,
+      "lugar1": "Allianz 102",
+      "lugar2": ""
     },
     {
       "origenId": "52662350",
@@ -1260,7 +1386,9 @@ const PANEL_DATA = {
       "direccion": "Calle 100 #19A-35",
       "ips": "Salud Sura Calle 100 Bogotá",
       "deblax": false,
-      "diasUltVisita": 35
+      "diasUltVisita": 35,
+      "lugar1": "Sura 100",
+      "lugar2": ""
     },
     {
       "origenId": "73156699",
@@ -1279,7 +1407,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Carrera 58 #127-59 Local 282 Piso 2 CC Bulevar Niza",
       "ips": "Ecopetrol Bulevar Niza",
       "deblax": false,
-      "diasUltVisita": 51
+      "diasUltVisita": 51,
+      "lugar1": "Ecopetrol Bulevar Niza",
+      "lugar2": ""
     },
     {
       "origenId": "19310418",
@@ -1298,7 +1428,9 @@ const PANEL_DATA = {
       "direccion": "Calle 127 #20-78 Locales 206 y 207",
       "ips": "Centro Médico Colsanitas Horizonte",
       "deblax": false,
-      "diasUltVisita": 42
+      "diasUltVisita": 42,
+      "lugar1": "Reina Sofia",
+      "lugar2": ""
     },
     {
       "origenId": "80135242",
@@ -1317,7 +1449,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 45 #94-71",
       "ips": "Droguería Fundación Cardio Infantil",
       "deblax": false,
-      "diasUltVisita": 50
+      "diasUltVisita": 50,
+      "lugar1": "Colsanitas Cedrobolivar",
+      "lugar2": ""
     },
     {
       "origenId": "7186346",
@@ -1336,7 +1470,9 @@ const PANEL_DATA = {
       "direccion": "Calle 100 #19A-35",
       "ips": "Clínica Los Nogales S.A.S.",
       "deblax": false,
-      "diasUltVisita": 121
+      "diasUltVisita": 121,
+      "lugar1": "Sura 100",
+      "lugar2": ""
     },
     {
       "origenId": "52395421",
@@ -1355,7 +1491,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 16 #82-57",
       "ips": "Clínica Del Country IPS",
       "deblax": false,
-      "diasUltVisita": 40
+      "diasUltVisita": 40,
+      "lugar1": "Cardiocolombia",
+      "lugar2": ""
     },
     {
       "origenId": "81754045",
@@ -1374,7 +1512,9 @@ const PANEL_DATA = {
       "direccion": "Calle 33 #4A-50",
       "ips": "Hospital Federico Lleras Acosta E.S.E.",
       "deblax": true,
-      "diasUltVisita": 13
+      "diasUltVisita": 13,
+      "lugar1": "ICVT",
+      "lugar2": ""
     },
     {
       "origenId": "14228371",
@@ -1393,7 +1533,9 @@ const PANEL_DATA = {
       "direccion": "Calle 15 #05-35",
       "ips": "Hospital Federico Lleras Acosta E.S.E.",
       "deblax": false,
-      "diasUltVisita": 16
+      "diasUltVisita": 16,
+      "lugar1": "Consultorio Particular",
+      "lugar2": ""
     },
     {
       "origenId": "19356579",
@@ -1412,7 +1554,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Calle 127 #20-78 Cons 201-202-203 Y 204",
       "ips": "Unidad Renal Sanitas",
       "deblax": false,
-      "diasUltVisita": 8
+      "diasUltVisita": 8,
+      "lugar1": "Reina Sofia",
+      "lugar2": ""
     },
     {
       "origenId": "684072",
@@ -1431,7 +1575,9 @@ const PANEL_DATA = {
       "direccion": "Calle 95 #23-61",
       "ips": "Cardio Colombia Sede Principal",
       "deblax": false,
-      "diasUltVisita": 37
+      "diasUltVisita": 37,
+      "lugar1": "Cardiocolombia",
+      "lugar2": ""
     },
     {
       "origenId": "41915563",
@@ -1450,7 +1596,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Calle 127 #20-16 Cons 306",
       "ips": "Centro Médico Colsanitas Premium La Calleja",
       "deblax": false,
-      "diasUltVisita": 42
+      "diasUltVisita": 42,
+      "lugar1": "Plus 127",
+      "lugar2": ""
     },
     {
       "origenId": "52267936",
@@ -1469,7 +1617,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 14 #127-11 Usaquén",
       "ips": "Consultorio - Ingrid Johanna Stephens Leal",
       "deblax": false,
-      "diasUltVisita": 43
+      "diasUltVisita": 43,
+      "lugar1": "La Carolina",
+      "lugar2": ""
     },
     {
       "origenId": "79686032",
@@ -1488,7 +1638,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 59 #152-19",
       "ips": "Consultorio - Ivan Dario Ortiz Alvarez",
       "deblax": false,
-      "diasUltVisita": 47
+      "diasUltVisita": 47,
+      "lugar1": "Colsanitas Colina",
+      "lugar2": ""
     },
     {
       "origenId": "52088510",
@@ -1507,7 +1659,9 @@ const PANEL_DATA = {
       "direccion": "Calle 97 #23-37",
       "ips": "Centro Médico Dalí",
       "deblax": false,
-      "diasUltVisita": 48
+      "diasUltVisita": 48,
+      "lugar1": "Dali",
+      "lugar2": ""
     },
     {
       "origenId": "77028381",
@@ -1526,7 +1680,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 13 #49-40",
       "ips": "Fundación Cardio Infantil Instituto de Cardiologia",
       "deblax": false,
-      "diasUltVisita": 2
+      "diasUltVisita": 2,
+      "lugar1": "La Cardio",
+      "lugar2": ""
     },
     {
       "origenId": "93379295",
@@ -1545,7 +1701,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 5 #30B-15",
       "ips": "Centro Médico E.P.S. Sanitas Ibagué",
       "deblax": false,
-      "diasUltVisita": 13
+      "diasUltVisita": 13,
+      "lugar1": "Sanitas",
+      "lugar2": ""
     },
     {
       "origenId": "79889441",
@@ -1564,7 +1722,9 @@ const PANEL_DATA = {
       "direccion": "Calle 23 #66-46",
       "ips": "Hospital Militar Central",
       "deblax": false,
-      "diasUltVisita": 30
+      "diasUltVisita": 30,
+      "lugar1": "Colsanitas Medicina Avanzada",
+      "lugar2": ""
     },
     {
       "origenId": "1018436848",
@@ -1583,7 +1743,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 5 #31-114",
       "ips": "Clínica Medicadiz Samaria",
       "deblax": true,
-      "diasUltVisita": 15
+      "diasUltVisita": 15,
+      "lugar1": "Medicadiz",
+      "lugar2": ""
     },
     {
       "origenId": "15902005",
@@ -1602,7 +1764,9 @@ const PANEL_DATA = {
       "direccion": "Calle 127 #20-78 Locales 206 y 207",
       "ips": "Consultorio - Jesus Fernando Ospina Arias",
       "deblax": false,
-      "diasUltVisita": 44
+      "diasUltVisita": 44,
+      "lugar1": "Horizonte",
+      "lugar2": ""
     },
     {
       "origenId": "19460228",
@@ -1621,7 +1785,9 @@ const PANEL_DATA = {
       "direccion": "Calle 125 #20-70 Of 204",
       "ips": "Unidad Radiológica Dento Craneo Maxilo Facial",
       "deblax": false,
-      "diasUltVisita": 42
+      "diasUltVisita": 42,
+      "lugar1": "Reina Sofia",
+      "lugar2": ""
     },
     {
       "origenId": "79943336",
@@ -1640,7 +1806,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Carrera 68 #90-88",
       "ips": "Centro De Atención En Salud Cafam Floresta",
       "deblax": false,
-      "diasUltVisita": 1
+      "diasUltVisita": 1,
+      "lugar1": "Colmedica Cedritos",
+      "lugar2": ""
     },
     {
       "origenId": "72072579",
@@ -1659,7 +1827,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 5 #30-43",
       "ips": "Nueva Eps Ibagué",
       "deblax": false,
-      "diasUltVisita": 14
+      "diasUltVisita": 14,
+      "lugar1": "NEPS",
+      "lugar2": ""
     },
     {
       "origenId": "53166214",
@@ -1678,7 +1848,9 @@ const PANEL_DATA = {
       "direccion": "Autopista Norte #100-74",
       "ips": "EPS Sanitas Centro Médico Especialistas Autopista Norte",
       "deblax": false,
-      "diasUltVisita": 48
+      "diasUltVisita": 48,
+      "lugar1": "Torre de especialistas",
+      "lugar2": ""
     },
     {
       "origenId": "79996080",
@@ -1697,7 +1869,9 @@ const PANEL_DATA = {
       "direccion": "Calle 163A #13B-60",
       "ips": "Fundación Cardio Infantil Instituto de Cardiologia",
       "deblax": true,
-      "diasUltVisita": 36
+      "diasUltVisita": 36,
+      "lugar1": "La Cardio",
+      "lugar2": ""
     },
     {
       "origenId": "13991013",
@@ -1716,7 +1890,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 5A #38-14",
       "ips": "Consultorio - Jhon Jairo Leal Lozano",
       "deblax": false,
-      "diasUltVisita": 14
+      "diasUltVisita": 14,
+      "lugar1": "Consultorio Particular",
+      "lugar2": ""
     },
     {
       "origenId": "1072645563",
@@ -1735,7 +1911,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 14 #94-49",
       "ips": "Centro Médico Integral Chico Medplus",
       "deblax": false,
-      "diasUltVisita": 41
+      "diasUltVisita": 41,
+      "lugar1": "Medplus Castellana",
+      "lugar2": ""
     },
     {
       "origenId": "88250789",
@@ -1754,7 +1932,9 @@ const PANEL_DATA = {
       "direccion": "Calle 163A #13B-60",
       "ips": "Fundación Cardio Infantil Instituto de Cardiologia",
       "deblax": false,
-      "diasUltVisita": 50
+      "diasUltVisita": 50,
+      "lugar1": "La Cardio",
+      "lugar2": ""
     },
     {
       "origenId": "7176861",
@@ -1773,7 +1953,9 @@ const PANEL_DATA = {
       "direccion": "Calle 163A #13B-60",
       "ips": "Fundación Cardio Infantil Instituto de Cardiologia",
       "deblax": false,
-      "diasUltVisita": 36
+      "diasUltVisita": 36,
+      "lugar1": "La Cardio",
+      "lugar2": ""
     },
     {
       "origenId": "19258605",
@@ -1792,7 +1974,9 @@ const PANEL_DATA = {
       "direccion": "Calle 163A #13B-60",
       "ips": "Fundación Cardio Infantil Instituto de Cardiologia",
       "deblax": false,
-      "diasUltVisita": 2
+      "diasUltVisita": 2,
+      "lugar1": "La Cardio",
+      "lugar2": ""
     },
     {
       "origenId": "10257935",
@@ -1811,7 +1995,9 @@ const PANEL_DATA = {
       "direccion": "Calle 125 #19-89 Cons 204",
       "ips": "Consultorio - Jorge Enrique Guerrero Sandoval",
       "deblax": false,
-      "diasUltVisita": 72
+      "diasUltVisita": 72,
+      "lugar1": "Reina Sofia",
+      "lugar2": ""
     },
     {
       "origenId": "1032375839",
@@ -1830,7 +2016,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Carrera 58 #127-59 Local 282 Piso 2 CC Boulevar Niza",
       "ips": "Hospital Central De La Policía",
       "deblax": false,
-      "diasUltVisita": 0
+      "diasUltVisita": 0,
+      "lugar1": "Ecopetrol Bulevar Niza",
+      "lugar2": ""
     },
     {
       "origenId": "85457039",
@@ -1849,7 +2037,9 @@ const PANEL_DATA = {
       "direccion": "Calle 99 #13-90",
       "ips": "Cardio Colombia Sede Principal",
       "deblax": false,
-      "diasUltVisita": 7
+      "diasUltVisita": 7,
+      "lugar1": "Colsanitas 96",
+      "lugar2": ""
     },
     {
       "origenId": "14219080",
@@ -1868,7 +2058,9 @@ const PANEL_DATA = {
       "direccion": "Calle 43 #4-26",
       "ips": "Centro Médico Javerianos Ibagué",
       "deblax": false,
-      "diasUltVisita": 16
+      "diasUltVisita": 16,
+      "lugar1": "Javerianos",
+      "lugar2": ""
     },
     {
       "origenId": "691606",
@@ -1887,7 +2079,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 59 #152-19",
       "ips": "Centro Médico Colsanitas Colina Campestre",
       "deblax": false,
-      "diasUltVisita": 47
+      "diasUltVisita": 47,
+      "lugar1": "Colsanitas Colina",
+      "lugar2": ""
     },
     {
       "origenId": "1020789089",
@@ -1906,7 +2100,9 @@ const PANEL_DATA = {
       "direccion": "Calle 163A #13B-60",
       "ips": "Hospital Universitario Mayor - Méderi",
       "deblax": false,
-      "diasUltVisita": 2
+      "diasUltVisita": 2,
+      "lugar1": "La Cardio",
+      "lugar2": ""
     },
     {
       "origenId": "9081541",
@@ -1925,7 +2121,9 @@ const PANEL_DATA = {
       "direccion": "Calle 134 #13-83 Local 14",
       "ips": "Edificio Altos Del Bosque",
       "deblax": false,
-      "diasUltVisita": 1
+      "diasUltVisita": 1,
+      "lugar1": "Bosque",
+      "lugar2": ""
     },
     {
       "origenId": "77163148",
@@ -1944,7 +2142,9 @@ const PANEL_DATA = {
       "direccion": "Transversal 1 Sur #44-229",
       "ips": "Centro Médico E.P.S. Sanitas Ibagué",
       "deblax": false,
-      "diasUltVisita": 12
+      "diasUltVisita": 12,
+      "lugar1": "Sanitas",
+      "lugar2": ""
     },
     {
       "origenId": "19561949",
@@ -1963,7 +2163,9 @@ const PANEL_DATA = {
       "direccion": "Calle 127 Bis #19 25 Cons 311",
       "ips": "Clínica Reina Sofía",
       "deblax": false,
-      "diasUltVisita": 44
+      "diasUltVisita": 44,
+      "lugar1": "Reina Sofia",
+      "lugar2": ""
     },
     {
       "origenId": "17956572",
@@ -1982,7 +2184,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 49D #91-33",
       "ips": "Centro Médico Integral Chico Medplus",
       "deblax": false,
-      "diasUltVisita": 41
+      "diasUltVisita": 41,
+      "lugar1": "Medplus Castellana",
+      "lugar2": ""
     },
     {
       "origenId": "17118986",
@@ -2001,7 +2205,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 5 #63 88",
       "ips": "Consultorio - Juan Antonio Caypa Rodriguez",
       "deblax": false,
-      "diasUltVisita": 15
+      "diasUltVisita": 15,
+      "lugar1": "Consultorio Particular",
+      "lugar2": ""
     },
     {
       "origenId": "19078506",
@@ -2020,7 +2226,9 @@ const PANEL_DATA = {
       "direccion": "Calle 43 #4-26 Cons 406",
       "ips": "Consultorio - Juan Antonio Ruiz Schnitter",
       "deblax": false,
-      "diasUltVisita": 16
+      "diasUltVisita": 16,
+      "lugar1": "Javerianos",
+      "lugar2": ""
     },
     {
       "origenId": "1020827712",
@@ -2039,7 +2247,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Carrera 19 #102-31 Local 4",
       "ips": "Centro Médico Y De Ayudas Diagnósticas Allianz",
       "deblax": false,
-      "diasUltVisita": 0
+      "diasUltVisita": 0,
+      "lugar1": "Allianz 102",
+      "lugar2": ""
     },
     {
       "origenId": "1019073822",
@@ -2058,7 +2268,9 @@ const PANEL_DATA = {
       "direccion": "Autopista Norte #100-74",
       "ips": "Clínica De Marly Jorge Cavelier Gaviria S.A.S",
       "deblax": false,
-      "diasUltVisita": 48
+      "diasUltVisita": 48,
+      "lugar1": "Torre de especialistas",
+      "lugar2": ""
     },
     {
       "origenId": "71578881",
@@ -2077,7 +2289,9 @@ const PANEL_DATA = {
       "direccion": "Calle 106 #19-19",
       "ips": "Hospital Militar Central",
       "deblax": false,
-      "diasUltVisita": 48
+      "diasUltVisita": 48,
+      "lugar1": "Torre de especialistas",
+      "lugar2": ""
     },
     {
       "origenId": "18495666",
@@ -2096,7 +2310,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 12 Sur #93-134 Cons 911 y 912",
       "ips": "Unidad De Pruebas Cardiológicas No Invasivas",
       "deblax": false,
-      "diasUltVisita": 15
+      "diasUltVisita": 15,
+      "lugar1": "Medicadiz",
+      "lugar2": ""
     },
     {
       "origenId": "80549167",
@@ -2115,7 +2331,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 10 Sur #66A-70",
       "ips": "Clínica Nuestra Sede Ibagué",
       "deblax": false,
-      "diasUltVisita": 13
+      "diasUltVisita": 13,
+      "lugar1": "ICVT",
+      "lugar2": ""
     },
     {
       "origenId": "1045676657",
@@ -2134,7 +2352,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 14 #96-22",
       "ips": "Centro Médico Colsanitas Calle 96",
       "deblax": false,
-      "diasUltVisita": 7
+      "diasUltVisita": 7,
+      "lugar1": "Colsanitas 96",
+      "lugar2": ""
     },
     {
       "origenId": "79283543",
@@ -2153,7 +2373,9 @@ const PANEL_DATA = {
       "direccion": "Calle 127 #20-78 Locales 206 y 207",
       "ips": "Centro Médico Colsanitas Horizonte",
       "deblax": false,
-      "diasUltVisita": 8
+      "diasUltVisita": 8,
+      "lugar1": "Reina Sofia",
+      "lugar2": ""
     },
     {
       "origenId": "1032422354",
@@ -2172,7 +2394,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Carrera 19 #102-31 Local 4",
       "ips": "Centro Médico Y De Ayudas Diagnósticas Allianz",
       "deblax": false,
-      "diasUltVisita": 0
+      "diasUltVisita": 0,
+      "lugar1": "Allianz 102",
+      "lugar2": ""
     },
     {
       "origenId": "1110467616",
@@ -2191,7 +2415,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 163B #13B-60",
       "ips": "Fundación Cardio Infantil Instituto de Cardiologia",
       "deblax": false,
-      "diasUltVisita": 37
+      "diasUltVisita": 37,
+      "lugar1": "La Cardio",
+      "lugar2": ""
     },
     {
       "origenId": "52692754",
@@ -2210,7 +2436,9 @@ const PANEL_DATA = {
       "direccion": "Calle 163A #13B-60",
       "ips": "Fundación Cardio Infantil Instituto de Cardiologia",
       "deblax": false,
-      "diasUltVisita": 78
+      "diasUltVisita": 78,
+      "lugar1": "La Cardio",
+      "lugar2": ""
     },
     {
       "origenId": "52712054",
@@ -2229,7 +2457,9 @@ const PANEL_DATA = {
       "direccion": "Calle 140 #10A-48 Cons 501",
       "ips": "Javesalud Allianz",
       "deblax": false,
-      "diasUltVisita": 1
+      "diasUltVisita": 1,
+      "lugar1": "Colmedica Cedritos",
+      "lugar2": ""
     },
     {
       "origenId": "1020799643",
@@ -2248,7 +2478,9 @@ const PANEL_DATA = {
       "direccion": "Calle 10 #18-75",
       "ips": "Hospital De San José",
       "deblax": false,
-      "diasUltVisita": 37
+      "diasUltVisita": 37,
+      "lugar1": "Cardiocolombia",
+      "lugar2": ""
     },
     {
       "origenId": "79316645",
@@ -2267,7 +2499,9 @@ const PANEL_DATA = {
       "direccion": "Calle 127 #19A-28",
       "ips": "Hospital Universitario San Ignacio",
       "deblax": false,
-      "diasUltVisita": 8
+      "diasUltVisita": 8,
+      "lugar1": "Acomedica 2",
+      "lugar2": ""
     },
     {
       "origenId": "52144850",
@@ -2286,7 +2520,9 @@ const PANEL_DATA = {
       "direccion": "Calle 93 B #17-12 Cons 210",
       "ips": "Consultorio - Liliana Consuegra Bazzani",
       "deblax": false,
-      "diasUltVisita": 0
+      "diasUltVisita": 0,
+      "lugar1": "Consultorio Particular",
+      "lugar2": ""
     },
     {
       "origenId": "1075217814",
@@ -2305,7 +2541,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 23 #124-87",
       "ips": "Hospital Militar Central",
       "deblax": false,
-      "diasUltVisita": 2
+      "diasUltVisita": 2,
+      "lugar1": "Reina Sofia",
+      "lugar2": ""
     },
     {
       "origenId": "1110462846",
@@ -2324,7 +2562,9 @@ const PANEL_DATA = {
       "direccion": "Calle 41 #5-40",
       "ips": "Virrey Solís Ips S.A. Cádiz",
       "deblax": false,
-      "diasUltVisita": 12
+      "diasUltVisita": 12,
+      "lugar1": "Sanitas",
+      "lugar2": ""
     },
     {
       "origenId": "1032462357",
@@ -2343,7 +2583,9 @@ const PANEL_DATA = {
       "direccion": "Calle 163A #13B-60",
       "ips": "Fundación Cardio Infantil Instituto de Cardiologia",
       "deblax": false,
-      "diasUltVisita": 0
+      "diasUltVisita": 0,
+      "lugar1": "La Cardio",
+      "lugar2": ""
     },
     {
       "origenId": "52818072",
@@ -2362,7 +2604,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Calle 127 #20-78",
       "ips": "Consultorio - Lorena Renata Leal Leaño",
       "deblax": false,
-      "diasUltVisita": 8
+      "diasUltVisita": 8,
+      "lugar1": "Acomedica 2",
+      "lugar2": ""
     },
     {
       "origenId": "18460304",
@@ -2381,7 +2625,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 14 #127-11 Cons 305",
       "ips": "Clínica La Carolina S.A.",
       "deblax": false,
-      "diasUltVisita": 27
+      "diasUltVisita": 27,
+      "lugar1": "La Carolina",
+      "lugar2": ""
     },
     {
       "origenId": "72293355",
@@ -2400,7 +2646,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 4F #34-229",
       "ips": "E.S.E. Hospital La Divina Misericordia",
       "deblax": false,
-      "diasUltVisita": 13
+      "diasUltVisita": 13,
+      "lugar1": "ICVT",
+      "lugar2": ""
     },
     {
       "origenId": "14399696",
@@ -2419,7 +2667,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 1 #12-22",
       "ips": "Sociedad Medicoquirurgica Del Tolima Sociedad Anonima Y/O Clinica Tolima S.A.",
       "deblax": false,
-      "diasUltVisita": 13
+      "diasUltVisita": 13,
+      "lugar1": "Keralti",
+      "lugar2": ""
     },
     {
       "origenId": "7633726",
@@ -2438,7 +2688,9 @@ const PANEL_DATA = {
       "direccion": "Calle 140 #11-45 Of 901 A 921 Piso 9",
       "ips": "Centro Médico Colmedica Sede Cedritos",
       "deblax": false,
-      "diasUltVisita": 1
+      "diasUltVisita": 1,
+      "lugar1": "Colmedica Cedritos",
+      "lugar2": ""
     },
     {
       "origenId": "79783135",
@@ -2457,7 +2709,9 @@ const PANEL_DATA = {
       "direccion": "Diagonal 152 #36-44",
       "ips": "Centro Médico Colsanitas Colina Campestre",
       "deblax": false,
-      "diasUltVisita": 47
+      "diasUltVisita": 47,
+      "lugar1": "Colsanitas Colina",
+      "lugar2": ""
     },
     {
       "origenId": "80412570",
@@ -2476,7 +2730,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 46 #95-56",
       "ips": "Cardio Colombia Sede Principal",
       "deblax": true,
-      "diasUltVisita": 37
+      "diasUltVisita": 37,
+      "lugar1": "Cardiocolombia",
+      "lugar2": ""
     },
     {
       "origenId": "80096842",
@@ -2495,7 +2751,9 @@ const PANEL_DATA = {
       "direccion": "Calle 140 #11-45 Of 901 A 921 Piso 9",
       "ips": "Hospital Universitario Barrios Unidos - Méderi",
       "deblax": false,
-      "diasUltVisita": 1
+      "diasUltVisita": 1,
+      "lugar1": "Colmedica Cedritos",
+      "lugar2": ""
     },
     {
       "origenId": "14204106",
@@ -2514,7 +2772,9 @@ const PANEL_DATA = {
       "direccion": "Calle 8 #7-75",
       "ips": "Hospital Federico Lleras Acosta E.S.E.",
       "deblax": false,
-      "diasUltVisita": 16
+      "diasUltVisita": 16,
+      "lugar1": "Consultorio Particular",
+      "lugar2": ""
     },
     {
       "origenId": "52809088",
@@ -2533,7 +2793,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Carrera 58 #127-59 Local 282 Piso 2 CC Bulevar Niza",
       "ips": "Ecopetrol Bulevar Niza",
       "deblax": false,
-      "diasUltVisita": 34
+      "diasUltVisita": 34,
+      "lugar1": "Ecopetrol Bulevar Niza",
+      "lugar2": ""
     },
     {
       "origenId": "52211198",
@@ -2552,7 +2814,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 14 #96-22",
       "ips": "Centro Médico Colsanitas Calle 96",
       "deblax": false,
-      "diasUltVisita": 50
+      "diasUltVisita": 50,
+      "lugar1": "Colsanitas Cedrobolivar",
+      "lugar2": ""
     },
     {
       "origenId": "36752546",
@@ -2571,7 +2835,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 59 #152-19",
       "ips": "Centro Médico Compensar Calle 127",
       "deblax": false,
-      "diasUltVisita": 47
+      "diasUltVisita": 47,
+      "lugar1": "Colsanitas Colina",
+      "lugar2": ""
     },
     {
       "origenId": "51869834",
@@ -2590,7 +2856,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 59 #152-19",
       "ips": "Centro Médico Colsanitas Colina Campestre",
       "deblax": false,
-      "diasUltVisita": 47
+      "diasUltVisita": 47,
+      "lugar1": "Colsanitas Colina",
+      "lugar2": ""
     },
     {
       "origenId": "1024461251",
@@ -2609,7 +2877,9 @@ const PANEL_DATA = {
       "direccion": "Calle 41 #5-40",
       "ips": "Virrey Solís Ips S.A. Cádiz",
       "deblax": false,
-      "diasUltVisita": 15
+      "diasUltVisita": 15,
+      "lugar1": "Salud Total",
+      "lugar2": ""
     },
     {
       "origenId": "1018440920",
@@ -2628,7 +2898,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 14 #96-22",
       "ips": "Clinisanitas Calle 96",
       "deblax": false,
-      "diasUltVisita": 7
+      "diasUltVisita": 7,
+      "lugar1": "Colsanitas 96",
+      "lugar2": ""
     },
     {
       "origenId": "1026273500",
@@ -2647,7 +2919,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 59 #152-25",
       "ips": "Centro Médico Colsanitas Colina Campestre",
       "deblax": false,
-      "diasUltVisita": 47
+      "diasUltVisita": 47,
+      "lugar1": "Colsanitas Colina",
+      "lugar2": ""
     },
     {
       "origenId": "65780599",
@@ -2666,7 +2940,9 @@ const PANEL_DATA = {
       "direccion": "Calle 32 #4 C-40",
       "ips": "Consultorio - Maria Carolina Rodriguez Vivas",
       "deblax": false,
-      "diasUltVisita": 15
+      "diasUltVisita": 15,
+      "lugar1": "Colsanitas",
+      "lugar2": ""
     },
     {
       "origenId": "2000016206",
@@ -2685,7 +2961,9 @@ const PANEL_DATA = {
       "direccion": "Transversal 1 Sur #44-229",
       "ips": "Droguería Cruz Verde Transversal 1",
       "deblax": false,
-      "diasUltVisita": 12
+      "diasUltVisita": 12,
+      "lugar1": "Sanitas",
+      "lugar2": ""
     },
     {
       "origenId": "65634277",
@@ -2704,7 +2982,9 @@ const PANEL_DATA = {
       "direccion": "Transversal 1 Sur #44-229",
       "ips": "Centro Médico E.P.S. Sanitas Ibagué",
       "deblax": false,
-      "diasUltVisita": 13
+      "diasUltVisita": 13,
+      "lugar1": "Sanitas",
+      "lugar2": ""
     },
     {
       "origenId": "30336527",
@@ -2723,7 +3003,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 14 #96-22",
       "ips": "Clinisanitas Calle 96",
       "deblax": false,
-      "diasUltVisita": 7
+      "diasUltVisita": 7,
+      "lugar1": "Colsanitas 96",
+      "lugar2": ""
     },
     {
       "origenId": "93378630",
@@ -2742,7 +3024,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 6 #29-54 Edificio M30 Local 106 107 y 108",
       "ips": "Centro Médico E.P.S. Sanitas Ibagué",
       "deblax": false,
-      "diasUltVisita": 16
+      "diasUltVisita": 16,
+      "lugar1": "Colsanitas",
+      "lugar2": ""
     },
     {
       "origenId": "79152326",
@@ -2761,7 +3045,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Calle 127 #20-78",
       "ips": "Clínica Reina Sofía",
       "deblax": false,
-      "diasUltVisita": 8
+      "diasUltVisita": 8,
+      "lugar1": "Reina Sofia",
+      "lugar2": ""
     },
     {
       "origenId": "38144920",
@@ -2780,7 +3066,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Guabinal #69-02",
       "ips": "Centro Médico E.P.S. Sanitas Ibagué",
       "deblax": false,
-      "diasUltVisita": 12
+      "diasUltVisita": 12,
+      "lugar1": "Sanitas",
+      "lugar2": ""
     },
     {
       "origenId": "93410411",
@@ -2799,7 +3087,9 @@ const PANEL_DATA = {
       "direccion": "Calle 163A #13B-60",
       "ips": "Centro Médico Compensar Calle 26",
       "deblax": false,
-      "diasUltVisita": 2
+      "diasUltVisita": 2,
+      "lugar1": "La Cardio",
+      "lugar2": ""
     },
     {
       "origenId": "57466523",
@@ -2818,7 +3108,9 @@ const PANEL_DATA = {
       "direccion": "Calle 127 #19A-28 Cons 306",
       "ips": "Consultorio - Milena Del Pilar Castillo Mejia",
       "deblax": false,
-      "diasUltVisita": 44
+      "diasUltVisita": 44,
+      "lugar1": "Acomedica 1",
+      "lugar2": ""
     },
     {
       "origenId": "53125372",
@@ -2837,7 +3129,9 @@ const PANEL_DATA = {
       "direccion": "Calle 45 #30-10",
       "ips": "EPS Sanitas Centro Médico Especialistas Autopista Norte",
       "deblax": false,
-      "diasUltVisita": 48
+      "diasUltVisita": 48,
+      "lugar1": "Torre de especialistas",
+      "lugar2": ""
     },
     {
       "origenId": "22738501",
@@ -2856,7 +3150,9 @@ const PANEL_DATA = {
       "direccion": "Calle 100 #19A-35",
       "ips": "Salud Sura Calle 100 Bogotá",
       "deblax": false,
-      "diasUltVisita": 35
+      "diasUltVisita": 35,
+      "lugar1": "Sura 100",
+      "lugar2": ""
     },
     {
       "origenId": "33207376",
@@ -2875,7 +3171,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 59 #152-19",
       "ips": "Centro Médico Colsanitas Colina Campestre",
       "deblax": false,
-      "diasUltVisita": 47
+      "diasUltVisita": 47,
+      "lugar1": "Colsanitas Colina",
+      "lugar2": ""
     },
     {
       "origenId": "93370504",
@@ -2894,7 +3192,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 1 #12-22",
       "ips": "Sociedad Medicoquirurgica Del Tolima Sociedad Anonima Y/O Clinica Tolima S.A.",
       "deblax": true,
-      "diasUltVisita": 13
+      "diasUltVisita": 13,
+      "lugar1": "Consultorio Particular",
+      "lugar2": ""
     },
     {
       "origenId": "1013627477",
@@ -2913,7 +3213,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 49D #91-33",
       "ips": "Centro Médico Integral Chico Medplus",
       "deblax": false,
-      "diasUltVisita": 41
+      "diasUltVisita": 41,
+      "lugar1": "Medplus Castellana",
+      "lugar2": ""
     },
     {
       "origenId": "51991881",
@@ -2932,7 +3234,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 14 #96-22",
       "ips": "Centro Médico Integral Chico Medplus",
       "deblax": false,
-      "diasUltVisita": 7
+      "diasUltVisita": 7,
+      "lugar1": "Colsanitas 96",
+      "lugar2": ""
     },
     {
       "origenId": "19115754",
@@ -2951,7 +3255,9 @@ const PANEL_DATA = {
       "direccion": "Calle 31 #4D-8",
       "ips": "Hospital Federico Lleras Acosta E.S.E.",
       "deblax": false,
-      "diasUltVisita": 14
+      "diasUltVisita": 14,
+      "lugar1": "Consultorio Particular",
+      "lugar2": ""
     },
     {
       "origenId": "7185708",
@@ -2970,7 +3276,9 @@ const PANEL_DATA = {
       "direccion": "Calle 163A #13B-60",
       "ips": "Fundación Cardio Infantil Instituto de Cardiologia",
       "deblax": false,
-      "diasUltVisita": 33
+      "diasUltVisita": 33,
+      "lugar1": "La Cardio",
+      "lugar2": ""
     },
     {
       "origenId": "1013601605",
@@ -2989,7 +3297,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 59 #152-19",
       "ips": "Droguería Hospital San Rafael",
       "deblax": false,
-      "diasUltVisita": 47
+      "diasUltVisita": 47,
+      "lugar1": "Colsanitas Colina",
+      "lugar2": ""
     },
     {
       "origenId": "1019140574",
@@ -3008,7 +3318,9 @@ const PANEL_DATA = {
       "direccion": "Calle 95 #23-61",
       "ips": "Hospital Universitario Clínica San Rafael",
       "deblax": false,
-      "diasUltVisita": 40
+      "diasUltVisita": 40,
+      "lugar1": "Clinica Los Nogales",
+      "lugar2": ""
     },
     {
       "origenId": "80035012",
@@ -3027,7 +3339,9 @@ const PANEL_DATA = {
       "direccion": "Calle 152 #19-44",
       "ips": "Centro Médico Colsanitas Cedro Bolivar",
       "deblax": false,
-      "diasUltVisita": 50
+      "diasUltVisita": 50,
+      "lugar1": "Colsanitas Cedrobolivar",
+      "lugar2": ""
     },
     {
       "origenId": "1019003741",
@@ -3046,7 +3360,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 59 #152-19",
       "ips": "Hospital Militar Central",
       "deblax": false,
-      "diasUltVisita": 47
+      "diasUltVisita": 47,
+      "lugar1": "Colsanitas Colina",
+      "lugar2": ""
     },
     {
       "origenId": "14227461",
@@ -3065,7 +3381,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 5A #36-21",
       "ips": "Consultorio - Pedro Nel Suarez Robledo",
       "deblax": false,
-      "diasUltVisita": 14
+      "diasUltVisita": 14,
+      "lugar1": "Consultorio Particular",
+      "lugar2": ""
     },
     {
       "origenId": "30081750",
@@ -3084,7 +3402,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Calle 127 #20-78 Cons 426",
       "ips": "Consultorio - Pilar Cristina Ruiz Castaño",
       "deblax": false,
-      "diasUltVisita": 43
+      "diasUltVisita": 43,
+      "lugar1": "Horizonte",
+      "lugar2": ""
     },
     {
       "origenId": "1018425962",
@@ -3103,7 +3423,9 @@ const PANEL_DATA = {
       "direccion": "Transversal 3 #49-00",
       "ips": "Clínica Cardiovascular del Caribe S.A.S.",
       "deblax": true,
-      "diasUltVisita": 64
+      "diasUltVisita": 64,
+      "lugar1": "La Cardio",
+      "lugar2": ""
     },
     {
       "origenId": "75074480",
@@ -3122,7 +3444,9 @@ const PANEL_DATA = {
       "direccion": "Calle 19 #7-75",
       "ips": "Centro Médico E.P.S. Sanitas Ibagué",
       "deblax": false,
-      "diasUltVisita": 57
+      "diasUltVisita": 57,
+      "lugar1": "Sanitas",
+      "lugar2": ""
     },
     {
       "origenId": "77181186",
@@ -3141,7 +3465,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Americas #57-2",
       "ips": "EPS Sanitas Centro Médico Suba",
       "deblax": false,
-      "diasUltVisita": 34
+      "diasUltVisita": 34,
+      "lugar1": "Medplus Castellana",
+      "lugar2": ""
     },
     {
       "origenId": "8683102",
@@ -3160,7 +3486,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 59 #26-21",
       "ips": "Hospital Central De La Policía",
       "deblax": false,
-      "diasUltVisita": 37
+      "diasUltVisita": 37,
+      "lugar1": "Cardiocolombia",
+      "lugar2": ""
     },
     {
       "origenId": "10528046",
@@ -3179,7 +3507,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 5 #63-14 Jordán Etapa 2",
       "ips": "Unidad De Salud De Ibagué E.S.E.",
       "deblax": false,
-      "diasUltVisita": 14
+      "diasUltVisita": 14,
+      "lugar1": "Consultorio Particular",
+      "lugar2": ""
     },
     {
       "origenId": "57295642",
@@ -3198,7 +3528,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Carrera 58 #127-59 Local 282 Piso 2 CC Bulevar Niza",
       "ips": "Ecopetrol Bulevar Niza",
       "deblax": false,
-      "diasUltVisita": 34
+      "diasUltVisita": 34,
+      "lugar1": "Ecopetrol Bulevar Niza",
+      "lugar2": ""
     },
     {
       "origenId": "28538724",
@@ -3217,7 +3549,9 @@ const PANEL_DATA = {
       "direccion": "Calle 60 #6-38",
       "ips": "Clínica Emcosalud Ibague",
       "deblax": false,
-      "diasUltVisita": 13
+      "diasUltVisita": 13,
+      "lugar1": "Sanitas",
+      "lugar2": ""
     },
     {
       "origenId": "1020748450",
@@ -3236,7 +3570,9 @@ const PANEL_DATA = {
       "direccion": "Calle 100 #19A-35",
       "ips": "Salud Sura Calle 100 Bogotá",
       "deblax": false,
-      "diasUltVisita": 35
+      "diasUltVisita": 35,
+      "lugar1": "Sura 100",
+      "lugar2": ""
     },
     {
       "origenId": "1020723387",
@@ -3255,7 +3591,9 @@ const PANEL_DATA = {
       "direccion": "Calle 95 #23-61",
       "ips": "Clínica Los Nogales S.A.S.",
       "deblax": false,
-      "diasUltVisita": 40
+      "diasUltVisita": 40,
+      "lugar1": "Clinica Los Nogales",
+      "lugar2": ""
     },
     {
       "origenId": "80226971",
@@ -3274,7 +3612,9 @@ const PANEL_DATA = {
       "direccion": "Calle 8 #20-30",
       "ips": "Centro Médico Integral Chico Medplus",
       "deblax": false,
-      "diasUltVisita": 41
+      "diasUltVisita": 41,
+      "lugar1": "Medplus Castellana",
+      "lugar2": ""
     },
     {
       "origenId": "52862231",
@@ -3293,7 +3633,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 127 #19A-44/62",
       "ips": "Clínica Del Country IPS",
       "deblax": false,
-      "diasUltVisita": 8
+      "diasUltVisita": 8,
+      "lugar1": "Colmedica 125",
+      "lugar2": ""
     },
     {
       "origenId": "9725621",
@@ -3312,7 +3654,9 @@ const PANEL_DATA = {
       "direccion": "Calle 59A #5A - 00 Sur",
       "ips": "Clínica Nuestra Sede Ibagué",
       "deblax": false,
-      "diasUltVisita": 13
+      "diasUltVisita": 13,
+      "lugar1": "Medicadiz",
+      "lugar2": ""
     },
     {
       "origenId": "74181370",
@@ -3331,7 +3675,9 @@ const PANEL_DATA = {
       "direccion": "Avenida 19 #102-53 Piso 1 Y 7",
       "ips": "Clínica La Sabana S.A.",
       "deblax": false,
-      "diasUltVisita": 0
+      "diasUltVisita": 0,
+      "lugar1": "Allianz 102",
+      "lugar2": ""
     },
     {
       "origenId": "1049612925",
@@ -3350,7 +3696,9 @@ const PANEL_DATA = {
       "direccion": "Calle 152 #19-04",
       "ips": "Fundación Hospital Infantil Universitario De San José",
       "deblax": false,
-      "diasUltVisita": 50
+      "diasUltVisita": 50,
+      "lugar1": "Colsanitas Cedrobolivar",
+      "lugar2": ""
     },
     {
       "origenId": "1082871761",
@@ -3369,7 +3717,9 @@ const PANEL_DATA = {
       "direccion": "Carrera 59 #152-19",
       "ips": "Centro Médico Colsanitas Premium Colina Campestre",
       "deblax": false,
-      "diasUltVisita": 47
+      "diasUltVisita": 47,
+      "lugar1": "Colsanitas Colina",
+      "lugar2": ""
     },
     {
       "origenId": "1005051390",
@@ -3388,7 +3738,9 @@ const PANEL_DATA = {
       "direccion": "Calle 23 #66-46",
       "ips": "Clínica Universitaria Colombia",
       "deblax": false,
-      "diasUltVisita": 8
+      "diasUltVisita": 8,
+      "lugar1": "Colsanitas Medicina Avanzada",
+      "lugar2": ""
     },
     {
       "origenId": "52646230",
@@ -3407,7 +3759,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Carrera 58 #127-59 Loc 258 Cc Bulevar Niza",
       "ips": "EPS Sanitas Centro Médico Suba",
       "deblax": false,
-      "diasUltVisita": 48
+      "diasUltVisita": 48,
+      "lugar1": "Torre de especialistas",
+      "lugar2": ""
     },
     {
       "origenId": "532518",
@@ -3426,7 +3780,9 @@ const PANEL_DATA = {
       "direccion": "Calle 140 #11-45 Of 901 A 921 Piso 9",
       "ips": "Hospital Regional De La Orinoquia E.S.E.",
       "deblax": false,
-      "diasUltVisita": 0
+      "diasUltVisita": 0,
+      "lugar1": "Colmedica Cedritos",
+      "lugar2": ""
     },
     {
       "origenId": "1136882491",
@@ -3445,7 +3801,9 @@ const PANEL_DATA = {
       "direccion": "Avenida Carrera 58 #127-59 Local 282 Piso 2 CC Bulevar Niza",
       "ips": "Ecopetrol Bulevar Niza",
       "deblax": false,
-      "diasUltVisita": 34
+      "diasUltVisita": 34,
+      "lugar1": "Ecopetrol Bulevar Niza",
+      "lugar2": ""
     },
     {
       "origenId": "60381170",
@@ -3464,7 +3822,9 @@ const PANEL_DATA = {
       "direccion": "Calle 33 #4A-50",
       "ips": "Hospital Federico Lleras Acosta E.S.E.",
       "deblax": false,
-      "diasUltVisita": 13
+      "diasUltVisita": 13,
+      "lugar1": "Sanitas",
+      "lugar2": ""
     },
     {
       "origenId": "51995299",
@@ -3483,7 +3843,9 @@ const PANEL_DATA = {
       "direccion": "Calle 47 #22-59",
       "ips": "Medplus Palermo",
       "deblax": false,
-      "diasUltVisita": 41
+      "diasUltVisita": 41,
+      "lugar1": "Medplus Castellana",
+      "lugar2": ""
     }
   ],
   "farmacias": [
@@ -4208,7 +4570,7 @@ const PANEL_DATA = {
       "id": 60
     }
   ],
-  "panelVersion": "2026-10"
+  "panelVersion": "2026-10-lugares"
 };
 
 async function cargarPanelLocal() {

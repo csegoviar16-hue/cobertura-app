@@ -1149,6 +1149,7 @@ function getMedicosFiltrados() {
     if (m.ciudad && !m.ciudad.toUpperCase().includes(state.ciudadMed)) return false;
     if (state.medicoSubTab === 'Panel') return true;
     if (state.medicoSubTab === 'Brick') return true;
+    if (state.medicoSubTab === 'Lugar') return true;
     if (state.medicoSubTab === 'Deblax') return m.deblax === true;
     return obtenerSegmentos(m).includes(state.medicoSubTab);
   });
@@ -1171,7 +1172,9 @@ function getMedicosFiltrados() {
     filtrados = filtrados.filter(m =>
       quitarTildes(m.nombre).includes(b) ||
       quitarTildes(m.brick).includes(b) ||
-      quitarTildes(m.brickZona).includes(b)
+      quitarTildes(m.brickZona).includes(b) ||
+      quitarTildes(m.lugar1||'').includes(b) ||
+      quitarTildes(m.lugar2||'').includes(b)
     );
   }
 
@@ -1214,7 +1217,7 @@ function renderMedicosLista(filtrados) {
     return `
       ${bricks.map(b => {
         const zona = porBrick[b][0]?.brickZona || '';
-        const brickTitle = zona ? `BRICK ${esc(b)} - ${esc(zona)}` : `BRICK ${esc(b)}`;
+        const brickTitle = (zona ? `BRICK ${esc(b)} - ${esc(zona)}` : `BRICK ${esc(b)}`) + ` <span class="grupo-count">(${porBrick[b].length})</span>`;
         return `
         <div class="brick-group">
           <div class="brick-title">${brickTitle}</div>
@@ -1222,6 +1225,21 @@ function renderMedicosLista(filtrados) {
         </div>
         `;
       }).join('')}
+      ${filtrados.length===0?'<div class="empty-state">No hay médicos</div>':''}
+    `;
+  }
+
+  if (state.medicoSubTab === 'Lugar') {
+    const porLugar = {};
+    for (const m of filtrados) { const l = m.lugar1 || 'Sin lugar definido'; if(!porLugar[l]) porLugar[l]=[]; porLugar[l].push(m); }
+    const lugares = Object.keys(porLugar).sort((a,b) => a==='Sin lugar definido' ? 1 : b==='Sin lugar definido' ? -1 : a.localeCompare(b));
+    return `
+      ${lugares.map(l => `
+        <div class="brick-group">
+          <div class="brick-title">🏥 ${esc(l)} <span class="grupo-count">(${porLugar[l].length})</span></div>
+          <div class="lista">${porLugar[l].map(m => renderMedicoItem(m)).join('')}</div>
+        </div>
+        `).join('')}
       ${filtrados.length===0?'<div class="empty-state">No hay médicos</div>':''}
     `;
   }
@@ -1236,8 +1254,8 @@ function renderMedicosLista(filtrados) {
 
 function renderMedicos() {
   const subTabs = usuarioActivo === 'carlos'
-    ? ['Panel','H','C','P','M','E','PS','Brick','Deblax']
-    : ['Panel','H','C','P','M','E','PS','Brick'];
+    ? ['Panel','H','C','P','M','E','PS','Brick','Lugar','Deblax']
+    : ['Panel','H','C','P','M','E','PS','Brick','Lugar'];
   const tabsHtml = subTabs.map(t => `<button class="sub-tab ${state.medicoSubTab===t?'active':''}" data-action="set-subtab" data-tab="${t}" data-target="med">${t}</button>`).join('');
 
   const filtrados = getMedicosFiltrados();
@@ -1288,6 +1306,7 @@ function renderMedicoItem(m) {
       <div class="list-info" data-action="open-medico" data-id="${m.id}">
         <div class="list-name">${esc(m.nombre)}${m.fueraDePanel ? ' <span class="seg-badge" style="background:#e2e8f0;color:#64748b;border:1px solid #cbd5e0">Retirado</span>' : ''}</div>
         <div class="list-meta">${esc(m.especialidad)}${brickMeta ? ' · ' + brickMeta : ''}</div>
+        ${m.lugar1 ? `<div class="list-meta list-lugar">📍 ${esc(m.lugar1)}${m.lugar2 ? ' · '+esc(m.lugar2) : ''}</div>` : ''}
       </div>
       <div class="list-segs">${segs.map(s=>`<span class="seg-badge seg-${s.toString().trim().toLowerCase()}">${s}</span>`).join('')}</div>
       <div class="list-actions">
@@ -1377,7 +1396,7 @@ function renderFarmaciasLista(filtrados) {
     return `
       ${bricks.map(b => {
         const zona = porBrick[b][0]?.brickZona || '';
-        const brickTitle = zona ? `BRICK ${esc(b)} - ${esc(zona)}` : `BRICK ${esc(b)}`;
+        const brickTitle = (zona ? `BRICK ${esc(b)} - ${esc(zona)}` : `BRICK ${esc(b)}`) + ` <span class="grupo-count">(${porBrick[b].length})</span>`;
         return `
         <div class="brick-group">
           <div class="brick-title">${brickTitle}</div>
@@ -1930,9 +1949,15 @@ function renderMedicoModal(id) {
             <div><span class="text-sm text-secondary">Frecuencia</span><div class="selectable-text">${m.frecuencia||1} visita(s)/mes</div></div>
             <div><span class="text-sm text-secondary">Ciudad</span><div class="selectable-text">${esc(m.ciudad)||'—'}</div></div>
             <div><span class="text-sm text-secondary">Brick</span><div class="selectable-text">${esc(m.brick)||'—'}${m.brickZona?' · '+esc(m.brickZona):''}</div></div>
+            <div><span class="text-sm text-secondary">Lugar de atención</span><div class="selectable-text">${m.lugar1 ? '📍 '+esc(m.lugar1)+(m.lugar2?' · '+esc(m.lugar2):'') : '—'}</div></div>
             <div><span class="text-sm text-secondary">Celular</span><div class="selectable-text">${esc(m.celular)||'—'}</div></div>
             <div><span class="text-sm text-secondary">Teléfono</span><div class="selectable-text">${esc(m.telefono)||'—'}</div></div>
           </div>
+          ${m.celular ? `
+          <div class="acciones-directas">
+            <a class="btn-primary accion-btn" href="tel:+57${esc(m.celular)}">📞 Llamar</a>
+            <a class="accion-btn accion-wa" href="https://wa.me/57${esc(m.celular)}" target="_blank" rel="noopener">💬 WhatsApp</a>
+          </div>` : ''}
           <div class="form-group" style="margin-bottom:6px"><span class="text-sm text-secondary">Dirección</span><div class="selectable-text">${esc(m.direccion)||'—'}</div></div>
           <div class="form-group" style="margin-bottom:6px"><span class="text-sm text-secondary">Email</span><div class="selectable-text">${esc(m.email)||'—'}</div></div>
           <div class="form-group" style="margin-bottom:6px"><span class="text-sm text-secondary">IPS / Institución</span><div class="selectable-text">${esc(m.ips)||'—'}</div></div>
@@ -2744,6 +2769,8 @@ function renderEditarMedicoModal(id) {
           <div class="form-group"><label>Celular</label><input id="edit-med-celular" value="${esc(m.celular)}"></div>
           <div class="form-group"><label>Email</label><input id="edit-med-email" value="${esc(m.email)}"></div>
           <div class="form-group"><label>Brick</label><input id="edit-med-brick" value="${esc(m.brick)}"></div>
+          <div class="form-group"><label>Lugar de atención 1</label><input id="edit-med-lugar1" value="${esc(m.lugar1||'')}"></div>
+          <div class="form-group"><label>Lugar de atención 2 (opcional)</label><input id="edit-med-lugar2" value="${esc(m.lugar2||'')}"></div>
           <div class="form-group"><label>Frecuencia</label><input id="edit-med-frecuencia" type="number" value="${m.frecuencia||1}"></div>
           <button class="btn-primary" data-action="guardar-medico" data-id="${m.id}">Guardar</button>
         </div>
@@ -2766,6 +2793,10 @@ async function guardarMedico(data) {
     m.brick = nuevoBrick;
     m.brickZona = getBrickZona(nuevoBrick);
   }
+  const nuevoLugar1 = $('edit-med-lugar1')?.value?.trim();
+  if (nuevoLugar1 !== undefined) m.lugar1 = nuevoLugar1;
+  const nuevoLugar2 = $('edit-med-lugar2')?.value?.trim();
+  if (nuevoLugar2 !== undefined) m.lugar2 = nuevoLugar2;
   await db.put('medicos', m);
   await recargarDatos();
   toast('Médico actualizado', 'ok');
