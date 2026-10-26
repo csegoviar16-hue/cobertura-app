@@ -1953,7 +1953,7 @@ function renderMedicoModal(id) {
           </div>
           <div class="form-group" style="margin-bottom:6px"><span class="text-sm text-secondary">Dirección</span><div class="selectable-text">${esc(m.direccion)||'—'}</div></div>
           <div class="form-group" style="margin-bottom:6px"><span class="text-sm text-secondary">Email</span><div class="selectable-text">${esc(m.email)||'—'}</div></div>
-          <div class="form-group" style="margin-bottom:6px"><span class="text-sm text-secondary">IPS / Institución</span><div class="selectable-text">${m.lugar1 ? '📍 '+esc(m.lugar1)+(m.lugar2?' · '+esc(m.lugar2):'') : (esc(m.ips)||'—')}</div></div>
+          <div class="form-group" style="margin-bottom:6px"><span class="text-sm text-secondary">IPS / Institución</span><div class="selectable-text">${m.lugar1 ? '📍 '+esc(m.lugar1)+(m.lugar2?' · '+esc(m.lugar2):'') : '—'}</div></div>
           ${m.celular ? `
           <div class="acciones-directas">
             <a class="btn-primary accion-btn" href="tel:+57${esc(m.celular)}">📞 Llamar</a>
