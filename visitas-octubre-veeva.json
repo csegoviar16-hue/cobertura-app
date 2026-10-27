@@ -1,0 +1,847 @@
+{
+ "generado": "2026-10-27",
+ "fuente": "Veeva My Schedule — Planificación octubre 2026 (solo llamadas submitted)",
+ "total": 140,
+ "visitas": [
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Alemana 214",
+   "fecha": "2026-10-05"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Alemana 222",
+   "fecha": "2026-10-05"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Alemana 294",
+   "fecha": "2026-10-05"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Alemana 378",
+   "fecha": "2026-10-05"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "80008418",
+   "nombre": "Andres Fernando Martinez Muñoz",
+   "fecha": "2026-10-05"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "93367369",
+   "nombre": "Carlos Augusto Hernandez Gaviria",
+   "fecha": "2026-10-05"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "14228371",
+   "nombre": "Hernan Rodriguez Acosta",
+   "fecha": "2026-10-05"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "14219080",
+   "nombre": "Jose Alejandro Toro Paramo",
+   "fecha": "2026-10-05"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "19078506",
+   "nombre": "Juan Antonio Ruiz Schnitter",
+   "fecha": "2026-10-05"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "14204106",
+   "nombre": "Marco Antonio Bonilla Garzon",
+   "fecha": "2026-10-05"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "93378630",
+   "nombre": "Mauricio Alejandro Oviedo Suarez",
+   "fecha": "2026-10-05"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Alemana 109",
+   "fecha": "2026-10-06"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Cruz Verde Punto Cero",
+   "fecha": "2026-10-06"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Drogas La Rebaja 4",
+   "fecha": "2026-10-06"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Farmacádiz La Samaria - Coopidrogas",
+   "fecha": "2026-10-06"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "93401278",
+   "nombre": "Carlos Ariel Caro Zambrano",
+   "fecha": "2026-10-06"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "19138785",
+   "nombre": "Carlos Eduardo Cepeda Garzón",
+   "fecha": "2026-10-06"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "14396210",
+   "nombre": "Carlos Hernán Ducuara Tovar",
+   "fecha": "2026-10-06"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "93379131",
+   "nombre": "Germán Alonso Jiménez Medina",
+   "fecha": "2026-10-06"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "1018436848",
+   "nombre": "Jennifer Cifuentes Tarquino",
+   "fecha": "2026-10-06"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "17118986",
+   "nombre": "Juan Antonio Caypa Rodriguez",
+   "fecha": "2026-10-06"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "18495666",
+   "nombre": "Juan Carlos Zarate Rodriguez",
+   "fecha": "2026-10-06"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "1024461251",
+   "nombre": "Maria Angelica Monroy Pinilla",
+   "fecha": "2026-10-06"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "65780599",
+   "nombre": "Maria Carolina Rodriguez Vivas",
+   "fecha": "2026-10-06"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "665429",
+   "nombre": "Alexis Jose Bastardo Lopez",
+   "fecha": "2026-10-07"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "1140817723",
+   "nombre": "Alirio Domingo Angulo Quintero",
+   "fecha": "2026-10-07"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "93359219",
+   "nombre": "Antonio Jose Oviedo Leonel",
+   "fecha": "2026-10-07"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "10098279",
+   "nombre": "Carlos Javier Osorio Salazar",
+   "fecha": "2026-10-07"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "93411804",
+   "nombre": "Edwin Alberto Torres Garcia",
+   "fecha": "2026-10-07"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "72072579",
+   "nombre": "Jesus Maria Morales Rodriguez",
+   "fecha": "2026-10-07"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "13991013",
+   "nombre": "John Jairo Leal Lozano",
+   "fecha": "2026-10-07"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "19115754",
+   "nombre": "Oscar Gustavo Chamat Garcia",
+   "fecha": "2026-10-07"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "14227461",
+   "nombre": "Pedro Nel Suarez Robledo",
+   "fecha": "2026-10-07"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "10528046",
+   "nombre": "Rubén Quintero Calderón",
+   "fecha": "2026-10-07"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería La Rebaja Plus 1 Ibagué Frente A Bancolombia",
+   "fecha": "2026-10-08"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería La Rebaja Plus 3 Ibagué San Simon",
+   "fecha": "2026-10-08"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería La Rebaja Plus 4 Ibagué El Limonar",
+   "fecha": "2026-10-08"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Optimo Lh",
+   "fecha": "2026-10-08"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "81754045",
+   "nombre": "Hernan David Bohorquez Cubillos",
+   "fecha": "2026-10-08"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "93379295",
+   "nombre": "Javier Mauricio Rivera Angel",
+   "fecha": "2026-10-08"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "80549167",
+   "nombre": "Juan David Parra Jimenez",
+   "fecha": "2026-10-08"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "72293355",
+   "nombre": "Luigi Enrique Polifrony Avendaño",
+   "fecha": "2026-10-08"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "14399696",
+   "nombre": "Luis Alfonso Chavarro Herrera",
+   "fecha": "2026-10-08"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "65634277",
+   "nombre": "Maritza Umaña Bastidas",
+   "fecha": "2026-10-08"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "93370504",
+   "nombre": "Nestor Fernando Ascensio Duran",
+   "fecha": "2026-10-08"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "28538724",
+   "nombre": "Sandra Rocio Palma Ramirez",
+   "fecha": "2026-10-08"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "9725621",
+   "nombre": "Victor José Gil Aldana",
+   "fecha": "2026-10-08"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "60381170",
+   "nombre": "Zully Adriana Chaparro Quintero",
+   "fecha": "2026-10-08"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Cruz Verde Uap Ibagué",
+   "fecha": "2026-10-09"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "77163148",
+   "nombre": "José Joaquín Álvarez Tejedor",
+   "fecha": "2026-10-09"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "1110462846",
+   "nombre": "Lizeth Vela Quevedo",
+   "fecha": "2026-10-09"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "2000016206",
+   "nombre": "María Laura Zambrano González",
+   "fecha": "2026-10-09"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "38144920",
+   "nombre": "Melissa Lynette Lizcano Chacon",
+   "fecha": "2026-10-09"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "1020815203",
+   "nombre": "Angie Paola Gonzalez Lopez",
+   "fecha": "2026-10-13"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "79957138",
+   "nombre": "Carlos Andrés Arias Barrera",
+   "fecha": "2026-10-13"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "19300865",
+   "nombre": "Ernesto Augusto Moscoso Martínez",
+   "fecha": "2026-10-13"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "19356579",
+   "nombre": "Hernando José Giovanetti Mendoza",
+   "fecha": "2026-10-13"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "79283543",
+   "nombre": "Juan Ramon Acevedo Peña",
+   "fecha": "2026-10-13"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "79316645",
+   "nombre": "Leonardo Javier Rojas Melo",
+   "fecha": "2026-10-13"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "52818072",
+   "nombre": "Lorena Renata Leal Leano",
+   "fecha": "2026-10-13"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "79152326",
+   "nombre": "Mauricio Esteban Ovalle Jaramillo",
+   "fecha": "2026-10-13"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "52862231",
+   "nombre": "Ursula Maryeri Hernandez Buitrgo",
+   "fecha": "2026-10-13"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "1005051390",
+   "nombre": "Yoiner Yair Acevedo Montoya",
+   "fecha": "2026-10-13"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Colsubsidio Edificio Vanguardia",
+   "fecha": "2026-10-14"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Farmatodo Country",
+   "fecha": "2026-10-14"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería La Rebaja 125 Bogotá Santa Paula 1",
+   "fecha": "2026-10-14"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "1067866872",
+   "nombre": "Alfonso Luis Kerguelen Villadiego",
+   "fecha": "2026-10-14"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "1095949815",
+   "nombre": "Ana Cecilia Pineda Martínez",
+   "fecha": "2026-10-14"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "75074406",
+   "nombre": "Andrés Bedoya Ossa",
+   "fecha": "2026-10-14"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "39684255",
+   "nombre": "Diana Ramirez Pabon",
+   "fecha": "2026-10-14"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "85457039",
+   "nombre": "Jorge Luis Pinedo Zagarra",
+   "fecha": "2026-10-14"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "1045676657",
+   "nombre": "Juan Manuel De La Hoz Bilbao",
+   "fecha": "2026-10-14"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "30336527",
+   "nombre": "Mary Yommara Forero Castelblanco",
+   "fecha": "2026-10-14"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "1018440920",
+   "nombre": "María Camila Estupiñán López",
+   "fecha": "2026-10-14"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "51991881",
+   "nombre": "Nohora Arlene Acosta Rodríguez",
+   "fecha": "2026-10-14"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Alemana 78",
+   "fecha": "2026-10-19"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Cafam Bogotá Carulla Calle 140",
+   "fecha": "2026-10-19"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Colsubsidio Cedro",
+   "fecha": "2026-10-19"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Cruz Verde Montearroyo 2",
+   "fecha": "2026-10-19"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Farmatodo Cedritos 2",
+   "fecha": "2026-10-19"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería La Rebaja 104 Bogotá Cedritos 2",
+   "fecha": "2026-10-19"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "12116223",
+   "nombre": "Alex Valenzuela Rincon",
+   "fecha": "2026-10-19"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "79148936",
+   "nombre": "Daniel Isaza Restrepo",
+   "fecha": "2026-10-19"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "83233124",
+   "nombre": "Fernando Lizcano Losada",
+   "fecha": "2026-10-19"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "79296249",
+   "nombre": "Fernando Marín Arbeláez",
+   "fecha": "2026-10-19"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "10297559",
+   "nombre": "Fredy Andres Luna Vela",
+   "fecha": "2026-10-19"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "77028381",
+   "nombre": "Javier Fernando Del Castillo Lezaca",
+   "fecha": "2026-10-19"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "19258605",
+   "nombre": "Jorge Eliecer Martínez Rincón",
+   "fecha": "2026-10-19"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "1020789089",
+   "nombre": "José David Cruz Cuevas",
+   "fecha": "2026-10-19"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "1075217814",
+   "nombre": "Liliana Esperanza Mejía Vidal",
+   "fecha": "2026-10-19"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "93410411",
+   "nombre": "Miguel Augusto Omeara Novoa",
+   "fecha": "2026-10-19"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Cafam Bogotá Éxito Country",
+   "fecha": "2026-10-20"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería La Rebaja 67 Bogotá El Bosque",
+   "fecha": "2026-10-20"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "8698826",
+   "nombre": "Alfonso Torres Rumie",
+   "fecha": "2026-10-20"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "79943336",
+   "nombre": "Jesus Leonardo Quiroga Trillos",
+   "fecha": "2026-10-20"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "9081541",
+   "nombre": "Jose Gabriel Espinosa Espinosa",
+   "fecha": "2026-10-20"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "52712054",
+   "nombre": "Karen Viviana Ford Garzon",
+   "fecha": "2026-10-20"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "7633726",
+   "nombre": "Luis Carlos Pérez Prado",
+   "fecha": "2026-10-20"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "80096842",
+   "nombre": "Manuel Andrés García Bottia",
+   "fecha": "2026-10-20"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "80098980",
+   "nombre": "Álvaro Alejandro Acevedo Yepes",
+   "fecha": "2026-10-20"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Cafam Centro de Experiencia Unicentro - Calle 119",
+   "fecha": "2026-10-21"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Cafam Éxito Unicentro",
+   "fecha": "2026-10-21"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Colsubsidio Centro Comercial Unicentro 2",
+   "fecha": "2026-10-21"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Cruz Verde Calle 119",
+   "fecha": "2026-10-21"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Cruz Verde Unicentro Bogotá",
+   "fecha": "2026-10-21"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Farmatodo CC Unicentro",
+   "fecha": "2026-10-21"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Farmatodo Calle 119",
+   "fecha": "2026-10-21"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería La Rebaja Plus 63 Bogotá Calle 119",
+   "fecha": "2026-10-21"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "1018452469",
+   "nombre": "Alfonso Enrique Daniel Recalde Quintero",
+   "fecha": "2026-10-21"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "52798624",
+   "nombre": "Andrea Del Pilar Heleno Jaramillo",
+   "fecha": "2026-10-21"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "73156699",
+   "nombre": "Gustavo Adolfo Babilonia Luna",
+   "fecha": "2026-10-21"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "15902005",
+   "nombre": "Jesús Fernando Ospina Arias",
+   "fecha": "2026-10-21"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "52809088",
+   "nombre": "Margarita Maria Vargas Donoso",
+   "fecha": "2026-10-21"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "57466523",
+   "nombre": "Milena Del Pilar Castillo Mejía",
+   "fecha": "2026-10-21"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "1136882491",
+   "nombre": "Yully Andrea Guerrero Quintero",
+   "fecha": "2026-10-21"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "1032385370",
+   "nombre": "Daniel Fernando Porras Sánchez",
+   "fecha": "2026-10-22"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "33368325",
+   "nombre": "Diana Judith Monroy Ríos",
+   "fecha": "2026-10-22"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "52662350",
+   "nombre": "Gloria Liliana Casas Montenegro",
+   "fecha": "2026-10-22"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "7186346",
+   "nombre": "Héctor Fabian Moreno Chirivi",
+   "fecha": "2026-10-22"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "52088510",
+   "nombre": "Jamyr Sanguino Lobo",
+   "fecha": "2026-10-22"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "22738501",
+   "nombre": "Mónica Del Carmen Tulcan Rodriguez",
+   "fecha": "2026-10-22"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "8683102",
+   "nombre": "Ruben Dario Villanueva Munoz",
+   "fecha": "2026-10-22"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "1020748450",
+   "nombre": "Santiago Andrés Vilar Romero",
+   "fecha": "2026-10-22"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Drogueria Cruz Verde Medicarte Colina",
+   "fecha": "2026-10-23"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Cafam Bogotá Carulla Colina Campestre",
+   "fecha": "2026-10-23"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Cafam Bogotá Éxito Colina",
+   "fecha": "2026-10-23"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Colsubsidio San Rafael",
+   "fecha": "2026-10-23"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Farmatodo Colina",
+   "fecha": "2026-10-23"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería La Rebaja 65 Bogotá Colina Campestre",
+   "fecha": "2026-10-23"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería La Rebaja Plus 1 Bogotá Colina Calle 137",
+   "fecha": "2026-10-23"
+  },
+  {
+   "tipo": "farmacia",
+   "cedula": "",
+   "nombre": "Droguería Olímpica Sto 418 Colina Campestre",
+   "fecha": "2026-10-23"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "79686032",
+   "nombre": "Ivan Dario Ortiz Alvarez",
+   "fecha": "2026-10-23"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "691606",
+   "nombre": "José Anhgel Mota Rebolledo",
+   "fecha": "2026-10-23"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "79783135",
+   "nombre": "Luis Miguel Maldonado Acosta",
+   "fecha": "2026-10-23"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "51869834",
+   "nombre": "Maria Alexandra Skinner Rodriguez",
+   "fecha": "2026-10-23"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "36752546",
+   "nombre": "María Alejandra Enríquez Hernández",
+   "fecha": "2026-10-23"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "33207376",
+   "nombre": "Monica Patricia Jimenez Jimenez",
+   "fecha": "2026-10-23"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "1013601605",
+   "nombre": "Pablo Andrés Oviedo Quintero",
+   "fecha": "2026-10-23"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "1019003741",
+   "nombre": "Pedro Camilo Mancera Rincón",
+   "fecha": "2026-10-23"
+  },
+  {
+   "tipo": "medico",
+   "cedula": "1082871761",
+   "nombre": "Yinett Margarita Riquett Sirtori",
+   "fecha": "2026-10-23"
+  }
+ ]
+}

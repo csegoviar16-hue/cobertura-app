@@ -1604,6 +1604,7 @@ function renderConfig() {
       <button class="btn btn-outline mb-1" data-action="backup">📤 Exportar backup</button>
       <button class="btn btn-outline mb-1" onclick="window.cargarBackupAgosto()">📥 Restaurar backup del 3 de agosto (384 visitas)</button>
       <button class="btn btn-outline mb-1" onclick="window.cargarBackupInicial()">📥 Cargar backup inicial de julio</button>
+      <button class="btn btn-outline mb-1" onclick="window.cargarVisitasOctubre()">📥 Cargar visitas de octubre (Veeva, 140)</button>
       <input type="file" id="cfg-backup-file" accept=".json" style="margin-bottom:8px" onchange="window.importarBackup(this)">
       <div class="text-xs text-secondary">Seleccioná un .json para restaurar</div>
     </div>
@@ -1884,6 +1885,47 @@ window.cargarBackupAgosto = async function() {
     if (confirm(`Restaurar backup del 3 de agosto?\n${data.medicos.length} médicos, ${data.farmacias.length} farmacias, ${data.visitas.length} visitas`)) {
       await aplicarBackupData(data);
     }
+  } catch (e) {
+    toast('Error: ' + e.message, 'err');
+    console.error(e);
+  }
+};
+
+window.cargarVisitasOctubre = async function() {
+  try {
+    const res = await fetch('visitas-octubre-veeva.json', {cache: 'no-store'});
+    if (!res.ok) throw new Error('No se encontró el archivo de visitas de octubre');
+    const data = await res.json();
+    if (!confirm(`Cargar visitas de octubre desde Veeva?\n${data.visitas.length} visitas realizadas (5-23 oct).\nSe saltan las que ya estén registradas.`)) return;
+    let insertadas = 0, duplicadas = 0, noEncontradas = 0;
+    const norm = s => (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+    for (const v of data.visitas) {
+      let ent = null;
+      if (v.tipo === 'medico') {
+        ent = medicosCache.find(m => String(m.cedula) === String(v.cedula));
+      } else {
+        const nv = norm(v.nombre);
+        ent = farmaciasCache.find(f => norm(f.nombre) === nv) ||
+              farmaciasCache.find(f => nv.includes(norm(f.nombre)) || norm(f.nombre).includes(nv));
+      }
+      if (!ent) { noEncontradas++; continue; }
+      const existentes = await db.visitasPorEntidad(ent.id, v.tipo);
+      if (existentes.some(x => x.fecha === v.fecha)) { duplicadas++; continue; }
+      await db.add('visitas', {
+        entidadId: ent.id,
+        entidadTipo: v.tipo,
+        entidadCedula: ent.cedula ? String(ent.cedula) : '',
+        entidadNombre: ent.nombre || '',
+        fecha: v.fecha,
+        mes: v.fecha.slice(0, 7),
+        notas: '',
+        creado: new Date().toISOString()
+      });
+      insertadas++;
+    }
+    await recargarDatos();
+    renderApp();
+    toast(`Listo: ${insertadas} cargadas, ${duplicadas} ya existían, ${noEncontradas} sin coincidencia`, 'ok');
   } catch (e) {
     toast('Error: ' + e.message, 'err');
     console.error(e);
